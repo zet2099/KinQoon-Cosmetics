@@ -53,10 +53,8 @@
 </head>
 <body class="text-charcoal antialiased flex justify-center selection:bg-blushDark selection:text-charcoal">
 
-  <!-- Toast Container -->
-  <div id="toast-container" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-11/12 max-w-sm space-y-2 pointer-events-none"></div>
+  <div id="toast-container" class="fixed top-4 left-1/2 -translate-x-1/2 z-[9999] w-11/12 max-w-sm space-y-2 pointer-events-none"></div>
 
-  <!-- Main App Frame -->
   <div id="app-container" class="w-full max-w-md bg-white min-h-screen relative overflow-x-hidden flex flex-col">
     
     <!-- Announcement Banner -->
@@ -86,7 +84,6 @@
     <!-- VIEWS CONTAINER -->
     <main class="flex-grow relative pb-24" id="main-content">
       
-      <!-- 1. LANDING PAGE VIEW -->
       <section id="view-home" class="view-section px-6 py-6 flex flex-col items-center">
         <div class="w-full rounded-3xl overflow-hidden mb-5 shadow-sm relative group">
           <img id="home-hero-img" src="https://images.unsplash.com/photo-1615397323356-0272b126ceba?auto=format&fit=crop&q=80&w=600" alt="KinQoon Beauty" class="w-full h-60 object-cover">
@@ -117,7 +114,6 @@
         </div>
       </section>
 
-      <!-- 2. ABOUT PAGE VIEW -->
       <section id="view-about" class="view-section hidden px-6 py-6">
         <h2 class="font-serif text-2xl font-bold mb-3">Our Story</h2>
         <div id="about-story-content" class="text-xs text-gray-600 mb-6 leading-relaxed whitespace-pre-line">
@@ -140,7 +136,6 @@
         </div>
       </section>
 
-      <!-- 3. SHOP & CATALOG VIEW -->
       <section id="view-shop" class="view-section hidden flex flex-col bg-gray-50 min-h-screen pb-32">
         
         <!-- Header Controls -->
@@ -171,7 +166,6 @@
 
       </section>
 
-      <!-- 4. ADMIN DASHBOARD VIEW -->
       <section id="view-admin" class="view-section hidden px-4 py-6 bg-gray-50 min-h-screen">
         <div class="flex justify-between items-center mb-5">
           <div>
@@ -183,7 +177,7 @@
           </button>
         </div>
 
-        <!-- 4A. Store Operations & Hours -->
+        <!-- Store Operations & Hours -->
         <div class="bg-white p-4 rounded-2xl shadow-sm mb-4 border border-gray-100">
           <h3 class="font-medium text-xs text-rosegold font-bold uppercase tracking-wider mb-3">Store Operations</h3>
           
@@ -229,7 +223,7 @@
           <button onclick="saveStoreSettings()" class="w-full py-2 border border-charcoal text-charcoal rounded-lg text-xs font-medium mt-2">Save Settings</button>
         </div>
 
-        <!-- 4B. Announcement Banner Settings -->
+        <!-- Announcement Banner Settings -->
         <div class="bg-white p-4 rounded-2xl shadow-sm mb-4 border border-gray-100">
           <div class="flex items-center justify-between mb-2">
             <h3 class="font-medium text-xs text-rosegold font-bold uppercase tracking-wider">Announcement Banner</h3>
@@ -242,7 +236,7 @@
           <button onclick="saveAnnouncementSettings()" class="w-full py-2 bg-charcoal text-white rounded-lg text-xs font-medium">Update Banner</button>
         </div>
 
-        <!-- 4C. Branding & Content Management -->
+        <!-- Branding & Content Management -->
         <div class="bg-white p-4 rounded-2xl shadow-sm mb-4 border border-gray-100 space-y-3">
           <h3 class="font-medium text-xs text-rosegold font-bold uppercase tracking-wider">Branding & Content</h3>
 
@@ -300,7 +294,7 @@
           <button onclick="saveBrandingContent()" class="w-full py-2 bg-charcoal text-white rounded-lg text-xs font-medium">Save Content Changes</button>
         </div>
 
-        <!-- 4D. FAQ Manager -->
+        <!-- FAQ Manager -->
         <div class="bg-white p-4 rounded-2xl shadow-sm mb-4 border border-gray-100">
           <div class="flex justify-between items-center mb-3">
             <h3 class="font-medium text-xs text-rosegold font-bold uppercase tracking-wider">FAQ Manager</h3>
@@ -311,7 +305,7 @@
           </div>
         </div>
 
-        <!-- 4E. Category Manager -->
+        <!-- Category Manager -->
         <div class="bg-white p-4 rounded-2xl shadow-sm mb-4 border border-gray-100">
           <div class="flex justify-between items-center mb-3">
             <h3 class="font-medium text-xs text-rosegold font-bold uppercase tracking-wider">Categories</h3>
@@ -325,7 +319,7 @@
           </div>
         </div>
 
-        <!-- 4F. Inventory Management -->
+        <!-- Inventory Management -->
         <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
           <div class="flex justify-between items-center mb-3">
             <h3 class="font-medium text-xs text-rosegold font-bold uppercase tracking-wider">Products Inventory</h3>
@@ -375,7 +369,7 @@
             <!-- Items rendered dynamically -->
           </div>
 
-          <!-- Customer Details & Fulfillment Selector Form (Integrated in Cart) -->
+          <!-- Customer Details & Fulfillment Selector Form -->
           <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 my-4 space-y-3">
             <h4 class="font-serif text-xs font-bold text-charcoal uppercase tracking-wider">Fulfillment & Customer Details</h4>
             
@@ -499,11 +493,15 @@
           
           <!-- Image Input & Direct Storage Upload -->
           <div>
-            <label class="text-gray-500 block mb-1">Image URL or Direct Upload</label>
+            <label class="text-gray-500 block mb-1">Image URL or Direct Upload (Multiple)</label>
             <input type="text" id="item-image" placeholder="https://..." class="w-full p-2 border rounded-lg mb-2">
-            <div class="flex items-center space-x-2">
-              <input type="file" id="item-image-file" accept="image/*" class="text-[10px] text-gray-500 flex-1">
-              <button onclick="uploadProductImage()" class="px-3 py-1.5 bg-blush text-charcoal text-xs font-medium rounded-lg">Upload</button>
+            <div class="flex items-center space-x-2 mb-2">
+              <input type="file" id="item-image-file" accept="image/*" multiple class="text-[10px] text-gray-500 flex-1">
+              <button onclick="uploadProductImage()" class="px-3 py-1.5 bg-blush text-charcoal text-xs font-medium rounded-lg">Upload Images</button>
+            </div>
+            <!-- Image Previews Container -->
+            <div id="item-images-preview" class="flex flex-wrap gap-1.5 mt-2 hidden p-2 border rounded-lg bg-gray-50">
+              <!-- Dynamically populated previews -->
             </div>
           </div>
 
@@ -528,6 +526,49 @@
         <div class="flex space-x-2 mt-4 text-xs">
           <button onclick="closeFaqModal()" class="flex-1 py-2.5 bg-gray-100 text-gray-600 rounded-xl font-medium">Cancel</button>
           <button onclick="saveFaqItem()" class="flex-1 py-2.5 bg-charcoal text-white rounded-xl font-medium">Save FAQ</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SHOPEE-STYLE PRODUCT DETAILS & GALLERY MODAL -->
+    <div id="product-detail-modal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+      <div class="bg-white w-full max-w-sm rounded-3xl p-5 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar relative flex flex-col">
+        
+        <!-- Close Button -->
+        <button onclick="closeProductDetailModal()" class="absolute top-4 right-4 z-20 w-8 h-8 bg-white/80 backdrop-blur-md rounded-full text-gray-600 hover:text-charcoal flex items-center justify-center shadow-md">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+
+        <!-- Horizontal Scrollable Gallery -->
+        <div id="detail-gallery" class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar rounded-2xl mb-2 h-64 w-full bg-gray-100 border border-gray-100">
+          <!-- Dynamic images rendered here -->
+        </div>
+
+        <!-- Gallery Thumbnails / Indicators -->
+        <div id="detail-gallery-dots" class="flex justify-center space-x-1.5 mb-3 min-h-[12px]">
+          <!-- Dynamic indicator dots -->
+        </div>
+
+        <!-- Product Meta Information -->
+        <div class="flex items-center justify-between mb-1">
+          <span id="detail-category-shade" class="text-[10px] font-bold text-rosegold uppercase tracking-wider"></span>
+          <div id="detail-stock-badge"></div>
+        </div>
+
+        <h3 id="detail-title" class="font-serif text-lg font-bold text-charcoal mb-0.5 leading-snug"></h3>
+        <p id="detail-price" class="font-serif text-xl font-bold text-charcoal mb-3"></p>
+
+        <!-- Description Box -->
+        <div class="border-t border-b border-gray-100 py-3 my-1">
+          <h4 class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Product Details</h4>
+          <p id="detail-desc" class="text-xs text-gray-600 leading-relaxed whitespace-pre-line"></p>
+        </div>
+
+        <div id="detail-restock-note" class="text-[11px] text-rosegold font-medium my-2 hidden text-center"></div>
+
+        <!-- Quantity & Add to Cart Controls -->
+        <div id="detail-action-container" class="mt-3 pt-2">
+          <!-- Dynamically populated -->
         </div>
       </div>
     </div>
@@ -585,6 +626,21 @@
       activeCategory: 'All'
     };
 
+    window.tempUploadedImages = [];
+    window.detailModalQty = 1;
+    window.activeDetailItemId = null;
+
+    window.toggleBodyScroll = function(lock) {
+      document.body.style.overflow = lock ? 'hidden' : '';
+    };
+
+    window.getProductThumbnail = function(item) {
+      if (item.images && Array.isArray(item.images) && item.images.length > 0) {
+        return item.images[0];
+      }
+      return item.image || item.imageUrl || 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&q=80';
+    };
+
     window.showToast = function(msg, type = 'info') {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
@@ -628,9 +684,9 @@
             telegramUsername: 'KinQoonAdmin',
             telegramGroupLink: '',
             inventory: [
-              { id: 'item_1', name: 'Velvet Matte Lip Tint', category: 'Lips', shade: '04 Rosewood', price: 18.00, stock: 10, restockNote: '', image: 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=400&q=80', description: 'Long-lasting, weightless velvet matte finish.' },
-              { id: 'item_2', name: 'Glow Highlighter Palette', category: 'Face', shade: 'Champagne Pop', price: 25.00, stock: 3, restockNote: '', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&q=80', description: 'Build your custom luminous glow.' },
-              { id: 'item_3', name: 'Lash Elevate Mascara', category: 'Eyes', shade: 'Midnight Black', price: 20.00, stock: 0, restockNote: 'Restocking next Friday!', image: 'https://images.unsplash.com/photo-1631214500515-e4acece95ea5?w=400&q=80', description: 'Waterproof volume and extreme length.' }
+              { id: 'item_1', name: 'Velvet Matte Lip Tint', category: 'Lips', shade: '04 Rosewood', price: 18.00, stock: 10, restockNote: '', image: 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=400&q=80', images: ['https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=400&q=80'], description: 'Long-lasting, weightless velvet matte finish.' },
+              { id: 'item_2', name: 'Glow Highlighter Palette', category: 'Face', shade: 'Champagne Pop', price: 25.00, stock: 3, restockNote: '', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&q=80', images: ['https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&q=80'], description: 'Build your custom luminous glow.' },
+              { id: 'item_3', name: 'Lash Elevate Mascara', category: 'Eyes', shade: 'Midnight Black', price: 20.00, stock: 0, restockNote: 'Restocking next Friday!', image: 'https://images.unsplash.com/photo-1631214500515-e4acece95ea5?w=400&q=80', images: ['https://images.unsplash.com/photo-1631214500515-e4acece95ea5?w=400&q=80'], description: 'Waterproof volume and extreme length.' }
             ]
           };
           await setDoc(storeDocRef, defaultData);
@@ -695,7 +751,6 @@
     }
 
     function updateAllUIComponents() {
-      // 0. Hero Section Dynamic Binding
       const heroImg = document.getElementById('home-hero-img');
       const heroSlogan = document.getElementById('home-hero-slogan');
       if (heroImg) {
@@ -705,7 +760,6 @@
         heroSlogan.innerText = window.appState.heroSlogan || "Elevate Your Everyday Glow.";
       }
 
-      // 1. Header Logo Update
       const logoContainer = document.getElementById('header-logo-container');
       if (window.appState.logoUrl) {
         logoContainer.innerHTML = `<img src="${window.appState.logoUrl}" alt="KinQoon Logo" class="h-10 object-contain mx-auto" onerror="window.handleLogoError()">`;
@@ -717,7 +771,6 @@
         document.getElementById('header-logo-container').innerHTML = `<h1 class="font-serif text-3xl font-bold text-charcoal tracking-tight">KinQoon</h1>`;
       };
 
-      // Header Telegram Group Link Button Visibility (Admin-Managed)
       const tgGroupBtn = document.getElementById('header-telegram-group-btn');
       if (tgGroupBtn) {
         if (window.appState.telegramGroupLink && window.appState.telegramGroupLink.trim() !== '') {
@@ -728,7 +781,6 @@
         }
       }
 
-      // 2. Announcement Banner
       const banner = document.getElementById('announcement-banner');
       if (window.appState.announcementEnabled && window.appState.announcementText) {
         document.getElementById('announcement-text').innerText = window.appState.announcementText;
@@ -737,7 +789,6 @@
         banner.classList.add('hidden');
       }
 
-      // 3. Operating Hours & Off-Hours Reminders
       const isOpen = isStoreOpenNow();
       const statusBadge = document.getElementById('home-status-badge');
       const openFormatted = formatTime12H(window.appState.openTime);
@@ -759,11 +810,9 @@
         document.getElementById('cart-off-hours-warning').classList.remove('hidden');
       }
 
-      // 4. About View Content
       document.getElementById('about-story-content').innerText = window.appState.aboutStory || "Story coming soon.";
       document.getElementById('about-delivery-content').innerText = window.appState.deliveryInfo || "Delivery information coming soon.";
 
-      // 5. FAQs Rendering
       const faqContainer = document.getElementById('about-faqs-container');
       if (window.appState.faqs.length === 0) {
         faqContainer.innerHTML = `<p class="text-gray-400">No FAQs available.</p>`;
@@ -776,7 +825,6 @@
         `).join('');
       }
 
-      // 6. Admin Controls Population
       document.getElementById('admin-status-toggle').checked = window.appState.storeStatus;
       document.getElementById('admin-open-time').value = window.appState.openTime;
       document.getElementById('admin-close-time').value = window.appState.closeTime;
@@ -791,7 +839,6 @@
       document.getElementById('admin-about-story').value = window.appState.aboutStory;
       document.getElementById('admin-delivery-info').value = window.appState.deliveryInfo;
 
-      // Render Dynamic Admin Lists & Shop Views
       renderAdminFaqs();
       renderAdminCategories();
       renderCategoryTabs();
@@ -876,6 +923,7 @@
       container.innerHTML = items.map(item => {
         const qtyInCart = window.appState.cart[item.id] || 0;
         const isSoldOut = (item.stock <= 0);
+        const thumbUrl = getProductThumbnail(item);
 
         let stockBadgeHTML = '';
         if (isSoldOut) {
@@ -888,9 +936,9 @@
 
         return `
         <div class="bg-white rounded-2xl p-3 shadow-sm border border-gray-100 flex flex-col justify-between relative overflow-hidden">
-          <div>
+          <div onclick="openProductDetailModal('${item.id}')" class="cursor-pointer">
             <div class="aspect-square rounded-xl bg-gray-100 mb-2 overflow-hidden relative">
-              <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover ${isSoldOut ? 'opacity-60 grayscale' : ''}">
+              <img src="${thumbUrl}" alt="${item.name}" class="w-full h-full object-cover ${isSoldOut ? 'opacity-60 grayscale' : ''}">
               <div class="absolute top-2 left-2">
                 ${stockBadgeHTML}
               </div>
@@ -908,9 +956,9 @@
               </div>`
               : 
               (qtyInCart === 0 ? 
-                `<button onclick="updateCart('${item.id}', 1)" class="w-full py-2 bg-blush/60 hover:bg-blush text-charcoal rounded-xl text-xs font-semibold transition-all border border-blush">Add to Bag</button>`
+                `<button onclick="event.stopPropagation(); updateCart('${item.id}', 1)" class="w-full py-2 bg-blush/60 hover:bg-blush text-charcoal rounded-xl text-xs font-semibold transition-all border border-blush">Add to Bag</button>`
                 : 
-                `<div class="flex items-center justify-between bg-gray-50 rounded-xl p-1 border border-gray-200">
+                `<div onclick="event.stopPropagation();" class="flex items-center justify-between bg-gray-50 rounded-xl p-1 border border-gray-200">
                   <button onclick="updateCart('${item.id}', -1)" class="w-7 h-7 rounded-lg bg-white shadow-sm text-charcoal font-bold flex items-center justify-center text-xs">-</button>
                   <span class="font-semibold text-xs">${qtyInCart}</span>
                   <button onclick="updateCart('${item.id}', 1)" class="w-7 h-7 rounded-lg bg-charcoal text-white shadow-sm font-bold flex items-center justify-center text-xs">+</button>
@@ -922,6 +970,141 @@
         `;
       }).join('');
     }
+
+    window.openProductDetailModal = function(itemId) {
+      const item = window.appState.inventory.find(i => i.id === itemId);
+      if (!item) return;
+
+      window.activeDetailItemId = itemId;
+      window.detailModalQty = window.appState.cart[itemId] || 1;
+
+      const galleryList = (item.images && Array.isArray(item.images) && item.images.length > 0)
+        ? item.images
+        : [getProductThumbnail(item)];
+
+      const galleryContainer = document.getElementById('detail-gallery');
+      galleryContainer.innerHTML = galleryList.map((url, idx) => `
+        <img src="${url}" alt="${item.name} image ${idx + 1}" class="snap-center shrink-0 w-full h-64 object-cover rounded-2xl bg-gray-200">
+      `).join('');
+
+      const dotsContainer = document.getElementById('detail-gallery-dots');
+      if (galleryList.length > 1) {
+        dotsContainer.innerHTML = galleryList.map((_, idx) => `
+          <span class="w-2 h-2 rounded-full ${idx === 0 ? 'bg-rosegold' : 'bg-gray-300'} transition-all"></span>
+        `).join('');
+      } else {
+        dotsContainer.innerHTML = '';
+      }
+
+      galleryContainer.onscroll = function() {
+        if (!galleryContainer.clientWidth) return;
+        const activeIndex = Math.round(galleryContainer.scrollLeft / galleryContainer.clientWidth);
+        const dots = dotsContainer.querySelectorAll('span');
+        dots.forEach((dot, idx) => {
+          if (idx === activeIndex) {
+            dot.className = 'w-2 h-2 rounded-full bg-rosegold transition-all';
+          } else {
+            dot.className = 'w-2 h-2 rounded-full bg-gray-300 transition-all';
+          }
+        });
+      };
+
+      document.getElementById('detail-category-shade').innerText = `${item.category} • ${item.shade || 'Standard'}`;
+      document.getElementById('detail-title').innerText = item.name;
+      document.getElementById('detail-price').innerText = `SGD $${parseFloat(item.price).toFixed(2)}`;
+      document.getElementById('detail-desc').innerText = item.description || 'No detailed description available for this cosmetic product.';
+
+      const badgeBox = document.getElementById('detail-stock-badge');
+      const restockNoteBox = document.getElementById('detail-restock-note');
+      const isSoldOut = (item.stock <= 0);
+
+      if (isSoldOut) {
+        badgeBox.innerHTML = `<span class="bg-red-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">Sold Out</span>`;
+        if (item.restockNote) {
+          restockNoteBox.innerText = item.restockNote;
+          restockNoteBox.classList.remove('hidden');
+        } else {
+          restockNoteBox.classList.add('hidden');
+        }
+      } else if (item.stock <= 5) {
+        badgeBox.innerHTML = `<span class="bg-amber-100 text-amber-800 text-[9px] font-bold px-2 py-0.5 rounded-full">Only ${item.stock} Left</span>`;
+        restockNoteBox.classList.add('hidden');
+      } else {
+        badgeBox.innerHTML = `<span class="bg-emerald-100 text-emerald-800 text-[9px] font-medium px-2 py-0.5 rounded-full">${item.stock} in stock</span>`;
+        restockNoteBox.classList.add('hidden');
+      }
+
+      renderDetailActionContainer(item);
+
+      window.toggleBodyScroll(true);
+      document.getElementById('product-detail-modal').classList.remove('hidden');
+    };
+
+    window.closeProductDetailModal = function() {
+      document.getElementById('product-detail-modal').classList.add('hidden');
+      window.activeDetailItemId = null;
+      window.toggleBodyScroll(false);
+    };
+
+    function renderDetailActionContainer(item) {
+      const container = document.getElementById('detail-action-container');
+      const isSoldOut = (item.stock <= 0);
+
+      if (isSoldOut) {
+        container.innerHTML = `
+          <button disabled class="w-full py-3.5 bg-gray-200 text-gray-400 rounded-2xl text-xs font-semibold cursor-not-allowed">
+            Currently Unavailable
+          </button>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="flex space-x-3 items-center">
+          <div class="flex items-center bg-gray-100 rounded-2xl p-1 border border-gray-200">
+            <button onclick="changeDetailQty(-1)" class="w-8 h-8 rounded-xl bg-white shadow-sm text-charcoal font-bold flex items-center justify-center text-xs">-</button>
+            <span id="detail-qty-val" class="w-8 text-center font-bold text-xs">${window.detailModalQty}</span>
+            <button onclick="changeDetailQty(1)" class="w-8 h-8 rounded-xl bg-charcoal text-white shadow-sm font-bold flex items-center justify-center text-xs">+</button>
+          </div>
+          <button onclick="addFromDetailModal('${item.id}')" class="flex-1 py-3.5 bg-charcoal hover:bg-black text-white rounded-2xl text-xs font-semibold shadow-md transition-all flex items-center justify-center">
+            <i class="fa-solid fa-bag-shopping mr-2 text-rosegold"></i> Add to Bag
+          </button>
+        </div>
+      `;
+    }
+
+    window.changeDetailQty = function(change) {
+      const item = window.appState.inventory.find(i => i.id === window.activeDetailItemId);
+      if (!item) return;
+
+      const newQty = window.detailModalQty + change;
+      if (newQty < 1) return;
+      if (newQty > item.stock) {
+        showToast(`Only ${item.stock} unit(s) available in stock.`, "warning");
+        return;
+      }
+
+      window.detailModalQty = newQty;
+      const qtyValEl = document.getElementById('detail-qty-val');
+      if (qtyValEl) qtyValEl.innerText = newQty;
+    };
+
+    window.addFromDetailModal = function(itemId) {
+      const item = window.appState.inventory.find(i => i.id === itemId);
+      if (!item) return;
+
+      const targetQty = window.detailModalQty;
+      if (targetQty > item.stock) {
+        showToast(`Cannot add ${targetQty} units. Only ${item.stock} left.`, "warning");
+        return;
+      }
+
+      window.appState.cart[itemId] = targetQty;
+      renderShopItems();
+      updateCartUI();
+      closeProductDetailModal();
+      showToast(`Added ${targetQty}x ${item.name} to bag!`, "success");
+    };
 
     window.updateCart = function(itemId, change) {
       const item = window.appState.inventory.find(i => i.id === itemId);
@@ -1000,12 +1183,14 @@
     }
 
     window.openCartModal = function() {
+      window.toggleBodyScroll(true);
       document.getElementById('cart-modal').classList.remove('hidden');
       renderCartModalContent();
     };
 
     window.closeCartModal = function() {
       document.getElementById('cart-modal').classList.add('hidden');
+      window.toggleBodyScroll(false);
     };
 
     function renderCartModalContent() {
@@ -1119,7 +1304,6 @@
       }
       const grandTotal = Math.max(0, subtotal + deliveryFee - discount);
 
-      // Save complete order payload to Firestore
       try {
         await addDoc(collection(db, "orders"), {
           customerName: name,
@@ -1165,15 +1349,18 @@
 
       const targetUser = window.appState.telegramUsername.replace('@', '');
       const telegramUrl = `https://t.me/${targetUser}?text=${encodeURIComponent(msg)}`;
-
       window.open(telegramUrl, '_blank');
-      closeCartModal();
     };
 
-    window.openAdminLogin = function() { document.getElementById('admin-login-modal').classList.remove('hidden'); };
+    window.openAdminLogin = function() {
+      window.toggleBodyScroll(true);
+      document.getElementById('admin-login-modal').classList.remove('hidden');
+    };
+    
     window.closeAdminLogin = function() { 
       document.getElementById('admin-login-modal').classList.add('hidden');
       document.getElementById('admin-passcode').value = '';
+      window.toggleBodyScroll(false);
     };
 
     window.verifyAdmin = function() {
@@ -1283,6 +1470,16 @@
       if (!file) return showToast("Please select an image file first.", "warning");
 
       try {
+        const currentLogoUrl = window.appState.logoUrl || document.getElementById('admin-logo-url').value.trim();
+        if (currentLogoUrl && currentLogoUrl.includes('firebasestorage.googleapis.com')) {
+          try {
+            const oldStorageRef = ref(storage, currentLogoUrl);
+            await deleteObject(oldStorageRef);
+          } catch (deleteErr) {
+            console.warn("Could not delete old logo image file:", deleteErr);
+          }
+        }
+
         showToast("Uploading logo to Firebase Storage...", "info");
         const storageRef = ref(storage, `branding/${Date.now()}_${file.name}`);
         const snapshot = await uploadBytes(storageRef, file);
@@ -1342,10 +1539,14 @@
         document.getElementById('faq-answer').value = '';
         document.getElementById('faq-modal-title').innerText = "Add FAQ Item";
       }
+      window.toggleBodyScroll(true);
       document.getElementById('faq-modal').classList.remove('hidden');
     };
 
-    window.closeFaqModal = function() { document.getElementById('faq-modal').classList.add('hidden'); };
+    window.closeFaqModal = function() {
+      document.getElementById('faq-modal').classList.add('hidden');
+      window.toggleBodyScroll(false);
+    };
 
     window.saveFaqItem = function() {
       const idx = parseInt(document.getElementById('faq-index').value);
@@ -1436,7 +1637,7 @@
       container.innerHTML = window.appState.inventory.map(item => `
         <div class="flex items-center justify-between p-2.5 border border-gray-100 rounded-xl bg-gray-50 text-xs">
           <div class="flex items-center space-x-2.5">
-            <img src="${item.image}" class="w-10 h-10 rounded-lg bg-gray-200 object-cover flex-shrink-0">
+            <img src="${getProductThumbnail(item)}" class="w-10 h-10 rounded-lg bg-gray-200 object-cover flex-shrink-0">
             <div>
               <p class="font-bold text-charcoal line-clamp-1">${item.name}</p>
               <p class="text-[10px] text-gray-500">${item.category} • ${item.shade || 'No Shade'} • Stock: <span class="${item.stock <= 0 ? 'text-red-600 font-bold' : ''}">${item.stock}</span></p>
@@ -1457,6 +1658,7 @@
 
     window.openAddItemModal = function() {
       populateCategoryDropdown();
+      window.tempUploadedImages = [];
       document.getElementById('item-id').value = '';
       document.getElementById('item-name').value = '';
       document.getElementById('item-shade').value = '';
@@ -1466,17 +1668,21 @@
       document.getElementById('item-image').value = '';
       document.getElementById('item-desc').value = '';
       document.getElementById('item-modal-title').innerText = 'Add New Product';
+      renderAdminImagePreviews([]);
+      window.toggleBodyScroll(true);
       document.getElementById('item-modal').classList.remove('hidden');
     };
 
     window.closeItemModal = function() {
       document.getElementById('item-modal').classList.add('hidden');
+      window.toggleBodyScroll(false);
     };
 
     window.editItem = function(id) {
       const item = window.appState.inventory.find(i => i.id === id);
       if (item) {
         populateCategoryDropdown();
+        window.tempUploadedImages = (item.images && Array.isArray(item.images)) ? [...item.images] : [item.image].filter(Boolean);
         document.getElementById('item-id').value = item.id;
         document.getElementById('item-name').value = item.name;
         document.getElementById('item-category').value = item.category;
@@ -1484,34 +1690,97 @@
         document.getElementById('item-price').value = item.price;
         document.getElementById('item-stock').value = item.stock ?? 10;
         document.getElementById('item-restock-note').value = item.restockNote || '';
-        document.getElementById('item-image').value = item.image;
+        document.getElementById('item-image').value = item.image || (window.tempUploadedImages[0] || '');
         document.getElementById('item-desc').value = item.description || '';
         document.getElementById('item-modal-title').innerText = 'Edit Product';
+        renderAdminImagePreviews(window.tempUploadedImages);
+        window.toggleBodyScroll(true);
         document.getElementById('item-modal').classList.remove('hidden');
       }
     };
 
+    function renderAdminImagePreviews(urls) {
+      const container = document.getElementById('item-images-preview');
+      if (!urls || urls.length === 0) {
+        container.classList.add('hidden');
+        container.innerHTML = '';
+        return;
+      }
+
+      container.classList.remove('hidden');
+      container.innerHTML = urls.map((url, idx) => `
+        <div class="relative w-12 h-12 rounded-lg border bg-white overflow-hidden group">
+          <img src="${url}" class="w-full h-full object-cover">
+          <span class="absolute top-0 left-0 bg-charcoal/70 text-white text-[8px] px-1 rounded-br font-bold">${idx + 1}</span>
+          <button type="button" onclick="removeSingleProductImage(${idx})" class="absolute top-0 right-0 bg-red-600 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-bl font-bold hover:bg-red-700 z-10" title="Remove image">&times;</button>
+        </div>
+      `).join('');
+    }
+
+    window.removeSingleProductImage = async function(index) {
+      if (!window.tempUploadedImages || index < 0 || index >= window.tempUploadedImages.length) return;
+      const removedUrl = window.tempUploadedImages[index];
+      window.tempUploadedImages.splice(index, 1);
+      
+      if (removedUrl && removedUrl.includes('firebasestorage.googleapis.com')) {
+        try {
+          const storageRef = ref(storage, removedUrl);
+          await deleteObject(storageRef);
+        } catch (e) {
+          console.warn("Could not delete single image from storage:", e);
+        }
+      }
+
+      document.getElementById('item-image').value = window.tempUploadedImages[0] || '';
+      renderAdminImagePreviews(window.tempUploadedImages);
+      showToast("Product image removed.", "info");
+    };
+
     window.uploadProductImage = async function() {
       const fileInput = document.getElementById('item-image-file');
-      const file = fileInput.files[0];
-      if (!file) return showToast("Please select an image file first.", "warning");
+      const files = fileInput.files;
+      if (!files || files.length === 0) return showToast("Please select at least one image file.", "warning");
+
+      const rawProductName = document.getElementById('item-name').value.trim();
+      if (!rawProductName) return showToast("Please enter product name before uploading images.", "warning");
+
+      const cleanProductName = rawProductName.replace(/[^a-zA-Z0-9]/g, '');
+      if (!cleanProductName) return showToast("Invalid product name for storage folder.", "warning");
 
       try {
-        showToast("Uploading product image to Firebase Storage...", "info");
-        const storageRef = ref(storage, `products/${Date.now()}_${file.name}`);
-        const snapshot = await uploadBytes(storageRef, file);
-        const downloadURL = await getDownloadURL(snapshot.ref);
+        showToast(`Uploading ${files.length} image(s) to Firebase Storage...`, "info");
+        const newlyUploadedUrls = [];
+        const timestamp = Date.now();
 
-        document.getElementById('item-image').value = downloadURL;
-        showToast("Image uploaded successfully!", "success");
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const fileExtension = file.name.split('.').pop() || 'png';
+          const fileName = `${cleanProductName}_${timestamp}_${i + 1}.${fileExtension}`;
+          const storageRef = ref(storage, `products/${cleanProductName}/${fileName}`);
+
+          const snapshot = await uploadBytes(storageRef, file);
+          const downloadURL = await getDownloadURL(snapshot.ref);
+          newlyUploadedUrls.push(downloadURL);
+        }
+
+        window.tempUploadedImages = [...(window.tempUploadedImages || []), ...newlyUploadedUrls];
+        document.getElementById('item-image').value = window.tempUploadedImages[0] || '';
+        renderAdminImagePreviews(window.tempUploadedImages);
+        showToast("Images uploaded and appended successfully!", "success");
       } catch (err) {
         console.error("Storage upload error:", err);
-        showToast("Image upload failed. Please verify Firebase Storage Security Rules.", "error");
+        showToast("Image upload failed. Please check Firebase Storage permissions.", "error");
       }
     };
 
     window.saveItem = function() {
       const id = document.getElementById('item-id').value || 'item_' + Date.now();
+      const imageInputVal = document.getElementById('item-image').value.trim();
+
+      let finalImages = window.tempUploadedImages && window.tempUploadedImages.length > 0
+        ? window.tempUploadedImages
+        : (imageInputVal ? [imageInputVal] : []);
+
       const newItem = {
         id: id,
         name: document.getElementById('item-name').value.trim(),
@@ -1520,7 +1789,8 @@
         price: parseFloat(document.getElementById('item-price').value) || 0,
         stock: parseInt(document.getElementById('item-stock').value) || 0,
         restockNote: document.getElementById('item-restock-note').value.trim(),
-        image: document.getElementById('item-image').value.trim() || 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&q=80',
+        image: finalImages[0] || 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&q=80',
+        images: finalImages,
         description: document.getElementById('item-desc').value.trim()
       };
 
@@ -1540,7 +1810,7 @@
       });
     };
 
-    window.deleteItem = function(id) {
+    window.deleteItem = async function(id) {
       const updatedInventory = window.appState.inventory.filter(i => i.id !== id);
       syncToFirebase({ inventory: updatedInventory });
     };
