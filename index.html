@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>KinQoon Cosmetics | Elevate Your Everyday Glow</title>
   
-  <!-- Fonts -->
+  <!-- Fonts: Playfair Display for chic headings, Poppins for clean UI text -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   
-  <!-- Icons -->
+  <!-- FontAwesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <!-- Tailwind CSS -->
@@ -33,313 +33,305 @@
   </script>
 
   <style>
-    /* Hide scrollbar for category menu but keep functionality */
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     
-    /* Smooth View Transitions */
     .fade-enter { opacity: 0; transform: translateY(10px); }
     .fade-enter-active { opacity: 1; transform: translateY(0); transition: opacity 300ms, transform 300ms; }
     
-    /* Toast Animations */
-    @keyframes slideDown {
+    body { background-color: #f3f4f6; }
+    #app-container { box-shadow: 0 0 40px rgba(0,0,0,0.08); }
+
+    .toast-item {
+      animation: slideIn 0.3s ease-out forwards;
+    }
+    @keyframes slideIn {
       from { transform: translateY(-100%); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
-    .toast-anim { animation: slideDown 0.3s ease forwards; }
-    
-    body { background-color: #f3f4f6; }
-    #app-container { box-shadow: 0 0 40px rgba(0,0,0,0.08); }
   </style>
 </head>
 <body class="text-charcoal antialiased flex justify-center selection:bg-blushDark selection:text-charcoal">
 
+  <!-- Toast Container -->
+  <div id="toast-container" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-11/12 max-w-sm space-y-2 pointer-events-none"></div>
+
+  <!-- Main App Frame -->
   <div id="app-container" class="w-full max-w-md bg-white min-h-screen relative overflow-x-hidden flex flex-col">
     
-    <!-- ANNOUNCEMENT BANNER -->
-    <div id="announcement-banner" class="hidden bg-blushDark text-charcoal text-xs font-semibold py-2.5 px-4 text-center relative z-40 flex justify-between items-center transition-all shadow-sm">
-      <span id="announcement-text" class="flex-1"></span>
-      <button onclick="dismissBanner()" class="p-1 hover:text-black/50 transition-colors"><i class="fa-solid fa-xmark"></i></button>
+    <!-- Announcement Banner -->
+    <div id="announcement-banner" class="hidden bg-rosegold text-white text-xs font-medium px-4 py-2 flex items-center justify-between z-40">
+      <span id="announcement-text" class="truncate mr-2"></span>
+      <button onclick="dismissAnnouncement()" class="text-white hover:opacity-75 focus:outline-none">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
     </div>
 
     <!-- HEADER -->
-    <header class="pt-8 pb-4 px-6 text-center sticky top-0 bg-white/90 backdrop-blur-md z-30 border-b border-blush/30 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)]">
-      <div id="brand-header-logo" class="flex flex-col items-center justify-center min-h-[48px]">
-        <h1 class="font-serif text-3xl font-bold text-charcoal tracking-tight">KinQoon</h1>
-        <p class="text-xs text-rosegold tracking-widest uppercase mt-1">Cosmetics</p>
+    <header class="pt-6 pb-4 px-6 text-center sticky top-0 bg-white/90 backdrop-blur-md z-30 border-b border-blush/30">
+      <div id="brand-header-content" class="flex flex-col items-center justify-center relative">
+        <!-- Dynamic Logo Image or Text Fallback -->
+        <div id="header-logo-container" class="mb-1 cursor-pointer" onclick="navTo('home')">
+          <h1 id="header-text-logo" class="font-serif text-3xl font-bold text-charcoal tracking-tight">KinQoon</h1>
+        </div>
+        <p class="text-[10px] text-rosegold tracking-widest uppercase font-semibold">Cosmetics</p>
+        
+        <!-- Telegram Group Link Button (Admin-Managed) -->
+        <a id="header-telegram-group-btn" href="#" target="_blank" class="hidden absolute right-0 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-[#229ED9]/10 text-[#229ED9] flex items-center justify-center hover:bg-[#229ED9] hover:text-white transition-all text-sm" title="Join Telegram Group">
+          <i class="fa-brands fa-telegram"></i>
+        </a>
       </div>
     </header>
 
+    <!-- VIEWS CONTAINER -->
     <main class="flex-grow relative pb-24" id="main-content">
       
       <!-- 1. LANDING PAGE VIEW -->
-      <section id="view-home" class="view-section px-6 py-8 flex flex-col items-center">
-        <div class="w-full rounded-3xl overflow-hidden mb-6 shadow-md relative group">
-          <img src="https://images.unsplash.com/photo-1615397323356-0272b126ceba?auto=format&fit=crop&q=80&w=600" alt="Cosmetics Model" class="w-full h-64 object-cover transform transition-transform duration-700 group-hover:scale-105">
-          <div class="absolute inset-0 bg-gradient-to-t from-charcoal/80 via-transparent to-transparent flex items-end p-6">
-            <h2 class="font-serif text-2xl text-white font-semibold shadow-sm leading-snug">Elevate Your<br>Everyday Glow.</h2>
+      <section id="view-home" class="view-section px-6 py-6 flex flex-col items-center">
+        <div class="w-full rounded-3xl overflow-hidden mb-5 shadow-sm relative group">
+          <img id="home-hero-img" src="https://images.unsplash.com/photo-1615397323356-0272b126ceba?auto=format&fit=crop&q=80&w=600" alt="KinQoon Beauty" class="w-full h-60 object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-6">
+            <h2 id="home-hero-slogan" class="font-serif text-2xl text-white font-semibold leading-snug">Elevate Your<br>Everyday Glow.</h2>
           </div>
         </div>
 
-        <div class="text-center mb-6">
-          <!-- Dynamic Status Badge -->
-          <div id="home-status-badge" class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium transition-colors bg-green-100 text-green-700 shadow-sm border border-green-200 mb-2">
-            <i class="fa-solid fa-circle-check mr-2"></i>Taking Orders
-          </div>
-          
-          <!-- Operating Hours Display -->
-          <div class="text-xs text-gray-500 font-medium mb-3">
-            <i class="fa-regular fa-clock mr-1 text-rosegold"></i> Today's Hours: <span id="hours-display" class="text-charcoal font-semibold">--</span>
-          </div>
-
-          <!-- Off-hours Warning Banner on Front Page -->
-          <div id="home-offhours-banner" class="hidden w-full bg-amber-50 border border-amber-200 p-3.5 rounded-2xl text-xs text-amber-800 flex items-start space-x-2.5 shadow-sm text-left">
-            <span class="text-base flex-shrink-0">🌙</span>
-            <p class="leading-relaxed font-medium">We are currently outside operational hours. You can still place your order now, but our agent will process and reply to you as soon as we are online!</p>
-          </div>
+        <!-- Dynamic Store Operational Status Badge -->
+        <div id="home-status-badge" class="mb-3 px-4 py-2 rounded-full text-xs font-semibold transition-colors flex items-center justify-center text-center">
+          <!-- Populated dynamically -->
         </div>
 
-        <div class="w-full space-y-4">
-          <button onclick="navTo('shop')" class="w-full py-4 bg-charcoal text-white rounded-2xl font-medium shadow-[0_8px_20px_-8px_rgba(0,0,0,0.5)] hover:bg-black transition-all flex items-center justify-center transform active:scale-95">
-            <i class="fa-solid fa-bag-shopping mr-2"></i> Shop Cosmetics
+        <!-- Off-Hours Warning Banner (Home View) -->
+        <div id="home-off-hours-warning" class="hidden w-full mb-5 p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs flex items-start space-x-2">
+          <i class="fa-solid fa-moon text-amber-600 mt-0.5 text-sm flex-shrink-0"></i>
+          <p class="leading-relaxed">🌙 We are currently outside operational hours. You can still place your order now, but our agent will process and reply to you as soon as we are online!</p>
+        </div>
+
+        <!-- Primary Actions -->
+        <div class="w-full space-y-3">
+          <button onclick="navTo('shop')" class="w-full py-4 bg-charcoal text-white rounded-2xl font-medium shadow-md hover:bg-black transition-all flex items-center justify-center">
+            <i class="fa-solid fa-bag-shopping mr-2 text-rosegold"></i> Shop Cosmetics
           </button>
-          <button onclick="navTo('about')" class="w-full py-4 bg-blush text-charcoal rounded-2xl font-medium hover:bg-blushDark transition-all transform active:scale-95 border border-rosegold/10">
-            About Brand
+          <button onclick="navTo('about')" class="w-full py-3.5 bg-blush text-charcoal rounded-2xl font-medium hover:bg-blushDark transition-all">
+            About KinQoon
           </button>
         </div>
       </section>
 
       <!-- 2. ABOUT PAGE VIEW -->
-      <section id="view-about" class="view-section hidden px-6 py-8">
-        <h2 class="font-serif text-2xl font-bold mb-4 flex items-center"><i class="fa-solid fa-seedling text-rosegold mr-3 text-lg"></i>Our Story</h2>
-        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 mb-6">
-          <p id="about-story-display" class="text-sm text-gray-600 leading-relaxed whitespace-pre-line"></p>
+      <section id="view-about" class="view-section hidden px-6 py-6">
+        <h2 class="font-serif text-2xl font-bold mb-3">Our Story</h2>
+        <div id="about-story-content" class="text-xs text-gray-600 mb-6 leading-relaxed whitespace-pre-line">
+          Loading brand story...
         </div>
         
-        <h3 class="font-serif text-xl font-bold mb-3 border-b border-blush pb-2">Delivery Information</h3>
-        <p id="about-delivery-display" class="text-sm text-gray-600 mb-6 leading-relaxed whitespace-pre-line"></p>
+        <h3 class="font-serif text-lg font-bold mb-3 border-b border-blush pb-2">Delivery Information</h3>
+        <div id="about-delivery-content" class="text-xs text-gray-600 mb-6 leading-relaxed whitespace-pre-line">
+          Loading delivery details...
+        </div>
 
-        <h3 class="font-serif text-xl font-bold mb-3 border-b border-blush pb-2">Frequently Asked Questions</h3>
-        <div id="about-faqs-list" class="space-y-4 text-sm text-gray-600 mb-8">
-          <!-- Rendered dynamically -->
+        <h3 class="font-serif text-lg font-bold mb-3 border-b border-blush pb-2">Frequently Asked Questions</h3>
+        <div id="about-faqs-container" class="space-y-3 text-xs text-gray-600 mb-8">
+          <!-- Dynamic FAQs rendered here -->
         </div>
 
         <div class="flex space-x-3">
-          <button onclick="navTo('home')" class="flex-1 py-3 border-2 border-blush text-charcoal rounded-xl font-medium hover:bg-blush transition-all transform active:scale-95">Back</button>
-          <button onclick="navTo('shop')" class="flex-1 py-3 bg-charcoal text-white rounded-xl font-medium shadow-md transform active:scale-95">Shop Now</button>
+          <button onclick="navTo('home')" class="flex-1 py-3 border-2 border-blush text-charcoal rounded-xl font-medium hover:bg-blush transition-all text-xs">Back to Home</button>
+          <button onclick="navTo('shop')" class="flex-1 py-3 bg-charcoal text-white rounded-xl font-medium shadow-md text-xs">Shop Now</button>
         </div>
       </section>
 
-      <!-- 3. SHOP & ORDER VIEW -->
+      <!-- 3. SHOP & CATALOG VIEW -->
       <section id="view-shop" class="view-section hidden flex flex-col bg-gray-50 min-h-screen pb-32">
         
-        <div class="px-5 pt-4 pb-2 flex items-center justify-between sticky top-[80px] bg-gray-50/90 backdrop-blur-sm z-20">
-          <button onclick="navTo('home')" class="inline-flex items-center text-xs font-semibold text-charcoal bg-white px-3.5 py-2 rounded-xl shadow-sm border border-gray-200 hover:bg-gray-100 transition-all active:scale-95">
-            <i class="fa-solid fa-arrow-left mr-2 text-rosegold"></i> Back to Home
+        <!-- Header Controls -->
+        <div class="px-5 py-3 bg-white border-b border-gray-100 flex justify-between items-center">
+          <button onclick="navTo('home')" class="text-xs font-medium text-gray-600 hover:text-charcoal flex items-center">
+            <i class="fa-solid fa-arrow-left mr-1.5"></i> Back to Home
           </button>
-          <span class="font-serif text-sm font-bold text-gray-500">Shop Catalog</span>
+          <span class="text-xs text-rosegold font-semibold tracking-wider uppercase">Catalog</span>
         </div>
 
-        <!-- Customer Details Card -->
-        <div class="bg-white p-5 rounded-3xl shadow-sm mx-4 mt-2 mb-4 border border-gray-100 relative overflow-hidden">
-          <div class="absolute top-0 right-0 w-16 h-16 bg-blush rounded-bl-full opacity-20"></div>
-          <h3 class="font-serif text-lg font-bold mb-4">Fulfillment Details</h3>
-          
-          <div class="flex bg-gray-100 p-1 rounded-xl mb-4 relative z-10">
-            <button id="btn-delivery" onclick="setFulfillment('Delivery')" class="flex-1 py-2 text-sm font-medium rounded-lg bg-white shadow-sm text-charcoal transition-all">Delivery</button>
-            <button id="btn-pickup" onclick="setFulfillment('Self-Pickup')" class="flex-1 py-2 text-sm font-medium rounded-lg text-gray-500 hover:text-charcoal transition-all">Self-Pickup</button>
-          </div>
-
-          <form id="customer-details-form" onsubmit="event.preventDefault();" class="space-y-3 relative z-10">
-            <input type="text" id="cust-name" name="name" autocomplete="name" placeholder="Full Name" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-rosegold focus:ring-1 focus:ring-rosegold transition-all">
-            <input type="tel" id="cust-phone" name="tel" autocomplete="tel" placeholder="Contact Number" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-rosegold focus:ring-1 focus:ring-rosegold transition-all">
-            
-            <!-- Address for Delivery -->
-            <textarea id="cust-address" name="street-address" autocomplete="shipping street-address" placeholder="Delivery Address & Postal Code" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl text-sm h-20 resize-none focus:outline-none focus:border-rosegold transition-all"></textarea>
-            
-            <!-- Date/Time for Pickup -->
-            <div id="pickup-details" class="hidden flex flex-col space-y-3 p-3 bg-blush/10 border border-blush/50 rounded-xl">
-              <label class="text-xs font-semibold text-charcoal"><i class="fa-regular fa-calendar-check text-rosegold mr-1"></i> Pickup Date & Time</label>
-              <div class="flex space-x-2">
-                <input type="date" id="cust-pickup-date" class="flex-1 p-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-rosegold">
-                <select id="cust-pickup-time" class="flex-1 p-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-rosegold">
-                  <option value="" disabled selected>Select Time</option>
-                  <option value="10:00 AM - 12:00 PM">10:00 AM - 12:00 PM</option>
-                  <option value="12:00 PM - 2:00 PM">12:00 PM - 2:00 PM</option>
-                  <option value="2:00 PM - 4:00 PM">2:00 PM - 4:00 PM</option>
-                  <option value="4:00 PM - 6:00 PM">4:00 PM - 6:00 PM</option>
-                  <option value="6:00 PM - 8:00 PM">6:00 PM - 8:00 PM</option>
-                </select>
-              </div>
-            </div>
-          </form>
+        <!-- Off-Hours Warning Banner (Shop View) -->
+        <div id="shop-off-hours-warning" class="hidden my-3 mx-4 p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs flex items-start space-x-2">
+          <i class="fa-solid fa-moon text-amber-600 mt-0.5 text-sm flex-shrink-0"></i>
+          <p class="leading-relaxed">🌙 We are currently outside operational hours. You can still place your order now, but our agent will process and reply to you as soon as we are online!</p>
         </div>
 
-        <div class="px-2 mb-3">
-          <div id="category-tabs" class="flex space-x-2 overflow-x-auto no-scrollbar p-2">
-            <!-- Rendered dynamically -->
+        <!-- Dynamic Category Filter Tabs -->
+        <div class="px-3 mb-2 mt-2">
+          <div id="category-tabs" class="flex space-x-2 overflow-x-auto no-scrollbar py-1">
+            <!-- Categories rendered dynamically -->
           </div>
         </div>
 
-        <div id="product-grid" class="px-4 grid grid-cols-2 gap-4">
-          <!-- Rendered dynamically -->
+        <!-- Product Grid -->
+        <div id="product-grid" class="px-4 grid grid-cols-2 gap-3">
+          <!-- Dynamic products rendered here -->
         </div>
+
       </section>
 
       <!-- 4. ADMIN DASHBOARD VIEW -->
       <section id="view-admin" class="view-section hidden px-4 py-6 bg-gray-50 min-h-screen">
-        <div class="flex justify-between items-center mb-6">
-          <h2 class="font-serif text-2xl font-bold">Staff Panel</h2>
-          <button onclick="navTo('home')" class="text-sm text-gray-500 hover:text-charcoal bg-gray-200 px-3 py-1 rounded-full font-medium"><i class="fa-solid fa-right-from-bracket mr-1"></i> Exit</button>
+        <div class="flex justify-between items-center mb-5">
+          <div>
+            <h2 class="font-serif text-2xl font-bold">Staff Panel</h2>
+            <p class="text-[10px] text-gray-400">Manage KinQoon Cosmetics</p>
+          </div>
+          <button onclick="navTo('home')" class="text-xs bg-gray-200 text-charcoal px-3 py-1.5 rounded-lg hover:bg-gray-300 transition-colors">
+            <i class="fa-solid fa-right-from-bracket mr-1"></i> Exit
+          </button>
         </div>
 
-        <!-- Master Store & Operations Controls -->
-        <div class="bg-white p-5 rounded-2xl shadow-sm mb-6 border border-gray-100">
-          <h3 class="font-bold text-sm text-charcoal uppercase mb-4 pb-2 border-b border-gray-100"><i class="fa-solid fa-sliders text-rosegold mr-2"></i>Store Operations</h3>
+        <!-- 4A. Store Operations & Hours -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm mb-4 border border-gray-100">
+          <h3 class="font-medium text-xs text-rosegold font-bold uppercase tracking-wider mb-3">Store Operations</h3>
           
-          <div class="flex items-center justify-between mb-5 bg-gray-50 p-3 rounded-xl border border-gray-200">
+          <div class="flex items-center justify-between mb-3 pb-3 border-b border-gray-100">
             <div>
-              <span class="font-semibold text-sm block">Accepting Orders</span>
-              <span class="text-[10px] text-gray-500">Toggle store open/close</span>
+              <p class="font-medium text-xs">Accepting Orders Status</p>
+              <p class="text-[10px] text-gray-400">Master switch for store availability</p>
             </div>
             <label class="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" id="admin-status-toggle" class="sr-only peer" onchange="toggleStoreStatus(this.checked)">
-              <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
+              <div class="w-10 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-green-500"></div>
             </label>
           </div>
 
-          <div class="grid grid-cols-2 gap-4 mb-4">
+          <!-- Operational Hours Pickers -->
+          <div class="grid grid-cols-2 gap-2 mb-3">
             <div>
-              <label class="block text-xs font-semibold text-gray-600 mb-1">Opening Time</label>
-              <input type="time" id="admin-open-time" class="w-full p-2 border border-gray-200 rounded-lg text-sm bg-gray-50 focus:outline-none focus:border-rosegold">
+              <label class="text-[10px] text-gray-500 block mb-1">Opening Time</label>
+              <input type="time" id="admin-open-time" class="w-full p-2 border rounded-lg text-xs">
             </div>
             <div>
-              <label class="block text-xs font-semibold text-gray-600 mb-1">Closing Time</label>
-              <input type="time" id="admin-close-time" class="w-full p-2 border border-gray-200 rounded-lg text-sm bg-gray-50 focus:outline-none focus:border-rosegold">
+              <label class="text-[10px] text-gray-500 block mb-1">Closing Time</label>
+              <input type="time" id="admin-close-time" class="w-full p-2 border rounded-lg text-xs">
             </div>
           </div>
+          <button onclick="saveOperatingHours()" class="w-full py-2 bg-charcoal text-white rounded-lg text-xs font-medium mb-3">Save Store Hours</button>
 
-          <div class="mb-5">
-            <label class="block text-xs font-semibold text-gray-600 mb-1">Delivery Fee (SGD)</label>
-            <div class="relative">
-              <span class="absolute left-3 top-2 text-gray-400 text-sm">$</span>
-              <input type="number" step="0.50" id="admin-delivery-fee" class="w-full pl-7 p-2 border border-gray-200 rounded-lg text-sm bg-gray-50 focus:outline-none focus:border-rosegold">
+          <!-- Delivery Fee & Telegram Handles -->
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-[10px] text-gray-500 block mb-1">Standard Delivery Fee ($)</label>
+              <input type="number" step="0.50" id="admin-delivery-fee" class="w-full p-2 border rounded-lg text-xs">
+            </div>
+            <div>
+              <label class="text-[10px] text-gray-500 block mb-1">Telegram Admin Username</label>
+              <input type="text" id="admin-telegram-input" class="w-full p-2 border rounded-lg text-xs">
             </div>
           </div>
-
-          <div class="mb-5">
-            <label class="block text-xs font-semibold text-gray-600 mb-1">Telegram Target Username</label>
-            <div class="relative">
-              <span class="absolute left-3 top-2 text-gray-400 text-sm">@</span>
-              <input type="text" id="admin-telegram-input" class="w-full pl-8 p-2 border border-gray-200 rounded-lg text-sm bg-gray-50 focus:outline-none focus:border-rosegold">
-            </div>
+          <div class="mt-2">
+            <label class="text-[10px] text-gray-500 block mb-1">Telegram Community Group Link</label>
+            <input type="url" id="admin-telegram-group-link" placeholder="https://t.me/..." class="w-full p-2 border rounded-lg text-xs">
           </div>
-
-          <button onclick="saveOperationsSettings()" class="w-full py-2.5 bg-charcoal text-white rounded-xl text-sm font-medium hover:bg-black transition-colors shadow-sm">
-            Save Operation Settings
-          </button>
+          <button onclick="saveStoreSettings()" class="w-full py-2 border border-charcoal text-charcoal rounded-lg text-xs font-medium mt-2">Save Settings</button>
         </div>
 
-        <!-- Announcements & Promos -->
-        <div class="bg-white p-5 rounded-2xl shadow-sm mb-6 border border-gray-100">
-           <h3 class="font-bold text-sm text-charcoal uppercase mb-4 pb-2 border-b border-gray-100"><i class="fa-solid fa-bullhorn text-rosegold mr-2"></i>Marketing & Promos</h3>
-           
-           <div class="mb-6 p-4 border border-blush rounded-xl bg-blush/10">
-             <div class="flex items-center justify-between mb-3">
-               <label class="text-xs font-bold text-charcoal">Top Announcement Banner</label>
-               <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" id="admin-banner-toggle" class="sr-only peer">
-                <div class="w-9 h-5 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-rosegold"></div>
-              </label>
-             </div>
-             <input type="text" id="admin-banner-text" placeholder="e.g. Free shipping over $50!" class="w-full p-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:border-rosegold">
-             <button onclick="saveBannerSettings()" class="mt-2 w-full py-2 bg-charcoal text-white rounded-lg text-xs font-medium hover:bg-black transition-colors">Update Banner</button>
-           </div>
-
-           <div class="flex justify-between items-center mb-3">
-            <label class="text-xs font-bold text-charcoal">Promo Codes</label>
-            <button onclick="addAdminPromoField()" class="text-[10px] bg-blush text-charcoal px-2.5 py-1 rounded-full font-bold hover:bg-blushDark transition-colors">
-              <i class="fa-solid fa-plus mr-1"></i> Add
-            </button>
+        <!-- 4B. Announcement Banner Settings -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm mb-4 border border-gray-100">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-medium text-xs text-rosegold font-bold uppercase tracking-wider">Announcement Banner</h3>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" id="admin-announcement-toggle" class="sr-only peer">
+              <div class="w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-rosegold"></div>
+            </label>
           </div>
-          <div id="admin-promo-list" class="space-y-3 mb-4">
-            <!-- Rendered dynamically -->
-          </div>
-          <button onclick="savePromoCodes()" class="w-full py-2 bg-charcoal text-white rounded-lg text-xs font-medium hover:bg-black transition-colors">Save Promo Codes</button>
+          <input type="text" id="admin-announcement-text" placeholder="e.g. 💖 Free delivery on orders over $50!" class="w-full p-2 border rounded-lg text-xs mb-2">
+          <button onclick="saveAnnouncementSettings()" class="w-full py-2 bg-charcoal text-white rounded-lg text-xs font-medium">Update Banner</button>
         </div>
 
-        <!-- Store Content & Branding Controls -->
-        <div class="bg-white p-5 rounded-2xl shadow-sm mb-6 border border-gray-100 space-y-4">
-          <h3 class="font-bold text-sm text-charcoal uppercase border-b border-gray-100 pb-2">
-            <i class="fa-solid fa-pen-nib text-rosegold mr-2"></i>Branding & Content
-          </h3>
-          
-          <!-- Logo URL with preview -->
-          <div>
-            <label class="block text-xs font-semibold text-gray-600 mb-1">Brand Logo Image URL</label>
-            <input type="text" id="admin-logo-url" oninput="previewAdminLogo(this.value)" placeholder="https://..." class="w-full p-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-rosegold bg-gray-50">
-            <div id="admin-logo-preview-container" class="mt-2 p-2 border border-dashed border-gray-200 rounded-lg text-center hidden bg-gray-50">
-              <img id="admin-logo-preview" src="" alt="Preview" class="max-h-12 mx-auto object-contain">
+        <!-- 4C. Branding & Content Management -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm mb-4 border border-gray-100 space-y-3">
+          <h3 class="font-medium text-xs text-rosegold font-bold uppercase tracking-wider">Branding & Content</h3>
+
+          <!-- Hero Section Editor -->
+          <div class="border-b border-gray-100 pb-3 mb-3 space-y-2">
+            <h4 class="font-semibold text-xs text-charcoal">Hero Banner Section</h4>
+            <div>
+              <label class="text-[10px] text-gray-500 block mb-1">Hero Slogan Text</label>
+              <input type="text" id="admin-hero-slogan" placeholder="Elevate Your Everyday Glow." class="w-full p-2 border rounded-lg text-xs">
+            </div>
+            <div>
+              <label class="text-[10px] text-gray-500 block mb-1">Hero Background Image URL or Upload</label>
+              <div class="flex space-x-2 mb-2">
+                <input type="text" id="admin-hero-image-url" placeholder="https://..." class="flex-1 p-2 border rounded-lg text-xs">
+                <button onclick="previewAdminHeroImage()" class="px-3 bg-gray-100 text-xs rounded-lg">Preview</button>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input type="file" id="admin-hero-image-file" accept="image/*" class="text-[10px] text-gray-500 flex-1">
+                <button onclick="uploadHeroImage()" class="px-3 py-1.5 bg-blush text-charcoal text-xs font-medium rounded-lg">Upload Hero</button>
+              </div>
+              <div id="admin-hero-preview" class="mt-2 hidden flex justify-center p-2 border rounded-lg bg-gray-50">
+                <img id="admin-hero-preview-img" src="" class="max-h-24 object-cover rounded-lg w-full">
+              </div>
             </div>
           </div>
 
-          <!-- Our Story Text -->
+          <!-- Logo Upload -->
           <div>
-            <label class="block text-xs font-semibold text-gray-600 mb-1">Our Story</label>
-            <textarea id="admin-story-text" class="w-full p-2 border border-gray-200 rounded-lg text-sm h-24 resize-none bg-gray-50 focus:outline-none focus:border-rosegold"></textarea>
-          </div>
-
-          <!-- Delivery Info Text -->
-          <div>
-            <label class="block text-xs font-semibold text-gray-600 mb-1">Delivery Info</label>
-            <textarea id="admin-delivery-text" class="w-full p-2 border border-gray-200 rounded-lg text-sm h-20 resize-none bg-gray-50 focus:outline-none focus:border-rosegold"></textarea>
-          </div>
-
-          <!-- FAQ Manager -->
-          <div>
-            <div class="flex justify-between items-center mb-2 mt-4 border-t border-gray-100 pt-3">
-              <label class="text-xs font-bold text-charcoal">Frequently Asked Questions</label>
-              <button onclick="addAdminFaqField()" class="text-[10px] bg-blush text-charcoal px-2.5 py-1 rounded-full font-bold hover:bg-blushDark transition-colors">
-                <i class="fa-solid fa-plus mr-1"></i> Add FAQ
-              </button>
+            <label class="text-[10px] text-gray-500 block mb-1">Brand Logo URL or Upload</label>
+            <div class="flex space-x-2 mb-2">
+              <input type="text" id="admin-logo-url" placeholder="https://..." class="flex-1 p-2 border rounded-lg text-xs">
+              <button onclick="previewAdminLogo()" class="px-3 bg-gray-100 text-xs rounded-lg">Preview</button>
             </div>
-            <div id="admin-faq-list" class="space-y-3">
-              <!-- Rendered dynamically -->
+            <div class="flex items-center space-x-2">
+              <input type="file" id="admin-logo-file-input" accept="image/*" class="text-[10px] text-gray-500 flex-1">
+              <button onclick="uploadLogoImage()" class="px-3 py-1.5 bg-blush text-charcoal text-xs font-medium rounded-lg">Upload Logo</button>
+            </div>
+            <div id="admin-logo-preview" class="mt-2 hidden flex justify-center p-2 border rounded-lg bg-gray-50">
+              <img id="admin-logo-preview-img" src="" class="max-h-12 object-contain">
             </div>
           </div>
 
-          <button onclick="saveBrandingAndContent()" class="w-full py-2.5 bg-charcoal text-white rounded-xl text-sm font-medium hover:bg-black transition-colors shadow-sm mt-4">
-            Save Branding & Content
-          </button>
+          <!-- Our Story -->
+          <div>
+            <label class="text-[10px] text-gray-500 block mb-1">Our Story Text</label>
+            <textarea id="admin-about-story" class="w-full p-2 border rounded-lg text-xs h-20 resize-none"></textarea>
+          </div>
+
+          <!-- Delivery Info -->
+          <div>
+            <label class="text-[10px] text-gray-500 block mb-1">Delivery Information Text</label>
+            <textarea id="admin-delivery-info" class="w-full p-2 border rounded-lg text-xs h-20 resize-none"></textarea>
+          </div>
+
+          <button onclick="saveBrandingContent()" class="w-full py-2 bg-charcoal text-white rounded-lg text-xs font-medium">Save Content Changes</button>
         </div>
 
-        <!-- Category Management Panel -->
-        <div class="bg-white p-5 rounded-2xl shadow-sm mb-6 border border-gray-100 space-y-4">
-          <h3 class="font-bold text-sm text-charcoal uppercase border-b border-gray-100 pb-2 flex items-center justify-between">
-            <span><i class="fa-solid fa-tags text-rosegold mr-2"></i>Categories</span>
-            <span id="admin-category-count-badge" class="text-[10px] bg-blush text-charcoal px-2 py-0.5 rounded-full font-bold">0</span>
-          </h3>
-          
-          <div class="flex space-x-2">
-            <input type="text" id="admin-new-cat-input" placeholder="New Category" class="flex-1 p-2 border border-gray-200 rounded-lg text-sm bg-gray-50 focus:outline-none focus:border-rosegold">
-            <button onclick="addCategoryFromAdmin()" class="px-4 bg-blush text-charcoal rounded-lg text-sm font-bold hover:bg-blushDark transition-colors flex items-center">
-              Add
-            </button>
+        <!-- 4D. FAQ Manager -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm mb-4 border border-gray-100">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="font-medium text-xs text-rosegold font-bold uppercase tracking-wider">FAQ Manager</h3>
+            <button onclick="openFaqModal()" class="text-xs bg-blush text-charcoal px-2.5 py-1 rounded-full font-medium">+ Add FAQ</button>
           </div>
-
-          <div id="admin-category-list" class="space-y-2 pt-2">
-            <!-- Rendered dynamically -->
+          <div id="admin-faqs-list" class="space-y-2">
+            <!-- Dynamic Admin FAQs -->
           </div>
         </div>
 
-        <!-- Inventory Management -->
-        <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-          <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray-100">
-            <h3 class="font-bold text-sm text-charcoal uppercase"><i class="fa-solid fa-boxes-stacked text-rosegold mr-2"></i>Inventory</h3>
-            <button onclick="openAddItemModal()" class="text-xs bg-blush text-charcoal px-3 py-1.5 rounded-full font-bold hover:bg-blushDark transition-colors shadow-sm"><i class="fa-solid fa-plus mr-1"></i> Add Item</button>
+        <!-- 4E. Category Manager -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm mb-4 border border-gray-100">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="font-medium text-xs text-rosegold font-bold uppercase tracking-wider">Categories</h3>
           </div>
-          
-          <div id="admin-product-list" class="space-y-3">
+          <div class="flex space-x-2 mb-3">
+            <input type="text" id="new-category-input" placeholder="New Category Name" class="flex-1 p-2 border rounded-lg text-xs">
+            <button onclick="addNewCategory()" class="px-4 bg-charcoal text-white rounded-lg text-xs font-medium">Add</button>
+          </div>
+          <div id="admin-categories-list" class="space-y-2">
+            <!-- Dynamic Categories -->
+          </div>
+        </div>
+
+        <!-- 4F. Inventory Management -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="font-medium text-xs text-rosegold font-bold uppercase tracking-wider">Products Inventory</h3>
+            <button onclick="openAddItemModal()" class="text-xs bg-blush text-charcoal px-3 py-1 rounded-full font-medium"><i class="fa-solid fa-plus mr-1"></i> Add Product</button>
+          </div>
+          <div id="admin-product-list" class="space-y-2">
             <!-- Rendered dynamically -->
           </div>
         </div>
@@ -348,149 +340,211 @@
     </main>
 
     <!-- FLOATING CART BAR -->
-    <div id="floating-cart" class="hidden fixed bottom-0 max-w-md w-full bg-white/95 backdrop-blur-md border-t border-gray-200 p-4 shadow-[0_-15px_30px_-10px_rgba(0,0,0,0.15)] z-40 transition-transform transform translate-y-full">
+    <div id="floating-cart" class="hidden fixed bottom-0 max-w-md w-full bg-white border-t border-gray-200 p-4 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.1)] z-40 transition-transform transform translate-y-full">
       <div class="flex justify-between items-center">
         <div>
-          <p class="text-[10px] text-gray-500 uppercase tracking-widest font-semibold mb-0.5">Total Amount</p>
-          <p class="font-serif text-2xl font-bold text-charcoal leading-none">SGD $<span id="cart-total-bar">0.00</span></p>
+          <p class="text-[10px] text-gray-500 uppercase font-medium">Subtotal</p>
+          <p class="font-serif text-lg font-bold text-charcoal">SGD $<span id="cart-total-bar">0.00</span></p>
         </div>
-        <button onclick="openCartModal()" class="bg-charcoal text-white px-7 py-3.5 rounded-2xl font-semibold shadow-[0_8px_15px_-5px_rgba(0,0,0,0.4)] hover:bg-black transition-all flex items-center transform active:scale-95">
-          View Cart <span id="cart-count-badge" class="ml-2 bg-blush text-charcoal text-xs font-bold px-2 py-0.5 rounded-full">0</span>
+        <button onclick="openCartModal()" class="bg-charcoal text-white px-5 py-2.5 rounded-xl text-xs font-medium shadow-md hover:bg-black transition-all flex items-center">
+          View Cart <span id="cart-count-badge" class="ml-2 bg-blush text-charcoal text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
         </button>
       </div>
     </div>
 
-    <!-- CART & CHECKOUT MODAL -->
-    <div id="cart-modal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-end justify-center backdrop-blur-sm transition-opacity">
-      <div class="bg-white w-full max-w-md h-[88vh] rounded-t-3xl shadow-2xl flex flex-col transform transition-transform border-t border-white/20">
-        <div class="p-5 border-b border-gray-100 flex justify-between items-center bg-white rounded-t-3xl sticky top-0 z-10">
-          <h2 class="font-serif text-xl font-bold flex items-center"><i class="fa-solid fa-bag-shopping text-rosegold mr-3"></i>Your Bag</h2>
-          <button onclick="closeCartModal()" class="h-9 w-9 bg-gray-100 rounded-full text-gray-500 hover:text-charcoal hover:bg-gray-200 transition-colors flex items-center justify-center"><i class="fa-solid fa-xmark text-lg"></i></button>
+    <!-- CART & CHECKOUT DRAWER MODAL -->
+    <div id="cart-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-end justify-center backdrop-blur-sm">
+      <div class="bg-white w-full max-w-md h-[90vh] rounded-t-3xl shadow-2xl flex flex-col transform transition-transform">
+        
+        <!-- Modal Header -->
+        <div class="p-4 border-b border-gray-100 flex justify-between items-center">
+          <h2 class="font-serif text-lg font-bold text-charcoal"><i class="fa-solid fa-bag-shopping mr-2 text-rosegold"></i>Your Shopping Bag</h2>
+          <button onclick="closeCartModal()" class="h-8 w-8 bg-gray-100 rounded-full text-gray-500 hover:text-charcoal flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
         </div>
         
-        <div class="flex-grow overflow-y-auto p-5 no-scrollbar bg-gray-50/50">
-          <div id="cart-items-list" class="space-y-4 mb-6">
-            <!-- Cart items go here -->
-          </div>
+        <div class="flex-grow overflow-y-auto p-4 no-scrollbar">
           
-          <!-- Promo Code Section -->
-          <div class="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 mb-6">
-            <label class="text-xs font-bold text-charcoal mb-2 block"><i class="fa-solid fa-ticket text-rosegold mr-1"></i> Gift Card or Promo Code</label>
-            <div class="flex space-x-2">
-                <input type="text" id="promo-input" placeholder="Enter code here" class="flex-1 p-3 border border-gray-200 rounded-xl text-sm bg-gray-50 focus:outline-none focus:border-rosegold uppercase tracking-wide">
-                <button onclick="applyPromo()" class="px-5 py-3 bg-charcoal text-white rounded-xl text-sm font-semibold hover:bg-black transition-all">Apply</button>
+          <!-- Off-Hours Warning Banner inside Cart -->
+          <div id="cart-off-hours-warning" class="hidden mb-4 p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs flex items-start space-x-2">
+            <i class="fa-solid fa-moon text-amber-600 mt-0.5 text-sm flex-shrink-0"></i>
+            <p class="leading-relaxed">🌙 We are currently outside operational hours. You can still place your order now, but our agent will process and reply to you as soon as we are online!</p>
+          </div>
+
+          <!-- Itemized Cart Summary -->
+          <div id="cart-items-list" class="space-y-3 mb-4">
+            <!-- Items rendered dynamically -->
+          </div>
+
+          <!-- Customer Details & Fulfillment Selector Form (Integrated in Cart) -->
+          <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 my-4 space-y-3">
+            <h4 class="font-serif text-xs font-bold text-charcoal uppercase tracking-wider">Fulfillment & Customer Details</h4>
+            
+            <div class="flex bg-gray-200 p-1 rounded-xl">
+              <button id="btn-delivery" onclick="setFulfillment('Delivery')" class="flex-1 py-2 text-xs font-medium rounded-lg bg-white shadow-sm text-charcoal transition-all">Local Delivery</button>
+              <button id="btn-pickup" onclick="setFulfillment('Self-Pickup')" class="flex-1 py-2 text-xs font-medium rounded-lg text-gray-500 hover:text-charcoal transition-all bg-transparent">Self-Pickup</button>
             </div>
-            <div class="flex justify-between items-center mt-2">
-              <p id="promo-msg" class="text-xs font-semibold hidden"></p>
-              <button id="btn-remove-promo" onclick="removePromo()" class="hidden text-[10px] text-gray-400 hover:text-red-500 underline font-medium">Remove Code</button>
+
+            <form onsubmit="event.preventDefault();" class="space-y-2.5">
+              <div>
+                <label class="block text-[10px] text-gray-500 font-medium mb-1">Full Name *</label>
+                <input type="text" id="cust-name" name="name" autocomplete="name" placeholder="Full Name *" class="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:outline-none focus:border-rosegold transition-all">
+              </div>
+              <div>
+                <label class="block text-[10px] text-gray-500 font-medium mb-1">Contact Number (WhatsApp/Telegram) *</label>
+                <input type="tel" id="cust-phone" name="phone" autocomplete="tel" placeholder="Contact Number *" class="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:outline-none focus:border-rosegold transition-all">
+              </div>
+
+              <!-- Delivery Address Field Group -->
+              <div id="delivery-fields-group">
+                <label class="block text-[10px] text-gray-500 font-medium mb-1">Delivery Address & Postal Code *</label>
+                <textarea id="cust-address" name="address" autocomplete="shipping street-address" placeholder="Delivery Address & Postal Code *" class="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs h-16 resize-none focus:outline-none focus:border-rosegold transition-all"></textarea>
+              </div>
+
+              <!-- Self-Pickup Fields Group -->
+              <div id="pickup-fields-group" class="hidden space-y-2.5">
+                <div>
+                  <label class="block text-[10px] text-gray-500 font-medium mb-1">Preferred Pickup Date *</label>
+                  <input type="date" id="pickup-date" class="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:outline-none focus:border-rosegold">
+                </div>
+                <div>
+                  <label class="block text-[10px] text-gray-500 font-medium mb-1">Preferred Time Slot *</label>
+                  <select id="pickup-time" class="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:outline-none focus:border-rosegold">
+                    <option value="12:00 PM - 02:00 PM">12:00 PM - 02:00 PM</option>
+                    <option value="02:00 PM - 04:00 PM">02:00 PM - 04:00 PM</option>
+                    <option value="04:00 PM - 06:00 PM">04:00 PM - 06:00 PM</option>
+                    <option value="06:00 PM - 08:00 PM">06:00 PM - 08:00 PM</option>
+                  </select>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Promo Code Input Section -->
+          <div class="bg-gray-50 p-3 rounded-xl mb-4 border border-gray-100">
+            <label class="block text-[10px] font-medium text-gray-500 mb-1">Voucher / Promo Code</label>
+            <div class="flex space-x-2">
+              <input type="text" id="promo-code-input" placeholder="Enter code" class="flex-1 p-2 bg-white border border-gray-200 rounded-lg text-xs uppercase">
+              <button onclick="applyPromoCode()" class="px-4 bg-charcoal text-white text-xs font-medium rounded-lg">Apply</button>
+            </div>
+            <div id="promo-applied-tag" class="hidden mt-2 flex justify-between items-center bg-green-50 text-green-700 text-xs p-2 rounded-lg border border-green-200">
+              <span><i class="fa-solid fa-ticket mr-1"></i> <span id="promo-name"></span></span>
+              <button onclick="removePromoCode()" class="text-red-500 text-xs font-bold">Remove</button>
             </div>
           </div>
 
-          <!-- Checkout Notice -->
-          <div class="bg-blush/20 p-4 rounded-2xl mb-2 border border-blush/50">
-            <h4 class="font-bold text-sm mb-1.5 flex items-center"><i class="fa-solid fa-circle-info text-rosegold mr-2"></i>Checkout Notice</h4>
-            <p class="text-xs text-gray-600 leading-relaxed">Orders are finalized via Telegram. Our staff will confirm availability and provide secure PayNow SG details to complete your purchase.</p>
+          <!-- Order Confirmation Note -->
+          <div class="bg-blush/30 p-3 rounded-xl mb-4 border border-blush text-xs">
+            <h4 class="font-medium mb-1"><i class="fa-solid fa-circle-info text-rosegold mr-1.5"></i>Order Confirmation</h4>
+            <p class="text-gray-600 leading-relaxed text-[11px]">Orders are submitted directly to our Telegram support line. PayNow SG details will be provided upon confirmation.</p>
           </div>
         </div>
 
-        <div class="p-6 border-t border-gray-100 bg-white rounded-t-3xl shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.05)] relative z-20">
-          
-          <!-- Cost Breakdown -->
-          <div class="space-y-2 mb-4 text-sm font-medium">
-            <div class="flex justify-between text-gray-500"><span>Subtotal</span><span>SGD $<span id="cart-subtotal">0.00</span></span></div>
-            <div class="flex justify-between text-gray-500 transition-all" id="delivery-fee-row">
-              <span>Delivery Fee</span><span>SGD $<span id="cart-delivery-fee">0.00</span></span>
-            </div>
-            <div class="flex justify-between text-green-600 hidden transition-all" id="discount-row">
-              <span>Discount (<span id="discount-label" class="uppercase"></span>)</span><span>-SGD $<span id="cart-discount">0.00</span></span>
-            </div>
+        <!-- Dynamic Summary Footer -->
+        <div class="p-4 border-t border-gray-100 bg-gray-50 rounded-t-2xl space-y-2">
+          <div class="flex justify-between items-center text-xs text-gray-600">
+            <span>Items Subtotal</span>
+            <span>SGD $<span id="cart-subtotal-val">0.00</span></span>
           </div>
-
-          <div class="flex justify-between items-end mb-5 border-t border-gray-100 pt-4">
-            <span class="font-semibold text-gray-600 uppercase tracking-wider text-xs">Grand Total</span>
-            <span class="font-serif text-3xl font-bold text-charcoal leading-none">SGD $<span id="cart-total-modal">0.00</span></span>
+          <div class="flex justify-between items-center text-xs text-gray-600">
+            <span>Fulfillment (<span id="cart-fulfillment-label">Delivery</span>)</span>
+            <span>SGD $<span id="cart-delivery-val">0.00</span></span>
+          </div>
+          <div id="cart-discount-row" class="hidden flex justify-between items-center text-xs text-green-600 font-medium">
+            <span>Discount</span>
+            <span>- SGD $<span id="cart-discount-val">0.00</span></span>
+          </div>
+          <div class="flex justify-between items-center pt-2 border-t border-gray-200">
+            <span class="font-bold text-sm">Grand Total</span>
+            <span class="font-serif text-xl font-bold text-charcoal">SGD $<span id="cart-total-modal">0.00</span></span>
           </div>
           
-          <button onclick="processTelegramCheckout()" class="w-full py-4 bg-[#2AABEE] text-white rounded-2xl font-semibold shadow-[0_8px_15px_-5px_rgba(42,171,238,0.4)] hover:bg-[#229ED9] transition-all flex items-center justify-center text-lg transform active:scale-95 group">
-            <i class="fa-brands fa-telegram mr-2 text-2xl group-hover:scale-110 transition-transform"></i> Send Order via Telegram
+          <button onclick="processTelegramCheckout()" class="w-full py-3.5 bg-[#229ED9] text-white rounded-xl font-medium shadow-md hover:bg-[#1C88BA] transition-all flex items-center justify-center text-sm mt-2">
+            <i class="fa-brands fa-telegram mr-2 text-base"></i> Send Order via Telegram
           </button>
         </div>
       </div>
     </div>
 
     <!-- ADMIN LOGIN MODAL -->
-    <div id="admin-login-modal" class="hidden fixed inset-0 bg-black/60 z-[60] flex items-center justify-center p-4 backdrop-blur-sm">
-      <div class="bg-white w-full max-w-sm rounded-3xl p-7 shadow-2xl text-center border border-white/20 relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-24 h-24 bg-blush rounded-bl-full opacity-30"></div>
-        <h2 class="font-serif text-2xl font-bold mb-1">Staff Access</h2>
-        <p class="text-xs text-gray-500 mb-6 font-medium">Enter passcode to access dashboard</p>
-        <input type="password" id="admin-passcode" class="w-full p-4 bg-gray-50 border border-gray-200 rounded-xl mb-6 text-center tracking-[0.5em] focus:outline-none focus:border-rosegold font-bold text-lg" placeholder="••••••••">
-        <div class="flex space-x-3">
-          <button onclick="closeAdminLogin()" class="flex-1 py-3 bg-gray-100 text-gray-600 font-semibold rounded-xl hover:bg-gray-200 transition-colors">Cancel</button>
-          <button onclick="verifyAdmin()" class="flex-1 py-3 bg-charcoal text-white font-semibold rounded-xl hover:bg-black transition-colors shadow-md">Login</button>
+    <div id="admin-login-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+      <div class="bg-white w-full max-w-sm rounded-2xl p-6 shadow-2xl text-center">
+        <h2 class="font-serif text-lg font-bold mb-1">Staff Access</h2>
+        <p class="text-xs text-gray-400 mb-4">Enter passcode to view staff dashboard</p>
+        <input type="password" id="admin-passcode" class="w-full p-3 border border-gray-200 rounded-xl mb-4 text-center tracking-widest text-sm focus:outline-none focus:border-rosegold" placeholder="••••••••">
+        <div class="flex space-x-2 text-xs">
+          <button onclick="closeAdminLogin()" class="flex-1 py-2.5 bg-gray-100 text-gray-600 rounded-xl font-medium">Cancel</button>
+          <button onclick="verifyAdmin()" class="flex-1 py-2.5 bg-charcoal text-white rounded-xl font-medium">Login</button>
         </div>
       </div>
     </div>
 
-    <!-- ADD/EDIT ITEM MODAL -->
-    <div id="item-modal" class="hidden fixed inset-0 bg-black/60 z-[70] flex items-center justify-center p-4 backdrop-blur-sm">
-      <div class="bg-white w-full max-w-sm rounded-3xl p-6 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar">
-        <h2 class="font-serif text-xl font-bold mb-5 flex items-center border-b border-gray-100 pb-3"><i class="fa-solid fa-box-open text-rosegold mr-3"></i><span id="item-modal-title">Add Item</span></h2>
+    <!-- ADD/EDIT PRODUCT ITEM MODAL -->
+    <div id="item-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+      <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar">
+        <h2 class="font-serif text-lg font-bold mb-3" id="item-modal-title">Add New Product</h2>
         <input type="hidden" id="item-id">
-        <div class="space-y-4 text-sm font-medium">
-          <div><label class="text-xs text-gray-500 mb-1 block">Product Name *</label><input type="text" id="item-name" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-rosegold"></div>
-          <div><label class="text-xs text-gray-500 mb-1 block">Category *</label>
-            <select id="item-category" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-rosegold">
-              <!-- Rendered dynamically -->
+        <div class="space-y-2.5 text-xs">
+          <div><label class="text-gray-500 block mb-1">Product Name *</label><input type="text" id="item-name" class="w-full p-2 border rounded-lg"></div>
+          <div><label class="text-gray-500 block mb-1">Category *</label>
+            <select id="item-category" class="w-full p-2 border rounded-lg bg-white">
+              <!-- Dynamically populated from categories array -->
             </select>
           </div>
-          <div><label class="text-xs text-gray-500 mb-1 block">Shade / Variant</label><input type="text" id="item-shade" placeholder="e.g. 04 Rosewood" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-rosegold"></div>
-          <div class="grid grid-cols-2 gap-3">
-            <div><label class="text-xs text-gray-500 mb-1 block">Price (SGD) *</label><input type="number" id="item-price" step="0.01" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-rosegold"></div>
-            <div><label class="text-xs text-gray-500 mb-1 block">Stock Qty *</label><input type="number" id="item-stock" min="0" placeholder="10" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-rosegold"></div>
+          <div><label class="text-gray-500 block mb-1">Shade / Variant</label><input type="text" id="item-shade" class="w-full p-2 border rounded-lg"></div>
+          <div class="grid grid-cols-2 gap-2">
+            <div><label class="text-gray-500 block mb-1">Price (SGD $)</label><input type="number" id="item-price" step="0.50" class="w-full p-2 border rounded-lg"></div>
+            <div><label class="text-gray-500 block mb-1">Stock Quantity</label><input type="number" id="item-stock" min="0" class="w-full p-2 border rounded-lg"></div>
           </div>
-          <div><label class="text-xs text-gray-500 mb-1 block">Restock Note (If 0 stock)</label><input type="text" id="item-restock-note" placeholder="e.g. Restocking next Friday" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-rosegold"></div>
-          <div><label class="text-xs text-gray-500 mb-1 block">Image URL</label><input type="text" id="item-image" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-rosegold" placeholder="https://..."></div>
-          <div><label class="text-xs text-gray-500 mb-1 block">Description</label><textarea id="item-desc" class="w-full p-2.5 bg-gray-50 border border-gray-200 rounded-xl h-20 resize-none focus:outline-none focus:border-rosegold"></textarea></div>
+          <div><label class="text-gray-500 block mb-1">Restock Note (if sold out)</label><input type="text" id="item-restock-note" placeholder="e.g. Restocking next week!" class="w-full p-2 border rounded-lg"></div>
+          
+          <!-- Image Input & Direct Storage Upload -->
+          <div>
+            <label class="text-gray-500 block mb-1">Image URL or Direct Upload</label>
+            <input type="text" id="item-image" placeholder="https://..." class="w-full p-2 border rounded-lg mb-2">
+            <div class="flex items-center space-x-2">
+              <input type="file" id="item-image-file" accept="image/*" class="text-[10px] text-gray-500 flex-1">
+              <button onclick="uploadProductImage()" class="px-3 py-1.5 bg-blush text-charcoal text-xs font-medium rounded-lg">Upload</button>
+            </div>
+          </div>
+
+          <div><label class="text-gray-500 block mb-1">Description</label><textarea id="item-desc" class="w-full p-2 border rounded-lg h-16 resize-none"></textarea></div>
         </div>
-        <div class="flex space-x-3 mt-6 pt-4 border-t border-gray-100">
-          <button onclick="closeItemModal()" class="flex-1 py-3 bg-gray-100 text-gray-600 font-semibold rounded-xl hover:bg-gray-200 transition-colors">Cancel</button>
-          <button onclick="saveItem()" class="flex-1 py-3 bg-charcoal text-white font-semibold rounded-xl hover:bg-black transition-colors shadow-md">Save Item</button>
+        <div class="flex space-x-2 mt-5 text-xs">
+          <button onclick="closeItemModal()" class="flex-1 py-2.5 bg-gray-100 text-gray-600 rounded-xl font-medium">Cancel</button>
+          <button onclick="saveItem()" class="flex-1 py-2.5 bg-charcoal text-white rounded-xl font-medium">Save Item</button>
         </div>
       </div>
     </div>
 
-    <!-- CUSTOM TOAST CONTAINER -->
-    <div id="toast-container" class="fixed top-6 left-1/2 -translate-x-1/2 z-[100] flex flex-col items-center space-y-2 pointer-events-none w-[90%] max-w-sm"></div>
-
-    <!-- CUSTOM CONFIRM MODAL -->
-    <div id="custom-confirm-modal" class="hidden fixed inset-0 bg-black/60 z-[110] flex items-center justify-center p-4 backdrop-blur-sm">
-      <div class="bg-white rounded-3xl p-7 max-w-xs w-full text-center shadow-2xl relative overflow-hidden border border-white/20">
-        <div class="absolute top-0 right-0 w-20 h-20 bg-red-50 rounded-bl-full opacity-50"></div>
-        <div class="w-14 h-14 bg-red-100 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl shadow-sm relative z-10">
-          <i class="fa-solid fa-triangle-exclamation"></i>
+    <!-- ADD/EDIT FAQ MODAL -->
+    <div id="faq-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+      <div class="bg-white w-full max-w-sm rounded-2xl p-5 shadow-2xl">
+        <h2 class="font-serif text-lg font-bold mb-3" id="faq-modal-title">Add FAQ Item</h2>
+        <input type="hidden" id="faq-index">
+        <div class="space-y-3 text-xs">
+          <div><label class="text-gray-500 block mb-1">Question</label><input type="text" id="faq-question" class="w-full p-2 border rounded-lg"></div>
+          <div><label class="text-gray-500 block mb-1">Answer</label><textarea id="faq-answer" class="w-full p-2 border rounded-lg h-20 resize-none"></textarea></div>
         </div>
-        <h3 class="font-serif text-xl font-bold mb-2 text-charcoal relative z-10">Are you sure?</h3>
-        <p id="confirm-msg" class="text-sm font-medium text-gray-500 mb-7 relative z-10 leading-relaxed"></p>
-        <div class="flex space-x-3 relative z-10">
-          <button id="btn-confirm-cancel" class="flex-1 py-3 bg-gray-100 rounded-xl text-gray-600 font-semibold hover:bg-gray-200 transition-colors">Cancel</button>
-          <button id="btn-confirm-ok" class="flex-1 py-3 bg-red-500 text-white rounded-xl font-semibold hover:bg-red-600 transition-colors shadow-md shadow-red-500/30">Yes, proceed</button>
+        <div class="flex space-x-2 mt-4 text-xs">
+          <button onclick="closeFaqModal()" class="flex-1 py-2.5 bg-gray-100 text-gray-600 rounded-xl font-medium">Cancel</button>
+          <button onclick="saveFaqItem()" class="flex-1 py-2.5 bg-charcoal text-white rounded-xl font-medium">Save FAQ</button>
         </div>
       </div>
     </div>
 
     <!-- FOOTER -->
-    <footer class="text-center py-8 text-xs text-gray-400 mt-auto bg-gray-50 z-20 relative font-medium border-t border-gray-100">
-      <p>&copy; 2026 <span onclick="openAdminLogin()" class="cursor-pointer hover:text-rosegold transition-colors font-bold text-gray-500">KinQoon</span> Cosmetics</p>
+    <footer class="text-center py-6 text-xs text-gray-400 mt-auto bg-white z-20 relative">
+      <p>&copy; 2026 <span onclick="openAdminLogin()" class="cursor-pointer hover:text-rosegold transition-colors">KinQoon</span> Cosmetics</p>
     </footer>
 
   </div>
 
+  <!-- FIREBASE & APPLICATION JAVASCRIPT MODULE -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, doc, getDoc, setDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, setDoc, onSnapshot, updateDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
-    // Firebase Configuration
     const firebaseConfig = {
       apiKey: "AIzaSyDXm1ZM-N9mWr49fJd9DJK3mJPxJ9i-bBs",
       authDomain: "kinqoon-cosmetic.firebaseapp.com",
@@ -502,293 +556,258 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    const storage = getStorage(app);
     const storeDocRef = doc(db, "kinqoon", "storeData");
 
-    // Global State Sync
     window.appState = {
       storeStatus: true,
-      openTime: '10:00',
-      closeTime: '22:00',
-      bannerEnabled: false,
-      bannerText: '',
+      openTime: "10:00",
+      closeTime: "22:00",
+      announcementEnabled: false,
+      announcementText: "",
+      heroImageUrl: "https://images.unsplash.com/photo-1615397323356-0272b126ceba?auto=format&fit=crop&q=80&w=600",
+      heroSlogan: "Elevate Your Everyday Glow.",
       deliveryFee: 5.00,
-      telegramUsername: 'KinQoonAdmin',
-      logoUrl: '',
-      aboutStory: 'At KinQoon Cosmetics...',
-      deliveryInfo: 'Flat rate islandwide local SG delivery...',
-      faqs: [],
-      promos: [],
-      categories: ['Lips', 'Eyes', 'Face', 'Skincare'],
-      inventory: [],
-      editingCatIndex: null,
-      tempFaqs: null,
-      tempPromos: null,
-      
-      // Session State
-      cart: {}, 
-      fulfillment: 'Delivery',
-      activeCategory: 'All',
-      confirmCallback: null
-    };
-
-    window.localState = {
+      promoCodes: [],
       appliedPromo: null,
-      bannerDismissed: false
+      logoUrl: "",
+      aboutStory: "",
+      deliveryInfo: "",
+      faqs: [],
+      categories: ["Lips", "Eyes", "Face", "Skincare"],
+      telegramUsername: 'KinQoonAdmin',
+      telegramGroupLink: '',
+      inventory: [],
+      cart: {},
+      fulfillment: 'Delivery',
+      pickupDate: '',
+      pickupTime: '',
+      activeCategory: 'All'
     };
 
-    // --- HELPER SANITIZER & FORMATTERS ---
-    function escapeHtml(str) {
-      if (!str) return '';
-      return str.toString().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-    }
-
-    function format12Hour(timeStr) {
-      if(!timeStr) return '';
-      const [h, m] = timeStr.split(':');
-      let hours = parseInt(h);
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-      hours = hours % 12 || 12;
-      return `${hours}:${m} ${ampm}`;
-    }
-
-    // --- CUSTOM UI COMPONENTS ---
-    window.showToast = function(message, type = "info") {
+    window.showToast = function(msg, type = 'info') {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
       
-      let bgClass = "bg-charcoal text-white shadow-xl";
-      let icon = "<i class='fa-solid fa-circle-info'></i>";
-      
-      if (type === "error") {
-        bgClass = "bg-red-500 text-white shadow-red-500/30";
-        icon = "<i class='fa-solid fa-circle-exclamation'></i>";
-      } else if (type === "success") {
-        bgClass = "bg-[#28A745] text-white shadow-green-500/30";
-        icon = "<i class='fa-solid fa-circle-check'></i>";
-      } else if (type === "warning") {
-        bgClass = "bg-amber-500 text-white shadow-amber-500/30";
-        icon = "<i class='fa-solid fa-triangle-exclamation'></i>";
-      }
+      let bg = 'bg-charcoal text-white';
+      if (type === 'success') bg = 'bg-emerald-600 text-white';
+      if (type === 'warning') bg = 'bg-amber-500 text-white';
+      if (type === 'error') bg = 'bg-rose-600 text-white';
 
-      toast.className = `flex items-center space-x-3 px-5 py-3.5 rounded-2xl shadow-lg text-sm font-semibold toast-anim ${bgClass}`;
-      toast.innerHTML = `<span class="text-lg">${icon}</span><span>${message}</span>`;
+      toast.className = `toast-item ${bg} px-4 py-2.5 rounded-xl text-xs font-medium shadow-lg flex items-center justify-between pointer-events-auto`;
+      toast.innerHTML = `<span>${msg}</span><button onclick="this.parentElement.remove()" class="ml-3 font-bold">&times;</button>`;
       
       container.appendChild(toast);
       setTimeout(() => {
-        toast.style.opacity = "0";
-        toast.style.transform = "translateY(-10px)";
-        toast.style.transition = "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)";
-        setTimeout(() => toast.remove(), 300);
+        if (toast.parentNode) toast.remove();
       }, 3500);
     };
 
-    window.showConfirm = function(message, onConfirmCallback) {
-      document.getElementById('confirm-msg').innerText = message;
-      window.appState.confirmCallback = onConfirmCallback;
-      document.getElementById('custom-confirm-modal').classList.remove('hidden');
-    };
-    
-    document.getElementById('btn-confirm-cancel').addEventListener('click', () => {
-      document.getElementById('custom-confirm-modal').classList.add('hidden');
-      window.appState.confirmCallback = null;
-    });
-    document.getElementById('btn-confirm-ok').addEventListener('click', () => {
-      document.getElementById('custom-confirm-modal').classList.add('hidden');
-      if (typeof window.appState.confirmCallback === 'function') window.appState.confirmCallback();
-      window.appState.confirmCallback = null;
-    });
-
-    // --- INITIALIZATION & FIREBASE SYNC ---
     async function initApp() {
       try {
         const docSnap = await getDoc(storeDocRef);
         if (!docSnap.exists()) {
           const defaultData = {
             storeStatus: true,
-            openTime: '10:00',
-            closeTime: '22:00',
-            bannerEnabled: true,
-            bannerText: '✨ Enjoy Free Store Pickup on all orders! ✨',
+            openTime: "10:00",
+            closeTime: "22:00",
+            announcementEnabled: true,
+            announcementText: "✨ Welcome to KinQoon Cosmetics! Islandwide Delivery Available.",
+            heroImageUrl: "https://images.unsplash.com/photo-1615397323356-0272b126ceba?auto=format&fit=crop&q=80&w=600",
+            heroSlogan: "Elevate Your Everyday Glow.",
             deliveryFee: 5.00,
-            telegramUsername: 'KinQoonAdmin',
-            logoUrl: '',
-            aboutStory: 'At KinQoon Cosmetics, we believe in high-quality, skin-friendly beauty that empowers your natural radiance. From silky lip tints to luminous glow bases, our collections are thoughtfully curated to bring chic, luxurious elegance into your everyday life.',
-            deliveryInfo: 'Flat rate islandwide local SG delivery sent out within 1-2 working days after payment verification.\nSelf-pickup is also available at our central studio.',
+            promoCodes: [{ code: "GLOW10", type: "percent", value: 10 }],
+            logoUrl: "",
+            aboutStory: "At KinQoon Cosmetics, we believe in high-quality, skin-friendly beauty that empowers your natural radiance. From silky lip tints to luminous glow bases, our collections are carefully curated to bring chic, everyday luxury to your routine.",
+            deliveryInfo: "Local SG Delivery:\nFlat SGD $5.00 islandwide fee. Orders are processed and dispatched within 1-2 business days.\n\nSelf-Pickup:\nAvailable at our central studio. You can schedule your preferred pickup date and time window during checkout.",
             faqs: [
-              { q: 'How do I pay for my order?', a: 'We process all orders exclusively via Telegram for a personalized touch. PayNow QR code will be provided securely by our staff once confirmed.' },
+              { q: "How do I pay for my order?", a: "Orders are processed directly via Telegram. Once submitted, our staff will verify availability and provide PayNow SG QR details." },
+              { q: "Are KinQoon products suitable for sensitive skin?", a: "Yes, all our formulas are dermatologist-tested and formulated with skin-loving ingredients." }
             ],
-            promos: [
-              { code: 'GLOWUP10', type: 'percent', value: 10 },
-              { code: 'SAVE5', type: 'flat', value: 5 }
-            ],
-            categories: ['Lips', 'Eyes', 'Face', 'Skincare'],
+            categories: ["Lips", "Eyes", "Face", "Skincare"],
+            telegramUsername: 'KinQoonAdmin',
+            telegramGroupLink: '',
             inventory: [
-              { id: 'item_1', name: 'Velvet Matte Lip Tint', category: 'Lips', shade: '04 Rosewood', price: 18.00, stock: 8, restockNote: '', image: 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=300&q=80', description: 'Long-lasting, weightless matte finish.' },
-              { id: 'item_2', name: 'Glow Highlighter Palette', category: 'Face', shade: 'Champagne Pop', price: 25.00, stock: 0, restockNote: 'Restocking next Friday', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=300&q=80', description: 'Build your radiant glow.' },
+              { id: 'item_1', name: 'Velvet Matte Lip Tint', category: 'Lips', shade: '04 Rosewood', price: 18.00, stock: 10, restockNote: '', image: 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=400&q=80', description: 'Long-lasting, weightless velvet matte finish.' },
+              { id: 'item_2', name: 'Glow Highlighter Palette', category: 'Face', shade: 'Champagne Pop', price: 25.00, stock: 3, restockNote: '', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&q=80', description: 'Build your custom luminous glow.' },
+              { id: 'item_3', name: 'Lash Elevate Mascara', category: 'Eyes', shade: 'Midnight Black', price: 20.00, stock: 0, restockNote: 'Restocking next Friday!', image: 'https://images.unsplash.com/photo-1631214500515-e4acece95ea5?w=400&q=80', description: 'Waterproof volume and extreme length.' }
             ]
           };
           await setDoc(storeDocRef, defaultData);
         }
 
-        onSnapshot(storeDocRef, (doc) => {
-          if(doc.exists()) {
-            const data = doc.data();
-            window.appState.storeStatus = data.storeStatus !== undefined ? data.storeStatus : true;
-            window.appState.openTime = data.openTime || '10:00';
-            window.appState.closeTime = data.closeTime || '22:00';
-            window.appState.bannerEnabled = data.bannerEnabled || false;
-            window.appState.bannerText = data.bannerText || '';
-            window.appState.deliveryFee = data.deliveryFee !== undefined ? parseFloat(data.deliveryFee) : 5.00;
-            
+        onSnapshot(storeDocRef, (docSnap) => {
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            window.appState.storeStatus = data.storeStatus ?? true;
+            window.appState.openTime = data.openTime || "10:00";
+            window.appState.closeTime = data.closeTime || "22:00";
+            window.appState.announcementEnabled = data.announcementEnabled ?? false;
+            window.appState.announcementText = data.announcementText || "";
+            window.appState.heroImageUrl = data.heroImageUrl || "https://images.unsplash.com/photo-1615397323356-0272b126ceba?auto=format&fit=crop&q=80&w=600";
+            window.appState.heroSlogan = data.heroSlogan || "Elevate Your Everyday Glow.";
+            window.appState.deliveryFee = data.deliveryFee ?? 5.00;
+            window.appState.promoCodes = data.promoCodes || [];
+            window.appState.logoUrl = data.logoUrl || "";
+            window.appState.aboutStory = data.aboutStory || "";
+            window.appState.deliveryInfo = data.deliveryInfo || "";
+            window.appState.faqs = data.faqs || [];
+            window.appState.categories = data.categories || ["Lips", "Eyes", "Face", "Skincare"];
             window.appState.telegramUsername = data.telegramUsername || 'KinQoonAdmin';
-            window.appState.logoUrl = data.logoUrl || '';
-            window.appState.aboutStory = data.aboutStory || window.appState.aboutStory;
-            window.appState.deliveryInfo = data.deliveryInfo || window.appState.deliveryInfo;
-            window.appState.faqs = Array.isArray(data.faqs) ? data.faqs : [];
-            window.appState.promos = Array.isArray(data.promos) ? data.promos : [];
-            
-            window.appState.categories = Array.isArray(data.categories) && data.categories.length > 0 ? data.categories : ['Lips', 'Eyes', 'Face', 'Skincare'];
-            window.appState.inventory = (data.inventory || []).map(item => ({
-              ...item, stock: item.stock !== undefined ? parseInt(item.stock) : 10, restockNote: item.restockNote || ''
-            }));
-            
-            // Re-validate applied promo in local cart if changed in admin
-            if (window.localState.appliedPromo) {
-                const stillExists = window.appState.promos.find(p => p.code === window.localState.appliedPromo.code);
-                if (!stillExists) window.removePromo(true); 
-                else window.localState.appliedPromo = stillExists; // sync value updates
-            }
+            window.appState.telegramGroupLink = data.telegramGroupLink || '';
+            window.appState.inventory = data.inventory || [];
 
-            updateUIBasedOnData();
+            updateAllUIComponents();
           }
-        }, (err) => {
-            console.error(err);
-            showToast("Connection issue with database.", "error");
         });
-      } catch (e) { console.error(e); }
+      } catch (err) {
+        console.error("Firebase Initialization Error:", err);
+        showToast("Error connecting to Firebase storage", "error");
+      }
     }
 
-    async function syncToFirebase(newDataObj) {
-      try { await updateDoc(storeDocRef, newDataObj); return true; } 
-      catch(e) { showToast("Failed to save changes. Check permissions.", "error"); return false; }
-    }
+    function isStoreOpenNow() {
+      if (!window.appState.storeStatus) return false;
 
-    function updateUIBasedOnData() {
-      if (!document.activeElement || !document.activeElement.closest('#view-admin')) {
-        window.appState.tempFaqs = null;
-        window.appState.tempPromos = null;
-      }
-
-      // Banner logic
-      const banner = document.getElementById('announcement-banner');
-      if (window.appState.bannerEnabled && window.appState.bannerText && !window.localState.bannerDismissed) {
-          document.getElementById('announcement-text').innerText = window.appState.bannerText;
-          banner.classList.remove('hidden');
-      } else {
-          banner.classList.add('hidden');
-      }
-
-      // Hours Logic
-      document.getElementById('hours-display').innerText = `${format12Hour(window.appState.openTime)} - ${format12Hour(window.appState.closeTime)}`;
-
-      // Status Badge (Dynamic time calculation based on Firestore settings)
-      const badge = document.getElementById('home-status-badge');
-      const homeBanner = document.getElementById('home-offhours-banner');
-      
       const now = new Date();
       const currentMinutes = now.getHours() * 60 + now.getMinutes();
-      const [openH, openM] = (window.appState.openTime || '10:00').split(':').map(Number);
-      const [closeH, closeM] = (window.appState.closeTime || '22:00').split(':').map(Number);
-      
-      const openTotalMinutes = openH * 60 + (openM || 0);
-      const closeTotalMinutes = closeH * 60 + (closeM || 0);
-      
-      const isTimeOpen = currentMinutes >= openTotalMinutes && currentMinutes < closeTotalMinutes;
-      const isActuallyOpen = window.appState.storeStatus && isTimeOpen;
 
-      if (isActuallyOpen) {
-        badge.className = "inline-flex items-center px-5 py-2.5 rounded-full text-sm font-bold transition-colors bg-green-100 text-green-700 shadow-sm mb-3 border border-green-200";
-        badge.innerHTML = `<i class="fa-solid fa-circle-check text-lg mr-2"></i>Open (${format12Hour(window.appState.openTime)} - ${format12Hour(window.appState.closeTime)})`;
-        if(homeBanner) homeBanner.classList.add('hidden');
+      const [openH, openM] = (window.appState.openTime || "10:00").split(':').map(Number);
+      const [closeH, closeM] = (window.appState.closeTime || "22:00").split(':').map(Number);
+
+      const openMinutes = openH * 60 + (openM || 0);
+      const closeMinutes = closeH * 60 + (closeM || 0);
+
+      if (closeMinutes > openMinutes) {
+        return currentMinutes >= openMinutes && currentMinutes < closeMinutes;
       } else {
-        badge.className = "inline-flex items-center px-5 py-2.5 rounded-full text-sm font-bold transition-colors bg-red-100 text-red-700 shadow-sm mb-3 border border-red-200";
-        const closedText = !window.appState.storeStatus ? "Batch Closed" : `Closed (Opens at ${format12Hour(window.appState.openTime)})`;
-        badge.innerHTML = `<i class="fa-solid fa-circle-xmark text-lg mr-2"></i>${closedText}`;
-        if(homeBanner) homeBanner.classList.remove('hidden');
+        return currentMinutes >= openMinutes || currentMinutes < closeMinutes;
+      }
+    }
+
+    function formatTime12H(time24) {
+      if (!time24) return "";
+      const [h, m] = time24.split(':').map(Number);
+      const period = h >= 12 ? 'PM' : 'AM';
+      const hour12 = h % 12 === 0 ? 12 : h % 12;
+      const minStr = m < 10 ? '0' + m : m;
+      return `${hour12}:${minStr} ${period}`;
+    }
+
+    function updateAllUIComponents() {
+      // 0. Hero Section Dynamic Binding
+      const heroImg = document.getElementById('home-hero-img');
+      const heroSlogan = document.getElementById('home-hero-slogan');
+      if (heroImg) {
+        heroImg.src = window.appState.heroImageUrl || "https://images.unsplash.com/photo-1615397323356-0272b126ceba?auto=format&fit=crop&q=80&w=600";
+      }
+      if (heroSlogan) {
+        heroSlogan.innerText = window.appState.heroSlogan || "Elevate Your Everyday Glow.";
       }
 
-      renderHeaderLogo();
-      renderAboutContent();
-      
-      // Admin Forms Data Binding
-      const tToggle = document.getElementById('admin-status-toggle'); if(tToggle) tToggle.checked = window.appState.storeStatus;
-      const bToggle = document.getElementById('admin-banner-toggle'); if(bToggle) bToggle.checked = window.appState.bannerEnabled;
-      
-      if(document.activeElement !== document.getElementById('admin-telegram-input')) document.getElementById('admin-telegram-input').value = window.appState.telegramUsername;
-      if(document.activeElement !== document.getElementById('admin-open-time')) document.getElementById('admin-open-time').value = window.appState.openTime;
-      if(document.activeElement !== document.getElementById('admin-close-time')) document.getElementById('admin-close-time').value = window.appState.closeTime;
-      if(document.activeElement !== document.getElementById('admin-banner-text')) document.getElementById('admin-banner-text').value = window.appState.bannerText;
-      if(document.activeElement !== document.getElementById('admin-delivery-fee')) document.getElementById('admin-delivery-fee').value = window.appState.deliveryFee.toFixed(2);
+      // 1. Header Logo Update
+      const logoContainer = document.getElementById('header-logo-container');
+      if (window.appState.logoUrl) {
+        logoContainer.innerHTML = `<img src="${window.appState.logoUrl}" alt="KinQoon Logo" class="h-10 object-contain mx-auto" onerror="window.handleLogoError()">`;
+      } else {
+        logoContainer.innerHTML = `<h1 class="font-serif text-3xl font-bold text-charcoal tracking-tight">KinQoon</h1>`;
+      }
 
-      renderAdminBrandingFields();
-      renderAdminPromoList();
-      renderAdminCategoryManager();
+      window.handleLogoError = function() {
+        document.getElementById('header-logo-container').innerHTML = `<h1 class="font-serif text-3xl font-bold text-charcoal tracking-tight">KinQoon</h1>`;
+      };
 
-      renderCategories();
+      // Header Telegram Group Link Button Visibility (Admin-Managed)
+      const tgGroupBtn = document.getElementById('header-telegram-group-btn');
+      if (tgGroupBtn) {
+        if (window.appState.telegramGroupLink && window.appState.telegramGroupLink.trim() !== '') {
+          tgGroupBtn.href = window.appState.telegramGroupLink;
+          tgGroupBtn.classList.remove('hidden');
+        } else {
+          tgGroupBtn.classList.add('hidden');
+        }
+      }
+
+      // 2. Announcement Banner
+      const banner = document.getElementById('announcement-banner');
+      if (window.appState.announcementEnabled && window.appState.announcementText) {
+        document.getElementById('announcement-text').innerText = window.appState.announcementText;
+        banner.classList.remove('hidden');
+      } else {
+        banner.classList.add('hidden');
+      }
+
+      // 3. Operating Hours & Off-Hours Reminders
+      const isOpen = isStoreOpenNow();
+      const statusBadge = document.getElementById('home-status-badge');
+      const openFormatted = formatTime12H(window.appState.openTime);
+      const closeFormatted = formatTime12H(window.appState.closeTime);
+
+      if (isOpen) {
+        statusBadge.className = "mb-3 px-4 py-2 rounded-full text-xs font-semibold bg-green-100 text-green-800 border border-green-200";
+        statusBadge.innerHTML = `<i class="fa-solid fa-circle-check mr-1.5 text-green-600"></i> Open Now (${openFormatted} - ${closeFormatted})`;
+        
+        document.getElementById('home-off-hours-warning').classList.add('hidden');
+        document.getElementById('shop-off-hours-warning').classList.add('hidden');
+        document.getElementById('cart-off-hours-warning').classList.add('hidden');
+      } else {
+        statusBadge.className = "mb-3 px-4 py-2 rounded-full text-xs font-semibold bg-red-100 text-red-800 border border-red-200";
+        statusBadge.innerHTML = `<i class="fa-solid fa-clock mr-1.5 text-red-600"></i> Closed (Opens ${openFormatted})`;
+
+        document.getElementById('home-off-hours-warning').classList.remove('hidden');
+        document.getElementById('shop-off-hours-warning').classList.remove('hidden');
+        document.getElementById('cart-off-hours-warning').classList.remove('hidden');
+      }
+
+      // 4. About View Content
+      document.getElementById('about-story-content').innerText = window.appState.aboutStory || "Story coming soon.";
+      document.getElementById('about-delivery-content').innerText = window.appState.deliveryInfo || "Delivery information coming soon.";
+
+      // 5. FAQs Rendering
+      const faqContainer = document.getElementById('about-faqs-container');
+      if (window.appState.faqs.length === 0) {
+        faqContainer.innerHTML = `<p class="text-gray-400">No FAQs available.</p>`;
+      } else {
+        faqContainer.innerHTML = window.appState.faqs.map(faq => `
+          <div class="bg-gray-50 p-3.5 rounded-xl border border-gray-100">
+            <strong class="text-charcoal block mb-1 font-semibold">${faq.q}</strong>
+            <p class="text-gray-600">${faq.a}</p>
+          </div>
+        `).join('');
+      }
+
+      // 6. Admin Controls Population
+      document.getElementById('admin-status-toggle').checked = window.appState.storeStatus;
+      document.getElementById('admin-open-time').value = window.appState.openTime;
+      document.getElementById('admin-close-time').value = window.appState.closeTime;
+      document.getElementById('admin-delivery-fee').value = window.appState.deliveryFee;
+      document.getElementById('admin-telegram-input').value = window.appState.telegramUsername;
+      document.getElementById('admin-telegram-group-link').value = window.appState.telegramGroupLink || '';
+      document.getElementById('admin-announcement-toggle').checked = window.appState.announcementEnabled;
+      document.getElementById('admin-announcement-text').value = window.appState.announcementText;
+      document.getElementById('admin-hero-slogan').value = window.appState.heroSlogan;
+      document.getElementById('admin-hero-image-url').value = window.appState.heroImageUrl;
+      document.getElementById('admin-logo-url').value = window.appState.logoUrl;
+      document.getElementById('admin-about-story').value = window.appState.aboutStory;
+      document.getElementById('admin-delivery-info').value = window.appState.deliveryInfo;
+
+      // Render Dynamic Admin Lists & Shop Views
+      renderAdminFaqs();
+      renderAdminCategories();
+      renderCategoryTabs();
       renderShopItems();
       renderAdminItems();
       updateCartUI();
     }
 
-    window.dismissBanner = function() {
-        window.localState.bannerDismissed = true;
-        document.getElementById('announcement-banner').classList.add('hidden');
-    }
-
-    function renderHeaderLogo() {
-      const container = document.getElementById('brand-header-logo');
-      const logoUrl = window.appState.logoUrl;
-      if (logoUrl && logoUrl.trim() !== '') {
-        container.innerHTML = `<img src="${escapeHtml(logoUrl)}" alt="KinQoon Cosmetics" class="max-h-12 max-w-[200px] object-contain drop-shadow-sm" onerror="this.onerror=null; this.classList.add('hidden'); document.getElementById('brand-header-fallback').classList.remove('hidden');">
-          <div id="brand-header-fallback" class="hidden text-center"><h1 class="font-serif text-3xl font-bold text-charcoal tracking-tight">KinQoon</h1><p class="text-[10px] text-rosegold font-bold tracking-[0.2em] uppercase mt-1">Cosmetics</p></div>`;
-      } else {
-        container.innerHTML = `<h1 class="font-serif text-3xl font-bold text-charcoal tracking-tight drop-shadow-sm">KinQoon</h1><p class="text-[10px] text-rosegold font-bold tracking-[0.2em] uppercase mt-1">Cosmetics</p>`;
-      }
-    }
-
-    function renderAboutContent() {
-      const storyEl = document.getElementById('about-story-display');
-      const deliveryEl = document.getElementById('about-delivery-display');
-      const faqsEl = document.getElementById('about-faqs-list');
-
-      if (storyEl) storyEl.innerText = window.appState.aboutStory || '';
-      if (deliveryEl) deliveryEl.innerText = window.appState.deliveryInfo || '';
-
-      if (faqsEl) {
-        if (!window.appState.faqs || window.appState.faqs.length === 0) {
-          faqsEl.innerHTML = `<p class="text-xs text-gray-400 italic">No FAQ items currently listed.</p>`;
-        } else {
-          faqsEl.innerHTML = window.appState.faqs.map(faq => `
-            <div class="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-              <strong class="text-charcoal block mb-2 font-bold text-sm"><i class="fa-solid fa-circle-question text-rosegold mr-2"></i>${escapeHtml(faq.q)}</strong>
-              <p class="text-xs text-gray-600 leading-relaxed whitespace-pre-line pl-6 border-l-2 border-blush ml-2">${escapeHtml(faq.a)}</p>
-            </div>
-          `).join('');
-        }
-      }
-    }
-
     window.navTo = function(viewId) {
       document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
-      const targetView = document.getElementById(`view-${viewId}`);
-      if(targetView) {
-        targetView.classList.remove('hidden');
-        targetView.classList.add('fade-enter-active');
-      }
+      document.getElementById(`view-${viewId}`).classList.remove('hidden');
+      document.getElementById(`view-${viewId}`).classList.add('fade-enter-active');
       window.scrollTo(0,0);
       
       const floatCart = document.getElementById('floating-cart');
-      if(viewId === 'shop') {
+      if (viewId === 'shop') {
         floatCart.classList.remove('hidden');
         setTimeout(() => floatCart.classList.remove('translate-y-full'), 50);
       } else {
@@ -797,587 +816,647 @@
       }
     };
 
+    window.dismissAnnouncement = function() {
+      document.getElementById('announcement-banner').classList.add('hidden');
+    };
+
     window.setFulfillment = function(type) {
       window.appState.fulfillment = type;
       const btnDel = document.getElementById('btn-delivery');
       const btnPic = document.getElementById('btn-pickup');
-      const addressBox = document.getElementById('cust-address');
-      const pickupBox = document.getElementById('pickup-details');
+      const delGroup = document.getElementById('delivery-fields-group');
+      const picGroup = document.getElementById('pickup-fields-group');
 
       if (type === 'Delivery') {
-        btnDel.className = "flex-1 py-2 text-sm font-bold rounded-lg bg-white shadow-sm text-charcoal transition-all border border-gray-200";
-        btnPic.className = "flex-1 py-2 text-sm font-semibold rounded-lg text-gray-400 hover:text-charcoal transition-all bg-transparent";
-        addressBox.style.display = 'block';
-        pickupBox.classList.add('hidden');
+        btnDel.className = "flex-1 py-2 text-xs font-medium rounded-lg bg-white shadow-sm text-charcoal transition-all";
+        btnPic.className = "flex-1 py-2 text-xs font-medium rounded-lg text-gray-500 hover:text-charcoal transition-all bg-transparent";
+        delGroup.classList.remove('hidden');
+        picGroup.classList.add('hidden');
       } else {
-        btnPic.className = "flex-1 py-2 text-sm font-bold rounded-lg bg-white shadow-sm text-charcoal transition-all border border-gray-200";
-        btnDel.className = "flex-1 py-2 text-sm font-semibold rounded-lg text-gray-400 hover:text-charcoal transition-all bg-transparent";
-        addressBox.style.display = 'none';
-        pickupBox.classList.remove('hidden');
+        btnPic.className = "flex-1 py-2 text-xs font-medium rounded-lg bg-white shadow-sm text-charcoal transition-all";
+        btnDel.className = "flex-1 py-2 text-xs font-medium rounded-lg text-gray-500 hover:text-charcoal transition-all bg-transparent";
+        delGroup.classList.add('hidden');
+        picGroup.classList.remove('hidden');
       }
-      updateCartUI(); // Re-trigger cart calculation to remove delivery fee if pickup
+      updateCartUI();
     };
 
-    function renderCategories() {
-      const definedCats = window.appState.categories || ['Lips', 'Eyes', 'Face', 'Skincare'];
-      const usedCats = window.appState.inventory.map(i => i.category).filter(Boolean);
-      const uniqueCats = [...new Set([...definedCats, ...usedCats])];
-      const categories = ['All', ...uniqueCats];
+    function renderCategoryTabs() {
       const container = document.getElementById('category-tabs');
-      
-      if(!categories.includes(window.appState.activeCategory)){ window.appState.activeCategory = 'All'; }
+      const cats = ['All', ...window.appState.categories];
 
-      container.innerHTML = categories.map(cat => `
-        <button onclick="setCategory('${escapeHtml(cat)}')" 
-          class="px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all 
-          ${window.appState.activeCategory === cat ? 'bg-charcoal text-white shadow-[0_4px_10px_-2px_rgba(0,0,0,0.3)]' : 'bg-white text-gray-500 border border-gray-200 hover:bg-gray-50'}">
-          ${cat === 'All' ? '✨ All Products' : escapeHtml(cat)}
+      container.innerHTML = cats.map(cat => `
+        <button onclick="setCategory('${cat}')" 
+          class="px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all 
+          ${window.appState.activeCategory === cat ? 'bg-blush text-charcoal shadow-sm' : 'bg-white text-gray-500 border border-gray-200'}">
+          ${cat}
         </button>
       `).join('');
     }
 
     window.setCategory = function(cat) {
       window.appState.activeCategory = cat;
-      renderCategories();
+      renderCategoryTabs();
       renderShopItems();
     };
 
     function renderShopItems() {
       const container = document.getElementById('product-grid');
-      const items = window.appState.activeCategory === 'All' ? window.appState.inventory : window.appState.inventory.filter(i => i.category === window.appState.activeCategory);
-      
-      if(items.length === 0) {
-        container.innerHTML = `<p class="col-span-2 text-center text-gray-400 py-10 text-sm font-medium">No items found in this category.</p>`;
+      let items = window.appState.inventory;
+
+      if (window.appState.activeCategory !== 'All') {
+        items = items.filter(i => i.category === window.appState.activeCategory);
+      }
+
+      if (items.length === 0) {
+        container.innerHTML = `<p class="col-span-2 text-center text-gray-400 py-10 text-xs">No products found in this category.</p>`;
         return;
       }
 
       container.innerHTML = items.map(item => {
-        const qty = window.appState.cart[item.id] || 0;
-        const stock = item.stock !== undefined ? parseInt(item.stock) : 10;
-        const isSoldOut = stock <= 0;
-        const isLowStock = stock > 0 && stock <= 5;
-        const safeImage = item.image || 'https://placehold.co/300x300/FADADD/333333?text=Item';
-        
+        const qtyInCart = window.appState.cart[item.id] || 0;
+        const isSoldOut = (item.stock <= 0);
+
+        let stockBadgeHTML = '';
+        if (isSoldOut) {
+          stockBadgeHTML = `<span class="bg-red-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">Sold Out</span>`;
+        } else if (item.stock <= 5) {
+          stockBadgeHTML = `<span class="bg-amber-100 text-amber-800 text-[9px] font-bold px-2 py-0.5 rounded-full">Only ${item.stock} Left</span>`;
+        } else {
+          stockBadgeHTML = `<span class="bg-emerald-100 text-emerald-800 text-[9px] font-medium px-2 py-0.5 rounded-full">${item.stock} in stock</span>`;
+        }
+
         return `
-        <div class="bg-white rounded-3xl p-3 shadow-sm border border-gray-100 flex flex-col h-full relative group">
-          <div class="aspect-square rounded-2xl bg-gray-50 mb-4 overflow-hidden relative border border-gray-100/50">
-            <img src="${safeImage}" onerror="this.src='https://placehold.co/300x300/FADADD/333333?text=KinQoon'" alt="${escapeHtml(item.name)}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${isSoldOut ? 'grayscale contrast-75 opacity-70' : ''}">
-            
-            ${isSoldOut ? `
-              <div class="absolute inset-0 bg-white/20 backdrop-blur-[2px] flex items-center justify-center">
-                <span class="bg-charcoal text-white font-bold text-[10px] uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg">Sold Out</span>
+        <div class="bg-white rounded-2xl p-3 shadow-sm border border-gray-100 flex flex-col justify-between relative overflow-hidden">
+          <div>
+            <div class="aspect-square rounded-xl bg-gray-100 mb-2 overflow-hidden relative">
+              <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover ${isSoldOut ? 'opacity-60 grayscale' : ''}">
+              <div class="absolute top-2 left-2">
+                ${stockBadgeHTML}
               </div>
-            ` : isLowStock ? `
-              <span class="absolute top-2 right-2 bg-amber-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-md shadow-sm">Only ${stock} left</span>
-            ` : ''}
-          </div>
-          
-          <div class="flex-grow flex flex-col justify-between px-1">
-            <div class="mb-3">
-              <p class="text-[10px] uppercase tracking-widest text-rosegold font-bold mb-1">${escapeHtml(item.shade)}</p>
-              <h4 class="text-sm font-bold leading-tight mb-1.5 text-charcoal drop-shadow-sm">${escapeHtml(item.name)}</h4>
-              <p class="font-serif font-bold text-gray-500 text-sm">SGD $${parseFloat(item.price).toFixed(2)}</p>
             </div>
-            
-            ${isSoldOut ? `
-              <div>
-                <button disabled class="w-full py-2.5 bg-gray-100 text-gray-400 rounded-xl text-xs font-bold cursor-not-allowed border border-gray-200">Unavailable</button>
-                ${item.restockNote ? `<p class="text-[10px] text-gray-500 font-medium text-center mt-2 bg-gray-50 rounded-lg p-1 px-2 leading-tight"><i class="fa-regular fa-clock mr-1 text-rosegold"></i>${escapeHtml(item.restockNote)}</p>` : ''}
-              </div>
-            ` : qty === 0 ? `
-              <button onclick="updateCart('${item.id}', 1)" class="w-full py-2.5 bg-white hover:bg-blush/30 text-charcoal rounded-xl text-sm font-bold transition-colors border-2 border-blush shadow-sm transform active:scale-95">Add to Bag</button>
-            ` : `
-              <div class="flex items-center justify-between bg-charcoal rounded-xl p-1 shadow-md">
-                <button onclick="updateCart('${item.id}', -1)" class="w-9 h-9 rounded-lg bg-white/10 text-white font-bold flex items-center justify-center transition-colors hover:bg-white/20 transform active:scale-95"><i class="fa-solid fa-minus text-xs"></i></button>
-                <span class="font-bold text-sm text-white">${qty}</span>
-                <button onclick="updateCart('${item.id}', 1)" class="w-9 h-9 rounded-lg bg-white text-charcoal font-bold flex items-center justify-center transition-colors transform active:scale-95"><i class="fa-solid fa-plus text-xs"></i></button>
-              </div>
-            `}
+            <p class="text-[9px] uppercase tracking-wider text-rosegold font-bold mb-0.5">${item.shade || item.category}</p>
+            <h4 class="text-xs font-semibold leading-tight mb-1 text-charcoal line-clamp-1">${item.name}</h4>
+            <p class="font-serif font-bold text-sm text-charcoal mb-2">SGD $${parseFloat(item.price).toFixed(2)}</p>
+          </div>
+
+          <div>
+            ${isSoldOut ? 
+              `<div>
+                <button disabled class="w-full py-2 bg-gray-200 text-gray-400 rounded-xl text-xs font-medium cursor-not-allowed">Sold Out</button>
+                ${item.restockNote ? `<p class="text-[9px] text-rosegold mt-1 text-center font-medium">${item.restockNote}</p>` : ''}
+              </div>`
+              : 
+              (qtyInCart === 0 ? 
+                `<button onclick="updateCart('${item.id}', 1)" class="w-full py-2 bg-blush/60 hover:bg-blush text-charcoal rounded-xl text-xs font-semibold transition-all border border-blush">Add to Bag</button>`
+                : 
+                `<div class="flex items-center justify-between bg-gray-50 rounded-xl p-1 border border-gray-200">
+                  <button onclick="updateCart('${item.id}', -1)" class="w-7 h-7 rounded-lg bg-white shadow-sm text-charcoal font-bold flex items-center justify-center text-xs">-</button>
+                  <span class="font-semibold text-xs">${qtyInCart}</span>
+                  <button onclick="updateCart('${item.id}', 1)" class="w-7 h-7 rounded-lg bg-charcoal text-white shadow-sm font-bold flex items-center justify-center text-xs">+</button>
+                </div>`
+              )
+            }
           </div>
         </div>
-      `}).join('');
+        `;
+      }).join('');
     }
 
     window.updateCart = function(itemId, change) {
       const item = window.appState.inventory.find(i => i.id === itemId);
-      const stock = item && item.stock !== undefined ? parseInt(item.stock) : 10;
+      if (!item) return;
+
       const currentQty = window.appState.cart[itemId] || 0;
       const newQty = currentQty + change;
-      
-      if(change > 0 && newQty > stock) return showToast(`Only ${stock} available in stock.`, "warning");
-      
-      if(newQty <= 0) delete window.appState.cart[itemId];
-      else window.appState.cart[itemId] = newQty;
-      
+
+      if (change > 0 && newQty > item.stock) {
+        showToast(`Sorry, only ${item.stock} unit(s) available for ${item.name}`, "warning");
+        return;
+      }
+
+      if (newQty <= 0) {
+        delete window.appState.cart[itemId];
+      } else {
+        window.appState.cart[itemId] = newQty;
+      }
+
       renderShopItems();
       updateCartUI();
-      if(!document.getElementById('cart-modal').classList.contains('hidden')) renderCartModalContent();
+      if (!document.getElementById('cart-modal').classList.contains('hidden')) {
+        renderCartModalContent();
+      }
     };
 
     function updateCartUI() {
       let totalQty = 0;
-      let subTotal = 0;
-      
+      let subtotal = 0;
+
       Object.keys(window.appState.cart).forEach(id => {
         const item = window.appState.inventory.find(i => i.id === id);
-        if(item) {
-          totalQty += window.appState.cart[id];
-          subTotal += (item.price * window.appState.cart[id]);
-        } else {
-          delete window.appState.cart[id]; 
+        if (item) {
+          const qty = window.appState.cart[id];
+          totalQty += qty;
+          subtotal += (item.price * qty);
         }
       });
 
-      let delivery = window.appState.fulfillment === 'Delivery' ? window.appState.deliveryFee : 0;
+      const isDelivery = (window.appState.fulfillment === 'Delivery');
+      const deliveryFee = (isDelivery && totalQty > 0) ? (parseFloat(window.appState.deliveryFee) || 5.00) : 0;
+
       let discount = 0;
-
-      if(window.localState.appliedPromo) {
-          const p = window.localState.appliedPromo;
-          if(p.type === 'percent') discount = subTotal * (p.value / 100);
-          else discount = parseFloat(p.value);
-          if(discount > subTotal) discount = subTotal; // Don't allow negative subtotal from promo
+      if (window.appState.appliedPromo && totalQty > 0) {
+        const p = window.appState.appliedPromo;
+        if (p.type === 'percent') {
+          discount = (subtotal * p.value) / 100;
+        } else {
+          discount = p.value;
+        }
       }
 
-      let grandTotal = subTotal + delivery - discount;
-      if(grandTotal < 0) grandTotal = 0;
+      const grandTotal = Math.max(0, subtotal + deliveryFee - discount);
 
-      // Update Bar
       document.getElementById('cart-count-badge').innerText = totalQty;
-      document.getElementById('cart-total-bar').innerText = grandTotal.toFixed(2);
-      
-      const btn = document.querySelector('#floating-cart button');
-      if(totalQty === 0) btn.classList.add('opacity-50', 'pointer-events-none');
-      else btn.classList.remove('opacity-50', 'pointer-events-none');
-
-      // Update Modal Totals
-      document.getElementById('cart-subtotal').innerText = subTotal.toFixed(2);
-      
-      const deliveryRow = document.getElementById('delivery-fee-row');
-      const discountRow = document.getElementById('discount-row');
-      
-      if(window.appState.fulfillment === 'Delivery') {
-          document.getElementById('cart-delivery-fee').innerText = delivery.toFixed(2);
-          deliveryRow.classList.remove('hidden');
-      } else {
-          deliveryRow.classList.add('hidden');
-      }
-
-      if(discount > 0) {
-          document.getElementById('discount-label').innerText = escapeHtml(window.localState.appliedPromo.code);
-          document.getElementById('cart-discount').innerText = discount.toFixed(2);
-          discountRow.classList.remove('hidden');
-      } else {
-          discountRow.classList.add('hidden');
-      }
-
+      document.getElementById('cart-total-bar').innerText = subtotal.toFixed(2);
+      document.getElementById('cart-subtotal-val').innerText = subtotal.toFixed(2);
+      document.getElementById('cart-delivery-val').innerText = deliveryFee.toFixed(2);
+      document.getElementById('cart-fulfillment-label').innerText = window.appState.fulfillment;
       document.getElementById('cart-total-modal').innerText = grandTotal.toFixed(2);
+
+      const discountRow = document.getElementById('cart-discount-row');
+      if (discount > 0) {
+        discountRow.classList.remove('hidden');
+        document.getElementById('cart-discount-val').innerText = discount.toFixed(2);
+      } else {
+        discountRow.classList.add('hidden');
+      }
+
+      const btn = document.querySelector('#floating-cart button');
+      if (totalQty === 0) {
+        btn.classList.add('opacity-50', 'pointer-events-none');
+      } else {
+        btn.classList.remove('opacity-50', 'pointer-events-none');
+      }
     }
 
     window.openCartModal = function() {
       document.getElementById('cart-modal').classList.remove('hidden');
       renderCartModalContent();
     };
-    window.closeCartModal = function() { document.getElementById('cart-modal').classList.add('hidden'); };
+
+    window.closeCartModal = function() {
+      document.getElementById('cart-modal').classList.add('hidden');
+    };
 
     function renderCartModalContent() {
       const container = document.getElementById('cart-items-list');
       const cartKeys = Object.keys(window.appState.cart);
-      
-      const now = new Date();
-      const currentMinutes = now.getHours() * 60 + now.getMinutes();
-      const [openH, openM] = (window.appState.openTime || '10:00').split(':').map(Number);
-      const [closeH, closeM] = (window.appState.closeTime || '22:00').split(':').map(Number);
-      const openTotalMinutes = openH * 60 + (openM || 0);
-      const closeTotalMinutes = closeH * 60 + (closeM || 0);
-      const isTimeOpen = currentMinutes >= openTotalMinutes && currentMinutes < closeTotalMinutes;
-      const isActuallyOpen = window.appState.storeStatus && isTimeOpen;
 
-      let warningHtml = '';
-      if (!isActuallyOpen) {
-        warningHtml = `
-          <div class="bg-amber-50 border border-amber-200 p-3.5 rounded-2xl mb-4 text-xs text-amber-800 flex items-start space-x-2.5 shadow-sm">
-            <span class="text-base flex-shrink-0">🌙</span>
-            <p class="leading-relaxed font-medium">We are currently outside operational hours. You can still place your order now, but our agent will process and reply to you as soon as we are online!</p>
-          </div>
-        `;
-      }
-
-      if(cartKeys.length === 0) {
-        container.innerHTML = warningHtml + `<p class="text-center text-gray-400 py-12 font-medium">Your bag is empty.</p>`;
+      if (cartKeys.length === 0) {
+        container.innerHTML = `<p class="text-center text-gray-400 py-10 text-xs">Your bag is currently empty.</p>`;
         return;
       }
 
-      container.innerHTML = warningHtml + cartKeys.map(id => {
+      container.innerHTML = cartKeys.map(id => {
         const item = window.appState.inventory.find(i => i.id === id);
         const qty = window.appState.cart[id];
-        const safeImage = item.image || 'https://placehold.co/100x100/FADADD/333333';
-
         return `
-        <div class="flex items-center space-x-4 bg-white p-3 rounded-2xl border border-gray-100 shadow-sm mb-3">
-          <img src="${safeImage}" onerror="this.src='https://placehold.co/100x100/FADADD/333333'" class="w-16 h-16 rounded-xl object-cover bg-gray-50 border border-gray-100">
+        <div class="flex items-center space-x-3 bg-white p-2.5 rounded-xl border border-gray-100 shadow-sm">
+          <img src="${item.image}" class="w-14 h-14 rounded-lg object-cover bg-gray-100 flex-shrink-0">
           <div class="flex-grow">
-            <h5 class="text-sm font-bold text-charcoal leading-tight">${escapeHtml(item.name)}</h5>
-            <p class="text-[10px] uppercase font-bold text-gray-400 mb-1 tracking-wider">${escapeHtml(item.shade)}</p>
-            <p class="font-serif text-sm font-bold text-rosegold">SGD $${parseFloat(item.price).toFixed(2)}</p>
+            <h5 class="text-xs font-semibold text-charcoal line-clamp-1">${item.name}</h5>
+            <p class="text-[10px] text-gray-400 mb-0.5">${item.shade || item.category}</p>
+            <p class="font-serif text-xs font-bold text-rosegold">SGD $${parseFloat(item.price).toFixed(2)}</p>
           </div>
-          <div class="flex flex-col items-center bg-gray-50 rounded-xl overflow-hidden border border-gray-200">
-            <button onclick="updateCart('${item.id}', 1)" class="w-8 h-7 text-gray-500 hover:bg-gray-200 flex justify-center items-center text-xs transition-colors"><i class="fa-solid fa-plus"></i></button>
-            <span class="w-8 h-7 flex justify-center items-center text-sm font-bold text-charcoal border-y border-gray-200 bg-white">${qty}</span>
-            <button onclick="updateCart('${item.id}', -1)" class="w-8 h-7 text-gray-500 hover:bg-gray-200 flex justify-center items-center text-xs transition-colors"><i class="fa-solid fa-minus"></i></button>
+          <div class="flex flex-col items-center border border-gray-200 rounded-lg overflow-hidden bg-gray-50">
+            <button onclick="updateCart('${item.id}', 1)" class="w-7 h-5 text-gray-600 hover:bg-gray-100 flex justify-center items-center text-[10px]"><i class="fa-solid fa-plus"></i></button>
+            <span class="w-7 h-5 flex justify-center items-center text-xs font-semibold border-y border-gray-200 bg-white">${qty}</span>
+            <button onclick="updateCart('${item.id}', -1)" class="w-7 h-5 text-gray-600 hover:bg-gray-100 flex justify-center items-center text-[10px]"><i class="fa-solid fa-minus"></i></button>
           </div>
         </div>
         `;
       }).join('');
     }
 
-    window.applyPromo = function() {
-        const codeInput = document.getElementById('promo-input');
-        const code = codeInput.value.trim().toUpperCase();
-        const msgEl = document.getElementById('promo-msg');
-        const removeBtn = document.getElementById('btn-remove-promo');
-        
-        msgEl.classList.remove('hidden', 'text-green-600', 'text-red-500');
-        
-        if(!code) {
-           msgEl.innerText = "Please enter a code.";
-           msgEl.classList.add('text-red-500');
-           msgEl.classList.remove('hidden');
-           return;
-        }
+    window.applyPromoCode = function() {
+      const input = document.getElementById('promo-code-input').value.trim().toUpperCase();
+      if (!input) return showToast("Please enter a promo code", "warning");
 
-        const promo = window.appState.promos.find(p => p.code.toUpperCase() === code);
-        
-        if(promo) {
-            window.localState.appliedPromo = promo;
-            msgEl.innerText = `Promo applied successfully!`;
-            msgEl.classList.add('text-green-600');
-            msgEl.classList.remove('hidden');
-            removeBtn.classList.remove('hidden');
-            codeInput.value = '';
-            updateCartUI();
-            showToast(`Promo ${promo.code} applied!`, "success");
-        } else {
-            window.localState.appliedPromo = null;
-            msgEl.innerText = 'Invalid promo code.';
-            msgEl.classList.add('text-red-500');
-            msgEl.classList.remove('hidden');
-            removeBtn.classList.add('hidden');
-            updateCartUI();
-        }
+      const promo = window.appState.promoCodes.find(p => p.code.toUpperCase() === input);
+      if (!promo) {
+        showToast("Invalid promo code", "error");
+        return;
+      }
+
+      window.appState.appliedPromo = promo;
+      document.getElementById('promo-applied-tag').classList.remove('hidden');
+      document.getElementById('promo-name').innerText = `${promo.code} (${promo.type === 'percent' ? promo.value + '%' : '$' + promo.value} OFF)`;
+      document.getElementById('promo-code-input').value = '';
+      showToast("Promo code applied successfully!", "success");
+      updateCartUI();
     };
 
-    window.removePromo = function(silent = false) {
-        window.localState.appliedPromo = null;
-        document.getElementById('promo-input').value = '';
-        document.getElementById('promo-msg').classList.add('hidden');
-        document.getElementById('btn-remove-promo').classList.add('hidden');
-        updateCartUI();
-        if(!silent) showToast("Promo code removed.", "info");
+    window.removePromoCode = function() {
+      window.appState.appliedPromo = null;
+      document.getElementById('promo-applied-tag').classList.add('hidden');
+      updateCartUI();
+      showToast("Promo code removed", "info");
     };
 
-    window.processTelegramCheckout = function() {
+    window.processTelegramCheckout = async function() {
+      const cartKeys = Object.keys(window.appState.cart);
+      if (cartKeys.length === 0) {
+        showToast("Your bag is currently empty.", "warning");
+        return;
+      }
+
       const name = document.getElementById('cust-name').value.trim();
       const phone = document.getElementById('cust-phone').value.trim();
-      const address = document.getElementById('cust-address').value.trim();
       const type = window.appState.fulfillment;
-      
-      const pickupDate = document.getElementById('cust-pickup-date').value;
-      const pickupTime = document.getElementById('cust-pickup-time').value;
+      const address = document.getElementById('cust-address').value.trim();
+      const pickupDate = document.getElementById('pickup-date').value;
+      const pickupTime = document.getElementById('pickup-time').value;
 
-      if(!name || !phone) return showToast("Please enter your name and contact number.", "error");
-      
-      if(type === 'Delivery' && !address) return showToast("Please enter your delivery address.", "error");
-      if(type === 'Self-Pickup' && (!pickupDate || !pickupTime)) return showToast("Please select a pickup date and time.", "error");
+      if (!name || !phone) {
+        showToast("Please enter your name and contact phone number.", "warning");
+        return;
+      }
+      if (type === 'Delivery' && !address) {
+        showToast("Please enter your local delivery address.", "warning");
+        return;
+      }
+      if (type === 'Self-Pickup' && !pickupDate) {
+        showToast("Please select your preferred pickup date.", "warning");
+        return;
+      }
 
-      let subTotal = 0;
-      let orderList = "";
-      
+      let subtotal = 0;
+      let orderLines = "";
+      let orderItemsArray = [];
+
       Object.keys(window.appState.cart).forEach(id => {
         const item = window.appState.inventory.find(i => i.id === id);
-        if(item) {
+        if (item) {
           const qty = window.appState.cart[id];
-          const st = item.price * qty;
-          subTotal += st;
-          orderList += `▫️ ${qty}x ${item.name} (${item.shade})\n    SGD $${st.toFixed(2)}\n`;
+          const itemTotal = item.price * qty;
+          subtotal += itemTotal;
+          orderLines += `• ${qty}x ${item.name} (${item.shade || 'Default'}) - SGD $${itemTotal.toFixed(2)}\n`;
+          orderItemsArray.push({
+            id: id,
+            name: item.name,
+            shade: item.shade || '',
+            quantity: qty,
+            price: item.price
+          });
         }
       });
 
-      let delivery = type === 'Delivery' ? window.appState.deliveryFee : 0;
+      const deliveryFee = (type === 'Delivery') ? (parseFloat(window.appState.deliveryFee) || 5.00) : 0;
       let discount = 0;
-      if(window.localState.appliedPromo) {
-          const p = window.localState.appliedPromo;
-          discount = p.type === 'percent' ? subTotal * (p.value / 100) : parseFloat(p.value);
-          if(discount > subTotal) discount = subTotal;
+      if (window.appState.appliedPromo) {
+        const p = window.appState.appliedPromo;
+        discount = (p.type === 'percent') ? (subtotal * p.value) / 100 : p.value;
       }
-      
-      let grandTotal = subTotal + delivery - discount;
-      if(grandTotal < 0) grandTotal = 0;
+      const grandTotal = Math.max(0, subtotal + deliveryFee - discount);
 
-      let msg = `✨ *NEW ORDER: KinQoon Cosmetics* ✨\n\n`;
-      msg += `👤 *Customer:* ${name}\n`;
-      msg += `📱 *Contact:* ${phone}\n`;
-      msg += `📦 *Fulfillment:* ${type}\n`;
-      
-      if(type === 'Delivery') {
-          msg += `📍 *Address:* ${address}\n\n`;
+      // Save complete order payload to Firestore
+      try {
+        await addDoc(collection(db, "orders"), {
+          customerName: name,
+          customerPhone: phone,
+          fulfillmentType: type,
+          address: type === 'Delivery' ? address : '',
+          pickupDate: type === 'Self-Pickup' ? pickupDate : '',
+          pickupTime: type === 'Self-Pickup' ? pickupTime : '',
+          items: orderItemsArray,
+          subtotal: subtotal,
+          deliveryFee: deliveryFee,
+          discount: discount,
+          grandTotal: grandTotal,
+          status: 'Pending',
+          createdAt: new Date().toISOString()
+        });
+      } catch (err) {
+        console.error("Error saving order to Firestore:", err);
+      }
+
+      let msg = `✨ *New Order - KinQoon Cosmetics* ✨\n\n`;
+      msg += `*Fulfillment:* ${type}\n`;
+      msg += `*Name:* ${name}\n`;
+      msg += `*Contact:* ${phone}\n`;
+
+      if (type === 'Delivery') {
+        msg += `*Delivery Address:* ${address}\n`;
       } else {
-          msg += `📅 *Pickup Date:* ${pickupDate}\n`;
-          msg += `⏰ *Pickup Time:* ${pickupTime}\n\n`;
+        msg += `*Pickup Schedule:* ${pickupDate} @ ${pickupTime}\n`;
       }
 
-      msg += `🛍️ *Order Items:*\n${orderList}\n`;
-      msg += `*Subtotal:* SGD $${subTotal.toFixed(2)}\n`;
-      if(type === 'Delivery') msg += `*Delivery Fee:* SGD $${delivery.toFixed(2)}\n`;
-      if(discount > 0) msg += `*Discount applied:* -SGD $${discount.toFixed(2)} (${window.localState.appliedPromo.code})\n`;
-      msg += `\n💳 *Grand Total: SGD $${grandTotal.toFixed(2)}*\n\n`;
-      msg += `_Please confirm availability and send the PayNow QR code!_`;
+      msg += `\n*Order Details:*\n${orderLines}\n`;
+      msg += `*Subtotal:* SGD $${subtotal.toFixed(2)}\n`;
+      if (type === 'Delivery') msg += `*Delivery Fee:* SGD $${deliveryFee.toFixed(2)}\n`;
+      if (discount > 0) msg += `*Discount:* -SGD $${discount.toFixed(2)}\n`;
+      msg += `*Grand Total:* SGD $${grandTotal.toFixed(2)}\n\n`;
 
-      const target = window.appState.telegramUsername.replace('@','');
-      window.open(`https://t.me/${target}?text=${encodeURIComponent(msg)}`, '_blank');
-      showToast("Routing you to Telegram securely...", "success");
+      if (!isStoreOpenNow()) {
+        msg += `*(Submitted outside operational hours - awaiting agent processing)*\n\n`;
+      }
+
+      msg += `Please confirm availability and send PayNow SG details!`;
+
+      const targetUser = window.appState.telegramUsername.replace('@', '');
+      const telegramUrl = `https://t.me/${targetUser}?text=${encodeURIComponent(msg)}`;
+
+      window.open(telegramUrl, '_blank');
+      closeCartModal();
     };
 
-    window.openAdminLogin = function() { document.getElementById('admin-login-modal').classList.remove('hidden'); }
+    window.openAdminLogin = function() { document.getElementById('admin-login-modal').classList.remove('hidden'); };
     window.closeAdminLogin = function() { 
       document.getElementById('admin-login-modal').classList.add('hidden');
       document.getElementById('admin-passcode').value = '';
-    }
+    };
+
     window.verifyAdmin = function() {
-      if(document.getElementById('admin-passcode').value === "kinqoon123") {
-        closeAdminLogin(); navTo('admin'); showToast("Staff access granted.", "success");
-      } else showToast("Incorrect Passcode", "error");
+      const pass = document.getElementById('admin-passcode').value;
+      if (pass === "kinqoon123") {
+        closeAdminLogin();
+        navTo('admin');
+        showToast("Authenticated as Admin", "success");
+      } else {
+        showToast("Incorrect Passcode", "error");
+      }
+    };
+
+    async function syncToFirebase(updatePayload) {
+      try {
+        await updateDoc(storeDocRef, updatePayload);
+        showToast("Changes synced to Firebase!", "success");
+      } catch (err) {
+        console.error("Firebase Update Error:", err);
+        showToast("Failed to update Firebase", "error");
+      }
     }
 
-    window.toggleStoreStatus = function(isChecked) {
-      syncToFirebase({ storeStatus: isChecked }).then(s => {
-        if(s) showToast(isChecked ? "Store is now OPEN" : "Store is now CLOSED", "info");
+    window.toggleStoreStatus = function(val) { syncToFirebase({ storeStatus: val }); };
+
+    window.saveOperatingHours = function() {
+      const openTime = document.getElementById('admin-open-time').value;
+      const closeTime = document.getElementById('admin-close-time').value;
+      syncToFirebase({ openTime, closeTime });
+    };
+
+    window.saveStoreSettings = function() {
+      const deliveryFee = parseFloat(document.getElementById('admin-delivery-fee').value) || 5.00;
+      const telegramUsername = document.getElementById('admin-telegram-input').value.trim();
+      const telegramGroupLink = document.getElementById('admin-telegram-group-link').value.trim();
+      syncToFirebase({ deliveryFee, telegramUsername, telegramGroupLink });
+    };
+
+    window.saveAnnouncementSettings = function() {
+      const announcementEnabled = document.getElementById('admin-announcement-toggle').checked;
+      const announcementText = document.getElementById('admin-announcement-text').value.trim();
+      syncToFirebase({ announcementEnabled, announcementText });
+    };
+
+    window.previewAdminHeroImage = function() {
+      const url = document.getElementById('admin-hero-image-url').value.trim();
+      const previewBox = document.getElementById('admin-hero-preview');
+      const previewImg = document.getElementById('admin-hero-preview-img');
+      if (url) {
+        previewImg.src = url;
+        previewBox.classList.remove('hidden');
+      } else {
+        previewBox.classList.add('hidden');
+      }
+    };
+
+    window.uploadHeroImage = async function() {
+      const fileInput = document.getElementById('admin-hero-image-file');
+      const file = fileInput.files[0];
+      if (!file) {
+        showToast("Please select an image file first.", "warning");
+        return null;
+      }
+
+      try {
+        const currentHeroUrl = window.appState.heroImageUrl || document.getElementById('admin-hero-image-url').value.trim();
+        if (currentHeroUrl && currentHeroUrl.includes('firebasestorage.googleapis.com')) {
+          try {
+            const oldStorageRef = ref(storage, currentHeroUrl);
+            await deleteObject(oldStorageRef);
+          } catch (deleteErr) {
+            console.warn("Could not delete old hero image file:", deleteErr);
+          }
+        }
+
+        showToast("Uploading hero image to Firebase Storage...", "info");
+        const storageRef = ref(storage, `hero/${Date.now()}_${file.name}`);
+        const snapshot = await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(snapshot.ref);
+
+        document.getElementById('admin-hero-image-url').value = downloadURL;
+        window.previewAdminHeroImage();
+        showToast("Hero image uploaded successfully!", "success");
+        return downloadURL;
+      } catch (err) {
+        console.error("Storage upload error:", err);
+        showToast("Hero image upload failed.", "error");
+        return null;
+      }
+    };
+
+    window.previewAdminLogo = function() {
+      const url = document.getElementById('admin-logo-url').value.trim();
+      const previewBox = document.getElementById('admin-logo-preview');
+      const previewImg = document.getElementById('admin-logo-preview-img');
+      if (url) {
+        previewImg.src = url;
+        previewBox.classList.remove('hidden');
+      } else {
+        previewBox.classList.add('hidden');
+      }
+    };
+
+    window.uploadLogoImage = async function() {
+      const fileInput = document.getElementById('admin-logo-file-input');
+      const file = fileInput.files[0];
+      if (!file) return showToast("Please select an image file first.", "warning");
+
+      try {
+        showToast("Uploading logo to Firebase Storage...", "info");
+        const storageRef = ref(storage, `branding/${Date.now()}_${file.name}`);
+        const snapshot = await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(snapshot.ref);
+
+        document.getElementById('admin-logo-url').value = downloadURL;
+        window.previewAdminLogo();
+        showToast("Logo uploaded and URL populated!", "success");
+      } catch (err) {
+        console.error("Storage upload error:", err);
+        showToast("Logo upload failed. Please verify Firebase Storage Security Rules.", "error");
+      }
+    };
+
+    window.saveBrandingContent = async function() {
+      const heroFileInput = document.getElementById('admin-hero-image-file');
+      let heroImageUrl = document.getElementById('admin-hero-image-url').value.trim();
+      const heroSlogan = document.getElementById('admin-hero-slogan').value.trim();
+
+      if (heroFileInput && heroFileInput.files && heroFileInput.files[0]) {
+        const uploadedUrl = await window.uploadHeroImage();
+        if (uploadedUrl) heroImageUrl = uploadedUrl;
+      }
+
+      const logoUrl = document.getElementById('admin-logo-url').value.trim();
+      const aboutStory = document.getElementById('admin-about-story').value.trim();
+      const deliveryInfo = document.getElementById('admin-delivery-info').value.trim();
+
+      syncToFirebase({ heroImageUrl, heroSlogan, logoUrl, aboutStory, deliveryInfo });
+    };
+
+    function renderAdminFaqs() {
+      const container = document.getElementById('admin-faqs-list');
+      container.innerHTML = window.appState.faqs.map((faq, idx) => `
+        <div class="p-2.5 bg-gray-50 border rounded-xl flex justify-between items-start text-xs">
+          <div>
+            <strong class="block text-charcoal font-semibold">${faq.q}</strong>
+            <p class="text-gray-500 text-[11px]">${faq.a}</p>
+          </div>
+          <div class="flex space-x-1 ml-2 flex-shrink-0">
+            <button onclick="openFaqModal(${idx})" class="p-1 text-blue-600"><i class="fa-solid fa-pen"></i></button>
+            <button onclick="deleteFaqItem(${idx})" class="p-1 text-red-600"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    window.openFaqModal = function(idx = -1) {
+      document.getElementById('faq-index').value = idx;
+      if (idx >= 0) {
+        const faq = window.appState.faqs[idx];
+        document.getElementById('faq-question').value = faq.q;
+        document.getElementById('faq-answer').value = faq.a;
+        document.getElementById('faq-modal-title').innerText = "Edit FAQ Item";
+      } else {
+        document.getElementById('faq-question').value = '';
+        document.getElementById('faq-answer').value = '';
+        document.getElementById('faq-modal-title').innerText = "Add FAQ Item";
+      }
+      document.getElementById('faq-modal').classList.remove('hidden');
+    };
+
+    window.closeFaqModal = function() { document.getElementById('faq-modal').classList.add('hidden'); };
+
+    window.saveFaqItem = function() {
+      const idx = parseInt(document.getElementById('faq-index').value);
+      const q = document.getElementById('faq-question').value.trim();
+      const a = document.getElementById('faq-answer').value.trim();
+
+      if (!q || !a) return showToast("Question and Answer are required", "warning");
+
+      let updatedFaqs = [...window.appState.faqs];
+      if (idx >= 0) {
+        updatedFaqs[idx] = { q, a };
+      } else {
+        updatedFaqs.push({ q, a });
+      }
+
+      syncToFirebase({ faqs: updatedFaqs }).then(() => closeFaqModal());
+    };
+
+    window.deleteFaqItem = function(idx) {
+      let updatedFaqs = window.appState.faqs.filter((_, i) => i !== idx);
+      syncToFirebase({ faqs: updatedFaqs });
+    };
+
+    function renderAdminCategories() {
+      const container = document.getElementById('admin-categories-list');
+      container.innerHTML = window.appState.categories.map(cat => `
+        <div class="flex justify-between items-center p-2 bg-gray-50 border rounded-xl text-xs">
+          <span class="font-medium">${cat}</span>
+          <div class="flex space-x-1">
+            <button onclick="renameCategory('${cat}')" class="p-1 text-blue-600"><i class="fa-solid fa-pen"></i></button>
+            <button onclick="deleteCategory('${cat}')" class="p-1 text-red-600"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    window.addNewCategory = function() {
+      const input = document.getElementById('new-category-input');
+      const val = input.value.trim();
+      if (!val) return showToast("Category name required", "warning");
+
+      if (window.appState.categories.includes(val)) {
+        return showToast("Category already exists", "warning");
+      }
+
+      const updated = [...window.appState.categories, val];
+      syncToFirebase({ categories: updated }).then(() => {
+        input.value = '';
       });
-    }
-
-    window.saveOperationsSettings = function() {
-        const oTime = document.getElementById('admin-open-time').value;
-        const cTime = document.getElementById('admin-close-time').value;
-        const tele = document.getElementById('admin-telegram-input').value.trim();
-        const fee = parseFloat(document.getElementById('admin-delivery-fee').value);
-
-        if(!oTime || !cTime) return showToast("Opening and closing times are required.", "warning");
-        if(!tele) return showToast("Telegram username required.", "warning");
-        if(isNaN(fee) || fee < 0) return showToast("Valid delivery fee required.", "warning");
-
-        syncToFirebase({ openTime: oTime, closeTime: cTime, telegramUsername: tele, deliveryFee: fee }).then(s => {
-            if(s) showToast("Operations settings saved!", "success");
-        });
-    }
-
-    window.saveBannerSettings = function() {
-        const isEnabled = document.getElementById('admin-banner-toggle').checked;
-        const text = document.getElementById('admin-banner-text').value.trim();
-        
-        syncToFirebase({ bannerEnabled: isEnabled, bannerText: text }).then(s => {
-            if(s) {
-                window.localState.bannerDismissed = false; // Reset dismiss state for preview
-                showToast("Banner settings updated!", "success");
-            }
-        });
-    }
-
-    window.renderAdminPromoList = function() {
-      const container = document.getElementById('admin-promo-list');
-      const promos = window.appState.tempPromos !== null ? window.appState.tempPromos : (window.appState.promos || []);
-
-      if (promos.length === 0) {
-        container.innerHTML = `<p class="text-[10px] text-gray-400 italic text-center py-2 bg-gray-50 rounded-lg">No promo codes active.</p>`;
-        return;
-      }
-      container.innerHTML = promos.map((p, idx) => `
-        <div class="p-3 bg-gray-50 border border-gray-200 rounded-xl space-y-2">
-          <div class="flex justify-between items-center mb-1">
-            <span class="text-[10px] font-bold text-charcoal uppercase bg-white px-2 py-0.5 rounded shadow-sm border border-gray-200">PROMO ${idx + 1}</span>
-            <button onclick="removeAdminPromoField(${idx})" class="text-[10px] font-bold text-red-500 hover:text-red-700 bg-red-50 px-2 py-1 rounded">Remove</button>
-          </div>
-          <input type="text" value="${escapeHtml(p.code)}" onchange="updatePromoTemp(${idx}, 'code', this.value)" placeholder="CODE (e.g. SAVE10)" class="w-full p-2 border border-gray-200 rounded-lg text-xs bg-white focus:outline-none uppercase font-bold">
-          <div class="flex space-x-2">
-            <select onchange="updatePromoTemp(${idx}, 'type', this.value)" class="w-1/2 p-2 border border-gray-200 rounded-lg text-xs bg-white focus:outline-none">
-              <option value="percent" ${p.type === 'percent' ? 'selected' : ''}>% Percentage</option>
-              <option value="flat" ${p.type === 'flat' ? 'selected' : ''}>$ Flat Rate</option>
-            </select>
-            <input type="number" value="${p.value}" onchange="updatePromoTemp(${idx}, 'value', this.value)" placeholder="Value (e.g. 10)" class="w-1/2 p-2 border border-gray-200 rounded-lg text-xs bg-white focus:outline-none">
-          </div>
-        </div>
-      `).join('');
     };
 
-    window.updatePromoTemp = function(idx, field, value) {
-      if (window.appState.tempPromos === null) window.appState.tempPromos = JSON.parse(JSON.stringify(window.appState.promos || []));
-      if (window.appState.tempPromos[idx]) {
-          if (field === 'code') window.appState.tempPromos[idx][field] = value.toUpperCase();
-          else if (field === 'value') window.appState.tempPromos[idx][field] = parseFloat(value) || 0;
-          else window.appState.tempPromos[idx][field] = value;
-      }
-    };
-    window.addAdminPromoField = function() {
-      if (window.appState.tempPromos === null) window.appState.tempPromos = JSON.parse(JSON.stringify(window.appState.promos || []));
-      window.appState.tempPromos.push({ code: '', type: 'percent', value: 0 });
-      window.renderAdminPromoList();
-    };
-    window.removeAdminPromoField = function(idx) {
-      if (window.appState.tempPromos === null) window.appState.tempPromos = JSON.parse(JSON.stringify(window.appState.promos || []));
-      window.appState.tempPromos.splice(idx, 1);
-      window.renderAdminPromoList();
-    };
-    window.savePromoCodes = function() {
-        const currentPromos = window.appState.tempPromos !== null ? window.appState.tempPromos : (window.appState.promos || []);
-        const toSave = currentPromos.filter(p => p.code.trim() !== '' && p.value > 0);
-        syncToFirebase({ promos: toSave }).then(s => {
-            if(s) { window.appState.tempPromos = null; showToast("Promo codes saved!", "success"); }
-        });
-    };
+    window.renameCategory = function(oldCat) {
+      const newCat = prompt("Rename category:", oldCat);
+      if (!newCat || newCat.trim() === "" || newCat === oldCat) return;
 
-    window.renderAdminBrandingFields = function() {
-      const logoInput = document.getElementById('admin-logo-url');
-      const storyInput = document.getElementById('admin-story-text');
-      const deliveryInput = document.getElementById('admin-delivery-text');
-      if (logoInput && document.activeElement !== logoInput) { logoInput.value = window.appState.logoUrl; window.previewAdminLogo(logoInput.value); }
-      if (storyInput && document.activeElement !== storyInput) storyInput.value = window.appState.aboutStory;
-      if (deliveryInput && document.activeElement !== deliveryInput) deliveryInput.value = window.appState.deliveryInfo;
-      window.renderAdminFaqList();
-    };
-
-    window.previewAdminLogo = function(url) {
-      const c = document.getElementById('admin-logo-preview-container'), img = document.getElementById('admin-logo-preview');
-      if (url && url.trim() !== '') { img.src = url; c.classList.remove('hidden'); img.onerror = () => c.classList.add('hidden'); } 
-      else c.classList.add('hidden');
-    };
-
-    window.renderAdminFaqList = function() {
-      const container = document.getElementById('admin-faq-list');
-      const faqs = window.appState.tempFaqs !== null ? window.appState.tempFaqs : (window.appState.faqs || []);
-      if (faqs.length === 0) return container.innerHTML = `<p class="text-[10px] text-gray-400 italic py-2 text-center bg-gray-50 rounded-lg">No FAQs added yet.</p>`;
-      container.innerHTML = faqs.map((faq, idx) => `
-        <div class="p-3 bg-gray-50 border border-gray-200 rounded-xl space-y-2">
-          <div class="flex justify-between items-center mb-1">
-            <span class="text-[10px] font-bold text-rosegold uppercase bg-white px-2 py-0.5 rounded shadow-sm border border-gray-200">FAQ ${idx + 1}</span>
-            <button onclick="removeAdminFaqField(${idx})" class="text-[10px] font-bold text-red-500 hover:text-red-700 bg-red-50 px-2 py-1 rounded">Remove</button>
-          </div>
-          <input type="text" value="${escapeHtml(faq.q)}" onchange="updateFaqTemp(${idx}, 'q', this.value)" placeholder="Question" class="w-full p-2 border border-gray-200 rounded-lg text-xs bg-white focus:outline-none font-semibold">
-          <textarea onchange="updateFaqTemp(${idx}, 'a', this.value)" placeholder="Answer" class="w-full p-2 border border-gray-200 rounded-lg text-xs bg-white h-16 resize-none focus:outline-none">${escapeHtml(faq.a)}</textarea>
-        </div>
-      `).join('');
-    };
-
-    window.updateFaqTemp = function(idx, field, value) {
-      if (window.appState.tempFaqs === null) window.appState.tempFaqs = JSON.parse(JSON.stringify(window.appState.faqs || []));
-      if (window.appState.tempFaqs[idx]) window.appState.tempFaqs[idx][field] = value;
-    };
-    window.addAdminFaqField = function() {
-      if (window.appState.tempFaqs === null) window.appState.tempFaqs = JSON.parse(JSON.stringify(window.appState.faqs || []));
-      window.appState.tempFaqs.push({ q: '', a: '' }); window.renderAdminFaqList();
-    };
-    window.removeAdminFaqField = function(idx) {
-      if (window.appState.tempFaqs === null) window.appState.tempFaqs = JSON.parse(JSON.stringify(window.appState.faqs || []));
-      window.appState.tempFaqs.splice(idx, 1); window.renderAdminFaqList();
-    };
-    window.saveBrandingAndContent = function() {
-      const toSaveFaqs = (window.appState.tempFaqs !== null ? window.appState.tempFaqs : (window.appState.faqs || [])).filter(i => i.q.trim() !== '' || i.a.trim() !== '');
-      syncToFirebase({
-        logoUrl: document.getElementById('admin-logo-url').value.trim(),
-        aboutStory: document.getElementById('admin-story-text').value.trim(),
-        deliveryInfo: document.getElementById('admin-delivery-text').value.trim(),
-        faqs: toSaveFaqs
-      }).then(s => { if(s) { window.appState.tempFaqs = null; showToast("Branding saved!", "success"); } });
-    };
-
-    window.renderAdminCategoryManager = function() {
-      const c = document.getElementById('admin-category-list'), b = document.getElementById('admin-category-count-badge');
-      const cats = window.appState.categories || [];
-      if(b) b.innerText = cats.length;
-      if (cats.length === 0) return c.innerHTML = `<p class="text-[10px] text-gray-400 italic py-3 text-center bg-gray-50 rounded-lg">No categories created.</p>`;
-
-      c.innerHTML = cats.map((cat, idx) => {
-        const count = window.appState.inventory.filter(i => i.category === cat).length;
-        if (window.appState.editingCatIndex === idx) return `
-            <div class="flex items-center space-x-2 bg-blush/20 p-2 rounded-xl border border-blush/50">
-              <input type="text" id="edit-cat-input-${idx}" value="${escapeHtml(cat)}" class="flex-1 p-2 border border-white rounded-lg text-xs font-bold focus:outline-none">
-              <button onclick="saveRenamedCategory(${idx})" class="px-3 py-2 bg-charcoal text-white text-xs font-bold rounded-lg shadow-sm hover:bg-black">Save</button>
-              <button onclick="cancelCategoryEdit()" class="px-3 py-2 bg-white text-gray-500 text-xs font-bold rounded-lg border border-gray-200"><i class="fa-solid fa-xmark"></i></button>
-            </div>`;
-        return `
-          <div class="flex items-center justify-between p-3 bg-white border border-gray-100 rounded-xl shadow-sm">
-            <div class="flex items-center space-x-2 truncate">
-              <span class="w-2.5 h-2.5 rounded-full bg-rosegold flex-shrink-0 shadow-[0_0_5px_rgba(183,110,121,0.5)]"></span>
-              <span class="text-sm font-bold text-charcoal truncate">${escapeHtml(cat)}</span>
-              <span class="text-[10px] text-gray-500 bg-gray-100 px-2.5 py-0.5 rounded-full font-semibold border border-gray-200">${count} items</span>
-            </div>
-            <div class="flex items-center space-x-1 flex-shrink-0">
-              <button onclick="window.appState.editingCatIndex=${idx}; renderAdminCategoryManager();" class="p-2 text-blue-500 bg-blue-50 hover:bg-blue-100 rounded-lg"><i class="fa-solid fa-pen text-xs"></i></button>
-              <button onclick="deleteCategoryFromAdmin('${escapeHtml(cat)}')" class="p-2 text-red-500 bg-red-50 hover:bg-red-100 rounded-lg"><i class="fa-solid fa-trash text-xs"></i></button>
-            </div>
-          </div>`;
-      }).join('');
-    };
-
-    window.addCategoryFromAdmin = function() {
-      const v = document.getElementById('admin-new-cat-input').value.trim();
-      if (!v) return showToast("Category name required.", "warning");
-      const existing = window.appState.categories || [];
-      if (existing.some(c => c.toLowerCase() === v.toLowerCase())) return showToast(`"${v}" already exists!`, "warning");
-      syncToFirebase({ categories: [...existing, v] }).then(s => { if(s){ document.getElementById('admin-new-cat-input').value=''; showToast(`"${v}" added!`, "success"); } });
-    };
-
-    window.cancelCategoryEdit = function() { window.appState.editingCatIndex = null; renderAdminCategoryManager(); };
-    window.saveRenamedCategory = function(idx) {
-      const n = document.getElementById(`edit-cat-input-${idx}`).value.trim(), o = window.appState.categories[idx];
-      if (!n) return showToast("Category name required.", "warning");
-      if (n === o) return cancelCategoryEdit();
-      if (window.appState.categories.some((c, i) => i !== idx && c.toLowerCase() === n.toLowerCase())) return showToast(`"${n}" already exists!`, "warning");
+      const trimmed = newCat.trim();
+      let updatedCategories = window.appState.categories.map(c => c === oldCat ? trimmed : c);
       
-      const uCats = [...window.appState.categories]; uCats[idx] = n;
-      const uInv = (window.appState.inventory || []).map(i => i.category === o ? { ...i, category: n } : i);
-      if (window.appState.activeCategory === o) window.appState.activeCategory = n;
-      syncToFirebase({ categories: uCats, inventory: uInv }).then(s => { if(s){ window.appState.editingCatIndex = null; showToast("Category renamed", "success"); } });
-    };
-
-    window.deleteCategoryFromAdmin = function(catName) {
-      const count = (window.appState.inventory || []).filter(i => i.category === catName).length;
-      showConfirm(count > 0 ? `Delete "${catName}"? ${count} product(s) will be marked "Uncategorized".` : `Delete category "${catName}"?`, () => {
-        const uCats = (window.appState.categories || []).filter(c => c !== catName);
-        const uInv = (window.appState.inventory || []).map(i => i.category === catName ? { ...i, category: 'Uncategorized' } : i);
-        if (window.appState.activeCategory === catName) window.appState.activeCategory = 'All';
-        syncToFirebase({ categories: uCats, inventory: uInv }).then(s => { if(s) showToast(`"${catName}" removed`, "info"); });
+      let updatedInventory = window.appState.inventory.map(item => {
+        if (item.category === oldCat) item.category = trimmed;
+        return item;
       });
+
+      syncToFirebase({ categories: updatedCategories, inventory: updatedInventory });
     };
 
-    function populateCategorySelect(selCat = '') {
-      const s = document.getElementById('item-category');
-      const cats = window.appState.categories && window.appState.categories.length > 0 ? window.appState.categories : ['Uncategorized'];
-      if(s) s.innerHTML = cats.map(c => `<option value="${escapeHtml(c)}" ${c===selCat?'selected':''}>${escapeHtml(c)}</option>`).join('') + `<option value="Uncategorized" ${selCat==='Uncategorized'?'selected':''}>Uncategorized</option>`;
-    }
+    window.deleteCategory = function(catToDelete) {
+      if (window.appState.categories.length <= 1) {
+        return showToast("At least one category is required.", "warning");
+      }
+
+      let updatedCategories = window.appState.categories.filter(c => c !== catToDelete);
+      
+      let updatedInventory = window.appState.inventory.map(item => {
+        if (item.category === catToDelete) item.category = "Uncategorized";
+        return item;
+      });
+
+      if (!updatedCategories.includes("Uncategorized")) {
+        updatedCategories.push("Uncategorized");
+      }
+
+      syncToFirebase({ categories: updatedCategories, inventory: updatedInventory });
+    };
 
     function renderAdminItems() {
-      document.getElementById('admin-product-list').innerHTML = window.appState.inventory.map(item => {
-        const sImage = item.image || 'https://placehold.co/100x100/FADADD/333333';
-        const st = item.stock !== undefined ? item.stock : 10;
-        const bge = st <= 0 ? `<span class="text-[10px] text-white bg-red-500 px-2 py-0.5 rounded-full font-bold shadow-sm shadow-red-500/30">Sold Out</span>` : `<span class="text-[10px] text-charcoal bg-gray-100 border border-gray-200 px-2 py-0.5 rounded-full font-bold">Stock: ${st}</span>`;
-        return `
-        <div class="flex items-center justify-between p-3 border border-gray-100 rounded-2xl bg-white shadow-sm mb-3">
-          <div class="flex items-center space-x-3 w-3/4">
-            <img src="${sImage}" onerror="this.src='https://placehold.co/100x100/FADADD/333333'" class="w-12 h-12 rounded-xl bg-gray-50 object-cover flex-shrink-0 border border-gray-100">
-            <div class="truncate">
-              <p class="text-xs font-bold text-charcoal truncate mb-0.5">${escapeHtml(item.name)}</p>
-              <p class="text-[10px] text-gray-500 truncate font-medium mb-1">${escapeHtml(item.category)} • ${escapeHtml(item.shade)} • SGD $${parseFloat(item.price).toFixed(2)}</p>
-              ${bge}
+      const container = document.getElementById('admin-product-list');
+      container.innerHTML = window.appState.inventory.map(item => `
+        <div class="flex items-center justify-between p-2.5 border border-gray-100 rounded-xl bg-gray-50 text-xs">
+          <div class="flex items-center space-x-2.5">
+            <img src="${item.image}" class="w-10 h-10 rounded-lg bg-gray-200 object-cover flex-shrink-0">
+            <div>
+              <p class="font-bold text-charcoal line-clamp-1">${item.name}</p>
+              <p class="text-[10px] text-gray-500">${item.category} • ${item.shade || 'No Shade'} • Stock: <span class="${item.stock <= 0 ? 'text-red-600 font-bold' : ''}">${item.stock}</span></p>
             </div>
           </div>
-          <div class="flex space-x-2 flex-shrink-0">
-            <button onclick="editItem('${item.id}')" class="w-8 h-8 rounded-full bg-blue-50 text-blue-500 hover:bg-blue-100 transition-colors"><i class="fa-solid fa-pen text-xs"></i></button>
-            <button onclick="deleteItem('${item.id}')" class="w-8 h-8 rounded-full bg-red-50 text-red-500 hover:bg-red-100 transition-colors"><i class="fa-solid fa-trash text-xs"></i></button>
+          <div class="flex space-x-1 flex-shrink-0">
+            <button onclick="editItem('${item.id}')" class="w-7 h-7 rounded-lg bg-white border text-blue-600 flex items-center justify-center"><i class="fa-solid fa-pen text-[10px]"></i></button>
+            <button onclick="deleteItem('${item.id}')" class="w-7 h-7 rounded-lg bg-white border text-red-600 flex items-center justify-center"><i class="fa-solid fa-trash text-[10px]"></i></button>
           </div>
-        </div>`
-      }).join('');
+        </div>
+      `).join('');
+    }
+
+    function populateCategoryDropdown() {
+      const select = document.getElementById('item-category');
+      select.innerHTML = window.appState.categories.map(c => `<option value="${c}">${c}</option>`).join('');
     }
 
     window.openAddItemModal = function() {
-      populateCategorySelect();
+      populateCategoryDropdown();
       document.getElementById('item-id').value = '';
       document.getElementById('item-name').value = '';
       document.getElementById('item-shade').value = '';
@@ -1386,61 +1465,91 @@
       document.getElementById('item-restock-note').value = '';
       document.getElementById('item-image').value = '';
       document.getElementById('item-desc').value = '';
-      document.getElementById('item-modal-title').innerText = 'Add New Item';
+      document.getElementById('item-modal-title').innerText = 'Add New Product';
       document.getElementById('item-modal').classList.remove('hidden');
-    }
-    window.closeItemModal = function() { document.getElementById('item-modal').classList.add('hidden'); }
+    };
+
+    window.closeItemModal = function() {
+      document.getElementById('item-modal').classList.add('hidden');
+    };
 
     window.editItem = function(id) {
-      const i = window.appState.inventory.find(x => x.id === id);
-      if(i) {
-        populateCategorySelect(i.category);
-        document.getElementById('item-id').value = i.id;
-        document.getElementById('item-name').value = i.name;
-        document.getElementById('item-shade').value = i.shade || '';
-        document.getElementById('item-price').value = i.price;
-        document.getElementById('item-stock').value = i.stock !== undefined ? i.stock : 10;
-        document.getElementById('item-restock-note').value = i.restockNote || '';
-        document.getElementById('item-image').value = i.image || '';
-        document.getElementById('item-desc').value = i.description || '';
-        document.getElementById('item-modal-title').innerText = 'Edit Item';
+      const item = window.appState.inventory.find(i => i.id === id);
+      if (item) {
+        populateCategoryDropdown();
+        document.getElementById('item-id').value = item.id;
+        document.getElementById('item-name').value = item.name;
+        document.getElementById('item-category').value = item.category;
+        document.getElementById('item-shade').value = item.shade || '';
+        document.getElementById('item-price').value = item.price;
+        document.getElementById('item-stock').value = item.stock ?? 10;
+        document.getElementById('item-restock-note').value = item.restockNote || '';
+        document.getElementById('item-image').value = item.image;
+        document.getElementById('item-desc').value = item.description || '';
+        document.getElementById('item-modal-title').innerText = 'Edit Product';
         document.getElementById('item-modal').classList.remove('hidden');
       }
-    }
+    };
+
+    window.uploadProductImage = async function() {
+      const fileInput = document.getElementById('item-image-file');
+      const file = fileInput.files[0];
+      if (!file) return showToast("Please select an image file first.", "warning");
+
+      try {
+        showToast("Uploading product image to Firebase Storage...", "info");
+        const storageRef = ref(storage, `products/${Date.now()}_${file.name}`);
+        const snapshot = await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(snapshot.ref);
+
+        document.getElementById('item-image').value = downloadURL;
+        showToast("Image uploaded successfully!", "success");
+      } catch (err) {
+        console.error("Storage upload error:", err);
+        showToast("Image upload failed. Please verify Firebase Storage Security Rules.", "error");
+      }
+    };
 
     window.saveItem = function() {
       const id = document.getElementById('item-id').value || 'item_' + Date.now();
-      const nm = document.getElementById('item-name').value.trim();
-      const pr = parseFloat(document.getElementById('item-price').value);
-      const st = parseInt(document.getElementById('item-stock').value);
-
-      if(!nm) return showToast("Product name required", "error");
-      if(isNaN(pr) || pr < 0) return showToast("Valid price required", "error");
-
-      const nItem = {
-        id: id, name: nm, category: document.getElementById('item-category').value,
-        shade: document.getElementById('item-shade').value.trim(), price: pr,
-        stock: isNaN(st) || st < 0 ? 0 : st, restockNote: document.getElementById('item-restock-note').value.trim(),
-        image: document.getElementById('item-image').value.trim(), description: document.getElementById('item-desc').value.trim()
+      const newItem = {
+        id: id,
+        name: document.getElementById('item-name').value.trim(),
+        category: document.getElementById('item-category').value,
+        shade: document.getElementById('item-shade').value.trim(),
+        price: parseFloat(document.getElementById('item-price').value) || 0,
+        stock: parseInt(document.getElementById('item-stock').value) || 0,
+        restockNote: document.getElementById('item-restock-note').value.trim(),
+        image: document.getElementById('item-image').value.trim() || 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&q=80',
+        description: document.getElementById('item-desc').value.trim()
       };
 
-      const cInv = [...window.appState.inventory];
-      const exIdx = cInv.findIndex(i => i.id === id);
-      if(exIdx >= 0) cInv[exIdx] = nItem; else cInv.push(nItem);
+      if (!newItem.name) return showToast("Product name is required", "warning");
 
-      syncToFirebase({ inventory: cInv }).then(s => { if(s){ closeItemModal(); showToast("Item saved!", "success"); } });
-    }
+      let updatedInventory = [...window.appState.inventory];
+      const existingIdx = updatedInventory.findIndex(i => i.id === id);
+
+      if (existingIdx >= 0) {
+        updatedInventory[existingIdx] = newItem;
+      } else {
+        updatedInventory.push(newItem);
+      }
+
+      syncToFirebase({ inventory: updatedInventory }).then(() => {
+        closeItemModal();
+      });
+    };
 
     window.deleteItem = function(id) {
-      showConfirm("Delete this item? This action is permanent.", () => {
-        const cInv = window.appState.inventory.filter(i => i.id !== id);
-        syncToFirebase({ inventory: cInv }).then(s => {
-          if(s) { showToast("Item deleted", "info"); if(window.appState.cart[id]) { delete window.appState.cart[id]; updateCartUI(); } }
-        });
-      });
-    }
+      const updatedInventory = window.appState.inventory.filter(i => i.id !== id);
+      syncToFirebase({ inventory: updatedInventory });
+    };
 
-    window.onload = () => { initApp(); navTo('home'); setFulfillment('Delivery'); };
+    window.onload = function() {
+      initApp();
+      navTo('home');
+      setFulfillment('Delivery');
+    };
   </script>
 </body>
 </html>
