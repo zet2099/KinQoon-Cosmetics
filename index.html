@@ -77,7 +77,6 @@
     <!-- HEADER -->
     <header class="pt-6 pb-4 px-6 text-center sticky top-0 bg-white/90 backdrop-blur-md z-30 border-b border-blush/30">
       <div id="brand-header-content" class="flex flex-col items-center justify-center relative">
-        <!-- Dynamic Logo Image or Text Fallback -->
         <div id="header-logo-container" class="mb-1 cursor-pointer" onclick="navTo('home')">
           <h1 id="header-text-logo" class="font-serif text-3xl font-bold text-charcoal tracking-tight">KinQoon</h1>
         </div>
@@ -101,9 +100,8 @@
           </div>
         </div>
 
-        <!-- Dynamic Store Operational Status Badge -->
+        <!-- Store Status Badge -->
         <div id="home-status-badge" class="mb-3 px-4 py-2 rounded-full text-xs font-semibold transition-colors flex items-center justify-center text-center">
-          <!-- Populated dynamically -->
         </div>
 
         <!-- Off-Hours Warning Banner (Home View) -->
@@ -136,7 +134,6 @@
 
         <h3 class="font-serif text-lg font-bold mb-3 border-b border-blush pb-2">Frequently Asked Questions</h3>
         <div id="about-faqs-container" class="space-y-3 text-xs text-gray-600 mb-8">
-          <!-- Dynamic FAQs rendered here -->
         </div>
 
         <div class="flex space-x-3">
@@ -147,7 +144,6 @@
 
       <section id="view-shop" class="view-section hidden flex flex-col bg-gray-50 min-h-screen pb-32">
         
-        <!-- Header Controls -->
         <div class="px-5 py-3 bg-white border-b border-gray-100 flex justify-between items-center">
           <button onclick="navTo('home')" class="text-xs font-medium text-gray-600 hover:text-charcoal flex items-center">
             <i class="fa-solid fa-arrow-left mr-1.5"></i> Back to Home
@@ -164,13 +160,11 @@
         <!-- Dynamic Category Filter Tabs -->
         <div class="px-3 mb-2 mt-2">
           <div id="category-tabs" class="flex space-x-2 overflow-x-auto no-scrollbar py-1">
-            <!-- Categories rendered dynamically -->
           </div>
         </div>
 
         <!-- Product Grid -->
         <div id="product-grid" class="px-4 grid grid-cols-2 gap-3">
-          <!-- Dynamic products rendered here -->
         </div>
 
       </section>
@@ -310,7 +304,6 @@
             <button onclick="openFaqModal()" class="text-xs bg-blush text-charcoal px-2.5 py-1 rounded-full font-medium">+ Add FAQ</button>
           </div>
           <div id="admin-faqs-list" class="space-y-2">
-            <!-- Dynamic Admin FAQs -->
           </div>
         </div>
 
@@ -324,7 +317,6 @@
             <button onclick="addNewCategory()" class="px-4 bg-charcoal text-white rounded-lg text-xs font-medium">Add</button>
           </div>
           <div id="admin-categories-list" class="space-y-2">
-            <!-- Dynamic Categories -->
           </div>
         </div>
 
@@ -335,14 +327,12 @@
             <button onclick="openAddItemModal()" class="text-xs bg-blush text-charcoal px-3 py-1 rounded-full font-medium"><i class="fa-solid fa-plus mr-1"></i> Add Product</button>
           </div>
           <div id="admin-product-list" class="space-y-2">
-            <!-- Rendered dynamically -->
           </div>
         </div>
       </section>
 
     </main>
 
-    <!-- FLOATING CART BAR -->
     <div id="floating-cart" class="hidden fixed bottom-0 max-w-md w-full bg-white border-t border-gray-200 p-4 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.1)] z-40 transition-transform transform translate-y-full">
       <div class="flex justify-between items-center">
         <div>
@@ -359,7 +349,6 @@
     <div id="cart-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-end justify-center backdrop-blur-sm">
       <div class="bg-white w-full max-w-md h-[90vh] rounded-t-3xl shadow-2xl flex flex-col transform transition-transform">
         
-        <!-- Modal Header -->
         <div class="p-4 border-b border-gray-100 flex justify-between items-center">
           <h2 class="font-serif text-lg font-bold text-charcoal"><i class="fa-solid fa-bag-shopping mr-2 text-rosegold"></i>Your Shopping Bag</h2>
           <button onclick="closeCartModal()" class="h-8 w-8 bg-gray-100 rounded-full text-gray-500 hover:text-charcoal flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
@@ -367,18 +356,14 @@
         
         <div class="flex-grow overflow-y-auto p-4 no-scrollbar">
           
-          <!-- Off-Hours Warning Banner inside Cart -->
           <div id="cart-off-hours-warning" class="hidden mb-4 p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs flex items-start space-x-2">
             <i class="fa-solid fa-moon text-amber-600 mt-0.5 text-sm flex-shrink-0"></i>
             <p class="leading-relaxed">🌙 We are currently outside operational hours. You can still place your order now, but our agent will process and reply to you as soon as we are online!</p>
           </div>
 
-          <!-- Itemized Cart Summary -->
           <div id="cart-items-list" class="space-y-3 mb-4">
-            <!-- Items rendered dynamically -->
           </div>
 
-          <!-- Customer Details & Fulfillment Selector Form -->
           <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 my-4 space-y-3">
             <h4 class="font-serif text-xs font-bold text-charcoal uppercase tracking-wider">Fulfillment & Customer Details</h4>
             
@@ -397,13 +382,11 @@
                 <input type="tel" id="cust-phone" name="phone" autocomplete="tel" placeholder="Contact Number *" class="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:outline-none focus:border-rosegold transition-all">
               </div>
 
-              <!-- Delivery Address Field Group -->
               <div id="delivery-fields-group">
                 <label class="block text-[10px] text-gray-500 font-medium mb-1">Delivery Address & Postal Code *</label>
                 <textarea id="cust-address" name="address" autocomplete="shipping street-address" placeholder="Delivery Address & Postal Code *" class="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs h-16 resize-none focus:outline-none focus:border-rosegold transition-all"></textarea>
               </div>
 
-              <!-- Self-Pickup Fields Group -->
               <div id="pickup-fields-group" class="hidden space-y-2.5">
                 <div>
                   <label class="block text-[10px] text-gray-500 font-medium mb-1">Preferred Pickup Date *</label>
@@ -412,7 +395,6 @@
                 <div>
                   <label class="block text-[10px] text-gray-500 font-medium mb-1">Preferred Time Slot *</label>
                   <select id="pickup-time" class="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:outline-none focus:border-rosegold">
-                    <option value="12:00 PM - 02:00 PM">12:00 PM - 02:00 PM</option>
                     <option value="02:00 PM - 04:00 PM">02:00 PM - 04:00 PM</option>
                     <option value="04:00 PM - 06:00 PM">04:00 PM - 06:00 PM</option>
                     <option value="06:00 PM - 08:00 PM">06:00 PM - 08:00 PM</option>
@@ -422,7 +404,6 @@
             </form>
           </div>
 
-          <!-- Promo Code Input Section -->
           <div class="bg-gray-50 p-3 rounded-xl mb-4 border border-gray-100">
             <label class="block text-[10px] font-medium text-gray-500 mb-1">Voucher / Promo Code</label>
             <div class="flex space-x-2">
@@ -435,14 +416,12 @@
             </div>
           </div>
 
-          <!-- Order Confirmation Note -->
           <div class="bg-blush/30 p-3 rounded-xl mb-4 border border-blush text-xs">
             <h4 class="font-medium mb-1"><i class="fa-solid fa-circle-info text-rosegold mr-1.5"></i>Order Confirmation</h4>
             <p class="text-gray-600 leading-relaxed text-[11px]">Orders are submitted directly to our Telegram support line. PayNow SG details will be provided upon confirmation.</p>
           </div>
         </div>
 
-        <!-- Dynamic Summary Footer -->
         <div class="p-4 border-t border-gray-100 bg-gray-50 rounded-t-2xl space-y-2">
           <div class="flex justify-between items-center text-xs text-gray-600">
             <span>Items Subtotal</span>
@@ -490,17 +469,32 @@
           <div><label class="text-gray-500 block mb-1">Product Name *</label><input type="text" id="item-name" class="w-full p-2 border rounded-lg"></div>
           <div><label class="text-gray-500 block mb-1">Category *</label>
             <select id="item-category" class="w-full p-2 border rounded-lg bg-white">
-              <!-- Dynamically populated from categories array -->
             </select>
           </div>
           <div><label class="text-gray-500 block mb-1">Shade / Variant</label><input type="text" id="item-shade" class="w-full p-2 border rounded-lg"></div>
+          
+          <div class="pt-1">
+            <label class="inline-flex items-center cursor-pointer text-xs font-medium text-gray-700">
+              <input type="checkbox" id="item-has-variants" class="rounded border-gray-300 text-rosegold focus:ring-rosegold mr-2" onchange="toggleVariantsInput(this.checked)">
+              <span>Has Multiple Shades / Variants?</span>
+            </label>
+          </div>
+          <div id="variants-input-container" class="hidden space-y-2 bg-gray-50 p-2.5 rounded-lg border border-gray-200">
+            <div class="flex justify-between items-center mb-1">
+              <label class="text-gray-500 text-[11px] font-medium">Shades & Inventory</label>
+              <button type="button" onclick="addAdminVariantRow()" class="text-[10px] bg-blush text-charcoal px-2 py-0.5 rounded font-bold hover:bg-blushDark">+ Add Shade</button>
+            </div>
+            <div id="admin-variants-list" class="space-y-1.5 max-h-36 overflow-y-auto pr-1">
+            </div>
+            <p class="text-[9px] text-gray-400">Specify shade name, hex swatch color, and individual stock for each shade.</p>
+          </div>
+
           <div class="grid grid-cols-2 gap-2">
             <div><label class="text-gray-500 block mb-1">Price (SGD $)</label><input type="number" id="item-price" step="0.50" class="w-full p-2 border rounded-lg"></div>
             <div><label class="text-gray-500 block mb-1">Stock Quantity</label><input type="number" id="item-stock" min="0" class="w-full p-2 border rounded-lg"></div>
           </div>
           <div><label class="text-gray-500 block mb-1">Restock Note (if sold out)</label><input type="text" id="item-restock-note" placeholder="e.g. Restocking next week!" class="w-full p-2 border rounded-lg"></div>
           
-          <!-- Image Input & Direct Storage Upload -->
           <div>
             <label class="text-gray-500 block mb-1">Image URL or Direct Upload (Multiple)</label>
             <input type="text" id="item-image" placeholder="https://..." class="w-full p-2 border rounded-lg mb-2">
@@ -508,9 +502,7 @@
               <input type="file" id="item-image-file" accept="image/*" multiple class="text-[10px] text-gray-500 flex-1">
               <button onclick="uploadProductImage()" class="px-3 py-1.5 bg-blush text-charcoal text-xs font-medium rounded-lg">Upload Images</button>
             </div>
-            <!-- Image Previews Container -->
             <div id="item-images-preview" class="flex flex-wrap gap-1.5 mt-2 hidden p-2 border rounded-lg bg-gray-50">
-              <!-- Dynamically populated previews -->
             </div>
           </div>
 
@@ -543,22 +535,16 @@
     <div id="product-detail-modal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
       <div class="bg-white w-full max-w-sm rounded-3xl p-5 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar relative flex flex-col">
         
-        <!-- Close Button -->
         <button onclick="closeProductDetailModal()" class="absolute top-4 right-4 z-20 w-8 h-8 bg-white/80 backdrop-blur-md rounded-full text-gray-600 hover:text-charcoal flex items-center justify-center shadow-md">
           <i class="fa-solid fa-xmark text-sm"></i>
         </button>
 
-        <!-- Horizontal Scrollable Gallery -->
         <div id="detail-gallery" class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar rounded-2xl mb-2 h-64 w-full bg-gray-100 border border-gray-100">
-          <!-- Dynamic images rendered here -->
         </div>
 
-        <!-- Gallery Thumbnails / Indicators -->
         <div id="detail-gallery-dots" class="flex justify-center space-x-1.5 mb-3 min-h-[12px]">
-          <!-- Dynamic indicator dots -->
         </div>
 
-        <!-- Product Meta Information -->
         <div class="flex items-center justify-between mb-1">
           <span id="detail-category-shade" class="text-[10px] font-bold text-rosegold uppercase tracking-wider"></span>
           <div id="detail-stock-badge"></div>
@@ -567,17 +553,23 @@
         <h3 id="detail-title" class="font-serif text-lg font-bold text-charcoal mb-0.5 leading-snug"></h3>
         <p id="detail-price" class="font-serif text-xl font-bold text-charcoal mb-3"></p>
 
-        <!-- Description Box -->
         <div class="border-t border-b border-gray-100 py-3 my-1">
           <h4 class="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1">Product Details</h4>
           <p id="detail-desc" class="text-xs text-gray-600 leading-relaxed whitespace-pre-line"></p>
         </div>
 
+        <div id="detail-variants-container" class="my-2 hidden">
+          <div class="flex justify-between items-center mb-1.5">
+            <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Select Shade / Variant *</label>
+            <span id="selected-variant-label" class="text-[10px] text-rosegold font-bold"></span>
+          </div>
+          <div id="detail-variants-pills" class="flex flex-wrap gap-2">
+          </div>
+        </div>
+
         <div id="detail-restock-note" class="text-[11px] text-rosegold font-medium my-2 hidden text-center"></div>
 
-        <!-- Quantity & Add to Cart Controls -->
         <div id="detail-action-container" class="mt-3 pt-2">
-          <!-- Dynamically populated -->
         </div>
       </div>
     </div>
@@ -589,7 +581,6 @@
 
   </div>
 
-  <!-- FIREBASE & APPLICATION JAVASCRIPT MODULE -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, doc, getDoc, setDoc, onSnapshot, updateDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -636,8 +627,68 @@
     };
 
     window.tempUploadedImages = [];
+    window.adminVariantsList = [];
     window.detailModalQty = 1;
     window.activeDetailItemId = null;
+    window.selectedDetailVariant = null;
+
+    window.parseCartKey = function(key) {
+      if (!key) return { itemId: '', variant: '' };
+      const parts = key.split('::');
+      return { itemId: parts[0], variant: parts[1] || '' };
+    };
+
+    window.toggleVariantsInput = function(checked) {
+      const container = document.getElementById('variants-input-container');
+      if (container) {
+        if (checked) {
+          container.classList.remove('hidden');
+          if (!window.adminVariantsList || window.adminVariantsList.length === 0) {
+            window.addAdminVariantRow('01 Rose', '#E07A5F', 10);
+          }
+        } else {
+          container.classList.add('hidden');
+        }
+      }
+    };
+
+    window.addAdminVariantRow = function(name = '', hex = '#B76E79', stock = 10) {
+      if (!window.adminVariantsList) window.adminVariantsList = [];
+      window.adminVariantsList.push({ name, hex, stock: parseInt(stock) || 0 });
+      window.renderAdminVariantsList();
+    };
+
+    window.removeAdminVariantRow = function(index) {
+      if (!window.adminVariantsList) return;
+      window.adminVariantsList.splice(index, 1);
+      window.renderAdminVariantsList();
+    };
+
+    window.updateAdminVariantData = function(index, field, value) {
+      if (!window.adminVariantsList || !window.adminVariantsList[index]) return;
+      if (field === 'stock') {
+        window.adminVariantsList[index].stock = parseInt(value) || 0;
+      } else {
+        window.adminVariantsList[index][field] = value;
+      }
+    };
+
+    window.renderAdminVariantsList = function() {
+      const container = document.getElementById('admin-variants-list');
+      if (!container) return;
+      if (!window.adminVariantsList || window.adminVariantsList.length === 0) {
+        container.innerHTML = `<p class="text-[10px] text-gray-400 italic">No variants added yet. Click "+ Add Shade".</p>`;
+        return;
+      }
+      container.innerHTML = window.adminVariantsList.map((v, idx) => `
+        <div class="flex items-center space-x-1.5 bg-white p-1.5 rounded border border-gray-200 text-xs">
+          <input type="color" value="${v.hex || '#B76E79'}" onchange="updateAdminVariantData(${idx}, 'hex', this.value)" class="w-6 h-6 rounded cursor-pointer border-0 p-0 bg-transparent flex-shrink-0">
+          <input type="text" placeholder="Shade Name" value="${v.name || ''}" oninput="updateAdminVariantData(${idx}, 'name', this.value)" class="flex-1 p-1 border rounded text-[11px]">
+          <input type="number" placeholder="Stock" min="0" value="${v.stock ?? 0}" oninput="updateAdminVariantData(${idx}, 'stock', this.value)" class="w-14 p-1 border rounded text-[11px] text-center">
+          <button type="button" onclick="removeAdminVariantRow(${idx})" class="w-5 h-5 bg-red-100 text-red-600 rounded flex items-center justify-center text-[11px] font-bold hover:bg-red-200 flex-shrink-0">&times;</button>
+        </div>
+      `).join('');
+    };
 
     window.toggleBodyScroll = function(lock) {
       document.body.style.overflow = lock ? 'hidden' : '';
@@ -930,7 +981,10 @@
       }
 
       container.innerHTML = items.map(item => {
-        const qtyInCart = window.appState.cart[item.id] || 0;
+        const totalQtyInCart = Object.keys(window.appState.cart)
+          .filter(k => k === item.id || k.startsWith(item.id + '::'))
+          .reduce((sum, k) => sum + window.appState.cart[k], 0);
+
         const isSoldOut = (item.stock <= 0);
         const thumbUrl = getProductThumbnail(item);
 
@@ -943,6 +997,9 @@
           stockBadgeHTML = `<span class="bg-emerald-100 text-emerald-800 text-[9px] font-medium px-2 py-0.5 rounded-full">${item.stock} in stock</span>`;
         }
 
+        const hasVariants = item.hasVariants && Array.isArray(item.variants) && item.variants.length > 0;
+        const shadeLabel = hasVariants ? `${item.variants.length} Shades Available` : (item.shade || item.category);
+
         return `
         <div class="bg-white rounded-2xl p-3 shadow-sm border border-gray-100 flex flex-col justify-between relative overflow-hidden">
           <div onclick="openProductDetailModal('${item.id}')" class="cursor-pointer">
@@ -952,7 +1009,7 @@
                 ${stockBadgeHTML}
               </div>
             </div>
-            <p class="text-[9px] uppercase tracking-wider text-rosegold font-bold mb-0.5">${item.shade || item.category}</p>
+            <p class="text-[9px] uppercase tracking-wider text-rosegold font-bold mb-0.5">${shadeLabel}</p>
             <h4 class="text-xs font-semibold leading-tight mb-1 text-charcoal line-clamp-1">${item.name}</h4>
             <p class="font-serif font-bold text-sm text-charcoal mb-2">SGD $${parseFloat(item.price).toFixed(2)}</p>
           </div>
@@ -964,14 +1021,18 @@
                 ${item.restockNote ? `<p class="text-[9px] text-rosegold mt-1 text-center font-medium">${item.restockNote}</p>` : ''}
               </div>`
               : 
-              (qtyInCart === 0 ? 
-                `<button onclick="event.stopPropagation(); updateCart('${item.id}', 1)" class="w-full py-2 bg-blush/60 hover:bg-blush text-charcoal rounded-xl text-xs font-semibold transition-all border border-blush">Add to Bag</button>`
-                : 
-                `<div onclick="event.stopPropagation();" class="flex items-center justify-between bg-gray-50 rounded-xl p-1 border border-gray-200">
-                  <button onclick="updateCart('${item.id}', -1)" class="w-7 h-7 rounded-lg bg-white shadow-sm text-charcoal font-bold flex items-center justify-center text-xs">-</button>
-                  <span class="font-semibold text-xs">${qtyInCart}</span>
-                  <button onclick="updateCart('${item.id}', 1)" class="w-7 h-7 rounded-lg bg-charcoal text-white shadow-sm font-bold flex items-center justify-center text-xs">+</button>
-                </div>`
+              (hasVariants ? 
+                `<button onclick="event.stopPropagation(); openProductDetailModal('${item.id}')" class="w-full py-2 bg-blush/60 hover:bg-blush text-charcoal rounded-xl text-xs font-semibold transition-all border border-blush">Select Shade</button>`
+                :
+                (totalQtyInCart === 0 ? 
+                  `<button onclick="event.stopPropagation(); updateCart('${item.id}', 1)" class="w-full py-2 bg-blush/60 hover:bg-blush text-charcoal rounded-xl text-xs font-semibold transition-all border border-blush">Add to Bag</button>`
+                  : 
+                  `<div onclick="event.stopPropagation();" class="flex items-center justify-between bg-gray-50 rounded-xl p-1 border border-gray-200">
+                    <button onclick="updateCart('${item.id}', -1)" class="w-7 h-7 rounded-lg bg-white shadow-sm text-charcoal font-bold flex items-center justify-center text-xs">-</button>
+                    <span class="font-semibold text-xs">${totalQtyInCart}</span>
+                    <button onclick="updateCart('${item.id}', 1)" class="w-7 h-7 rounded-lg bg-charcoal text-white shadow-sm font-bold flex items-center justify-center text-xs">+</button>
+                  </div>`
+                )
               )
             }
           </div>
@@ -985,7 +1046,8 @@
       if (!item) return;
 
       window.activeDetailItemId = itemId;
-      window.detailModalQty = window.appState.cart[itemId] || 1;
+      window.detailModalQty = 1;
+      window.selectedDetailVariant = null;
 
       const galleryList = (item.images && Array.isArray(item.images) && item.images.length > 0)
         ? item.images
@@ -1023,6 +1085,14 @@
       document.getElementById('detail-price').innerText = `SGD $${parseFloat(item.price).toFixed(2)}`;
       document.getElementById('detail-desc').innerText = item.description || 'No detailed description available for this cosmetic product.';
 
+      const variantsContainer = document.getElementById('detail-variants-container');
+      if (item.hasVariants && Array.isArray(item.variants) && item.variants.length > 0) {
+        variantsContainer.classList.remove('hidden');
+        renderVariantPills(item);
+      } else {
+        variantsContainer.classList.add('hidden');
+      }
+
       const badgeBox = document.getElementById('detail-stock-badge');
       const restockNoteBox = document.getElementById('detail-restock-note');
       const isSoldOut = (item.stock <= 0);
@@ -1049,9 +1119,56 @@
       document.getElementById('product-detail-modal').classList.remove('hidden');
     };
 
+    window.renderVariantPills = function(item) {
+      const container = document.getElementById('detail-variants-pills');
+      const labelEl = document.getElementById('selected-variant-label');
+      if (!container || !item.variants) return;
+
+      if (labelEl) {
+        labelEl.innerText = window.selectedDetailVariant ? `Selected: ${window.selectedDetailVariant}` : 'Please select a shade';
+      }
+
+      container.innerHTML = item.variants.map(vObj => {
+        const v = (typeof vObj === 'string') ? { name: vObj, hex: '#B76E79', stock: item.stock } : vObj;
+        const isSelected = (window.selectedDetailVariant === v.name);
+        const isOutOfStock = ((v.stock ?? 0) <= 0);
+        const safeVariantName = v.name.replace(/'/g, "\\'");
+        const hexBg = v.hex || '#B76E79';
+
+        if (isOutOfStock) {
+          return `
+            <div class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-gray-200 bg-gray-100 opacity-50 cursor-not-allowed text-xs relative overflow-hidden" title="${v.name} (Out of Stock)">
+              <span class="w-3.5 h-3.5 rounded-full border border-black/20" style="background-color: ${hexBg}"></span>
+              <span class="line-through text-gray-500 font-medium">${v.name}</span>
+              <span class="text-[9px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded font-bold ml-1">Sold Out</span>
+            </div>
+          `;
+        }
+
+        return `
+          <button type="button" onclick="selectDetailVariant('${safeVariantName}')"
+            class="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-medium transition-all border ${isSelected ? 'bg-charcoal text-white border-charcoal shadow-md scale-105' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50'}">
+            <span class="w-3.5 h-3.5 rounded-full border border-white/40 shadow-sm flex-shrink-0" style="background-color: ${hexBg}"></span>
+            <span>${v.name}</span>
+            <span class="text-[9px] opacity-75">(${v.stock})</span>
+          </button>
+        `;
+      }).join('');
+    };
+
+    window.selectDetailVariant = function(variantName) {
+      window.selectedDetailVariant = variantName;
+      const item = window.appState.inventory.find(i => i.id === window.activeDetailItemId);
+      if (item) {
+        renderVariantPills(item);
+        renderDetailActionContainer(item);
+      }
+    };
+
     window.closeProductDetailModal = function() {
       document.getElementById('product-detail-modal').classList.add('hidden');
       window.activeDetailItemId = null;
+      window.selectedDetailVariant = null;
       window.toggleBodyScroll(false);
     };
 
@@ -1068,6 +1185,20 @@
         return;
       }
 
+      const hasVariants = item.hasVariants && Array.isArray(item.variants) && item.variants.length > 0;
+      const requiresVariant = hasVariants && !window.selectedDetailVariant;
+
+      if (requiresVariant) {
+        container.innerHTML = `
+          <div class="space-y-2">
+            <button onclick="showToast('Please select a shade / variant first!', 'warning')" class="w-full py-3.5 bg-gray-200 text-gray-600 rounded-2xl text-xs font-semibold hover:bg-gray-300 transition-colors flex items-center justify-center">
+              <i class="fa-solid fa-hand-pointer mr-2 text-rosegold"></i> Please Select a Shade First
+            </button>
+          </div>
+        `;
+        return;
+      }
+
       container.innerHTML = `
         <div class="flex space-x-3 items-center">
           <div class="flex items-center bg-gray-100 rounded-2xl p-1 border border-gray-200">
@@ -1076,7 +1207,7 @@
             <button onclick="changeDetailQty(1)" class="w-8 h-8 rounded-xl bg-charcoal text-white shadow-sm font-bold flex items-center justify-center text-xs">+</button>
           </div>
           <button onclick="addFromDetailModal('${item.id}')" class="flex-1 py-3.5 bg-charcoal hover:bg-black text-white rounded-2xl text-xs font-semibold shadow-md transition-all flex items-center justify-center">
-            <i class="fa-solid fa-bag-shopping mr-2 text-rosegold"></i> Add to Bag
+            <i class="fa-solid fa-bag-shopping mr-2 text-rosegold"></i> Add to Bag ${window.selectedDetailVariant ? `(${window.selectedDetailVariant})` : ''}
           </button>
         </div>
       `;
@@ -1088,8 +1219,22 @@
 
       const newQty = window.detailModalQty + change;
       if (newQty < 1) return;
-      if (newQty > item.stock) {
-        showToast(`Only ${item.stock} unit(s) available in stock.`, "warning");
+
+      const hasVariants = item.hasVariants && Array.isArray(item.variants) && item.variants.length > 0;
+      let availableStock = item.stock;
+
+      if (hasVariants && window.selectedDetailVariant) {
+        const variantObj = item.variants.find(v => (typeof v === 'string' ? v === window.selectedDetailVariant : v.name === window.selectedDetailVariant));
+        if (variantObj && typeof variantObj !== 'string') {
+          availableStock = variantObj.stock;
+        }
+      }
+
+      let cartKey = (hasVariants && window.selectedDetailVariant) ? `${item.id}::${window.selectedDetailVariant}` : item.id;
+      let qtyInCartForThisVariant = window.appState.cart[cartKey] || 0;
+
+      if ((qtyInCartForThisVariant + newQty) > availableStock) {
+        showToast(`Only ${availableStock} unit(s) available in stock for this shade.`, "warning");
         return;
       }
 
@@ -1102,35 +1247,65 @@
       const item = window.appState.inventory.find(i => i.id === itemId);
       if (!item) return;
 
-      const targetQty = window.detailModalQty;
-      if (targetQty > item.stock) {
-        showToast(`Cannot add ${targetQty} units. Only ${item.stock} left.`, "warning");
+      const hasVariants = item.hasVariants && Array.isArray(item.variants) && item.variants.length > 0;
+      if (hasVariants && !window.selectedDetailVariant) {
+        showToast("Please select a shade / variant first!", "warning");
         return;
       }
 
-      window.appState.cart[itemId] = targetQty;
+      let availableStock = item.stock;
+      if (hasVariants && window.selectedDetailVariant) {
+        const variantObj = item.variants.find(v => (typeof v === 'string' ? v === window.selectedDetailVariant : v.name === window.selectedDetailVariant));
+        if (variantObj && typeof variantObj !== 'string') {
+          availableStock = variantObj.stock;
+        }
+      }
+
+      const cartKey = (hasVariants && window.selectedDetailVariant)
+        ? `${itemId}::${window.selectedDetailVariant}`
+        : itemId;
+
+      const targetQty = window.detailModalQty;
+      const qtyInCartForThisVariant = window.appState.cart[cartKey] || 0;
+
+      if ((qtyInCartForThisVariant + targetQty) > availableStock) {
+        showToast(`Cannot add ${targetQty} units. Exceeds available stock of ${availableStock} for this shade.`, "warning");
+        return;
+      }
+
+      window.appState.cart[cartKey] = qtyInCartForThisVariant + targetQty;
       renderShopItems();
       updateCartUI();
       closeProductDetailModal();
-      showToast(`Added ${targetQty}x ${item.name} to bag!`, "success");
+      const variantLabel = window.selectedDetailVariant ? ` (${window.selectedDetailVariant})` : '';
+      showToast(`Added ${targetQty}x ${item.name}${variantLabel} to bag!`, "success");
     };
 
-    window.updateCart = function(itemId, change) {
+    window.updateCart = function(cartKey, change) {
+      const { itemId, variant } = parseCartKey(cartKey);
       const item = window.appState.inventory.find(i => i.id === itemId);
       if (!item) return;
 
-      const currentQty = window.appState.cart[itemId] || 0;
+      const currentQty = window.appState.cart[cartKey] || 0;
       const newQty = currentQty + change;
 
-      if (change > 0 && newQty > item.stock) {
-        showToast(`Sorry, only ${item.stock} unit(s) available for ${item.name}`, "warning");
+      let availableStock = item.stock;
+      if (variant && item.hasVariants && Array.isArray(item.variants)) {
+        const vObj = item.variants.find(v => (typeof v === 'string' ? v === variant : v.name === variant));
+        if (vObj && typeof vObj !== 'string') {
+          availableStock = vObj.stock;
+        }
+      }
+
+      if (change > 0 && newQty > availableStock) {
+        showToast(`Sorry, only ${availableStock} unit(s) available for ${item.name} (${variant || 'Default'})`, "warning");
         return;
       }
 
       if (newQty <= 0) {
-        delete window.appState.cart[itemId];
+        delete window.appState.cart[cartKey];
       } else {
-        window.appState.cart[itemId] = newQty;
+        window.appState.cart[cartKey] = newQty;
       }
 
       renderShopItems();
@@ -1144,10 +1319,11 @@
       let totalQty = 0;
       let subtotal = 0;
 
-      Object.keys(window.appState.cart).forEach(id => {
-        const item = window.appState.inventory.find(i => i.id === id);
+      Object.keys(window.appState.cart).forEach(cartKey => {
+        const { itemId } = parseCartKey(cartKey);
+        const item = window.appState.inventory.find(i => i.id === itemId);
         if (item) {
-          const qty = window.appState.cart[id];
+          const qty = window.appState.cart[cartKey];
           totalQty += qty;
           subtotal += (item.price * qty);
         }
@@ -1211,21 +1387,26 @@
         return;
       }
 
-      container.innerHTML = cartKeys.map(id => {
-        const item = window.appState.inventory.find(i => i.id === id);
-        const qty = window.appState.cart[id];
+      container.innerHTML = cartKeys.map(cartKey => {
+        const { itemId, variant } = parseCartKey(cartKey);
+        const item = window.appState.inventory.find(i => i.id === itemId);
+        if (!item) return '';
+        const qty = window.appState.cart[cartKey];
+        const displayShade = variant ? `Shade: ${variant}` : (item.shade || item.category);
+        const safeCartKey = cartKey.replace(/'/g, "\\'");
+
         return `
         <div class="flex items-center space-x-3 bg-white p-2.5 rounded-xl border border-gray-100 shadow-sm">
-          <img src="${item.image}" class="w-14 h-14 rounded-lg object-cover bg-gray-100 flex-shrink-0">
+          <img src="${getProductThumbnail(item)}" class="w-14 h-14 rounded-lg object-cover bg-gray-100 flex-shrink-0">
           <div class="flex-grow">
             <h5 class="text-xs font-semibold text-charcoal line-clamp-1">${item.name}</h5>
-            <p class="text-[10px] text-gray-400 mb-0.5">${item.shade || item.category}</p>
+            <p class="text-[10px] text-gray-400 mb-0.5">${displayShade}</p>
             <p class="font-serif text-xs font-bold text-rosegold">SGD $${parseFloat(item.price).toFixed(2)}</p>
           </div>
           <div class="flex flex-col items-center border border-gray-200 rounded-lg overflow-hidden bg-gray-50">
-            <button onclick="updateCart('${item.id}', 1)" class="w-7 h-5 text-gray-600 hover:bg-gray-100 flex justify-center items-center text-[10px]"><i class="fa-solid fa-plus"></i></button>
+            <button onclick="updateCart('${safeCartKey}', 1)" class="w-7 h-5 text-gray-600 hover:bg-gray-100 flex justify-center items-center text-[10px]"><i class="fa-solid fa-plus"></i></button>
             <span class="w-7 h-5 flex justify-center items-center text-xs font-semibold border-y border-gray-200 bg-white">${qty}</span>
-            <button onclick="updateCart('${item.id}', -1)" class="w-7 h-5 text-gray-600 hover:bg-gray-100 flex justify-center items-center text-[10px]"><i class="fa-solid fa-minus"></i></button>
+            <button onclick="updateCart('${safeCartKey}', -1)" class="w-7 h-5 text-gray-600 hover:bg-gray-100 flex justify-center items-center text-[10px]"><i class="fa-solid fa-minus"></i></button>
           </div>
         </div>
         `;
@@ -1279,26 +1460,37 @@
         showToast("Please enter your local delivery address.", "warning");
         return;
       }
-      if (type === 'Self-Pickup' && !pickupDate) {
-        showToast("Please select your preferred pickup date.", "warning");
-        return;
+      if (type === 'Self-Pickup') {
+        if (!pickupDate) {
+          showToast("Please select your preferred pickup date.", "warning");
+          return;
+        }
+        const selectedDateObj = new Date(pickupDate + 'T00:00:00');
+        const day = selectedDateObj.getDay();
+        if (day !== 0 && day !== 6) {
+          showToast("Self-pickup is only available on weekends (Saturday & Sunday)", "warning");
+          return;
+        }
       }
 
       let subtotal = 0;
       let orderLines = "";
       let orderItemsArray = [];
 
-      Object.keys(window.appState.cart).forEach(id => {
-        const item = window.appState.inventory.find(i => i.id === id);
+      Object.keys(window.appState.cart).forEach(cartKey => {
+        const { itemId, variant } = parseCartKey(cartKey);
+        const item = window.appState.inventory.find(i => i.id === itemId);
         if (item) {
-          const qty = window.appState.cart[id];
+          const qty = window.appState.cart[cartKey];
           const itemTotal = item.price * qty;
           subtotal += itemTotal;
-          orderLines += `• ${qty}x ${item.name} (${item.shade || 'Default'}) - SGD $${itemTotal.toFixed(2)}\n`;
+          const shadeText = variant || item.shade || 'Default';
+          orderLines += `• ${qty}x ${item.name} (${shadeText}) - SGD $${itemTotal.toFixed(2)}\n`;
           orderItemsArray.push({
-            id: id,
+            id: itemId,
+            cartKey: cartKey,
             name: item.name,
-            shade: item.shade || '',
+            shade: shadeText,
             quantity: qty,
             price: item.price
           });
@@ -1329,8 +1521,26 @@
           status: 'Pending',
           createdAt: new Date().toISOString()
         });
+
+        let updatedInventory = [...window.appState.inventory];
+        orderItemsArray.forEach(orderedItem => {
+          const invItem = updatedInventory.find(i => i.id === orderedItem.id);
+          if (invItem) {
+            if (invItem.hasVariants && Array.isArray(invItem.variants)) {
+              const variantObj = invItem.variants.find(v => (typeof v === 'string' ? v === orderedItem.shade : v.name === orderedItem.shade));
+              if (variantObj && typeof variantObj !== 'string') {
+                variantObj.stock = Math.max(0, (variantObj.stock || 0) - orderedItem.quantity);
+              }
+              invItem.stock = invItem.variants.reduce((sum, v) => sum + (typeof v === 'string' ? invItem.stock : (v.stock || 0)), 0);
+            } else {
+              invItem.stock = Math.max(0, (invItem.stock || 0) - orderedItem.quantity);
+            }
+          }
+        });
+
+        await updateDoc(storeDocRef, { inventory: updatedInventory });
       } catch (err) {
-        console.error("Error saving order to Firestore:", err);
+        console.error("Error saving order or updating stock in Firestore:", err);
       }
 
       let msg = `✨ *New Order - KinQoon Cosmetics* ✨\n\n`;
@@ -1668,9 +1878,13 @@
     window.openAddItemModal = function() {
       populateCategoryDropdown();
       window.tempUploadedImages = [];
+      window.adminVariantsList = [];
       document.getElementById('item-id').value = '';
       document.getElementById('item-name').value = '';
       document.getElementById('item-shade').value = '';
+      document.getElementById('item-has-variants').checked = false;
+      window.toggleVariantsInput(false);
+      window.renderAdminVariantsList();
       document.getElementById('item-price').value = '';
       document.getElementById('item-stock').value = '10';
       document.getElementById('item-restock-note').value = '';
@@ -1696,6 +1910,24 @@
         document.getElementById('item-name').value = item.name;
         document.getElementById('item-category').value = item.category;
         document.getElementById('item-shade').value = item.shade || '';
+        
+        const hasVar = !!item.hasVariants;
+        document.getElementById('item-has-variants').checked = hasVar;
+        
+        if (hasVar && Array.isArray(item.variants)) {
+          window.adminVariantsList = item.variants.map(v => {
+            if (typeof v === 'string') {
+              return { name: v, hex: '#B76E79', stock: item.stock || 10 };
+            }
+            return { name: v.name || '', hex: v.hex || '#B76E79', stock: v.stock ?? 10 };
+          });
+        } else {
+          window.adminVariantsList = [];
+        }
+
+        window.toggleVariantsInput(hasVar);
+        window.renderAdminVariantsList();
+
         document.getElementById('item-price').value = item.price;
         document.getElementById('item-stock').value = item.stock ?? 10;
         document.getElementById('item-restock-note').value = item.restockNote || '';
@@ -1790,13 +2022,25 @@
         ? window.tempUploadedImages
         : (imageInputVal ? [imageInputVal] : []);
 
+      const hasVariants = document.getElementById('item-has-variants').checked;
+      const variants = hasVariants
+        ? (window.adminVariantsList || []).filter(v => v.name && v.name.trim() !== '')
+        : [];
+
+      let overallStock = parseInt(document.getElementById('item-stock').value) || 0;
+      if (hasVariants && variants.length > 0) {
+        overallStock = variants.reduce((sum, v) => sum + (parseInt(v.stock) || 0), 0);
+      }
+
       const newItem = {
         id: id,
         name: document.getElementById('item-name').value.trim(),
         category: document.getElementById('item-category').value,
         shade: document.getElementById('item-shade').value.trim(),
+        hasVariants: hasVariants,
+        variants: variants,
         price: parseFloat(document.getElementById('item-price').value) || 0,
-        stock: parseInt(document.getElementById('item-stock').value) || 0,
+        stock: overallStock,
         restockNote: document.getElementById('item-restock-note').value.trim(),
         image: finalImages[0] || 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&q=80',
         images: finalImages,
@@ -1819,53 +2063,55 @@
       });
     };
 
-    window.deleteItem = async function(id) {
-      const updatedInventory = window.appState.inventory.filter(i => i.id !== id);
-      syncToFirebase({ inventory: updatedInventory });
+    window.deleteItem = function(id) {
+      if (confirm("Delete this product from inventory?")) {
+        const updatedInventory = window.appState.inventory.filter(i => i.id !== id);
+        syncToFirebase({ inventory: updatedInventory });
+      }
     };
 
-    window.onload = function() {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        const swCode = `
+          const CACHE_NAME = 'km-admin-v1';
+          self.addEventListener('install', (e) => self.skipWaiting());
+          self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
+          self.addEventListener('fetch', (e) => {
+            if (e.request.method !== 'GET') return;
+            e.respondWith(
+              fetch(e.request).catch(() => caches.match(e.request))
+            );
+          });
+        `;
+        const blob = new Blob([swCode], { type: 'application/javascript' });
+        const swUrl = URL.createObjectURL(blob);
+        navigator.serviceWorker.register(swUrl)
+          .then(() => console.log('Admin PWA Service Worker Registered'))
+          .catch(err => console.warn('Service Worker registration skipped/failed:', err));
+      });
+    }
+
+    window.addEventListener('load', () => {
       initApp();
       navTo('home');
       setFulfillment('Delivery');
 
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          const swCode = `
-            const CACHE_NAME = 'km-admin-v1';
-            self.addEventListener('install', (e) => self.skipWaiting());
-            self.addEventListener('activate', (e) => self.clients.claim());
-            self.addEventListener('fetch', (event) => {
-              if (event.request.method !== 'GET') return;
-              event.respondWith(
-                fetch(event.request)
-                  .then((response) => {
-                    if (response && response.status === 200 && response.type === 'basic') {
-                      const responseClone = response.clone();
-                      caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone));
-                    }
-                    return response;
-                  })
-                  .catch(() => caches.match(event.request))
-              );
-            });
-          `;
-          try {
-            const blob = new Blob([swCode], { type: 'application/javascript' });
-            const swUrl = URL.createObjectURL(blob);
-            navigator.serviceWorker.register(swUrl)
-              .then(reg => console.log('Admin PWA Service Worker registered'))
-              .catch(err => {
-                navigator.serviceWorker.register('/sw.js')
-                  .then(reg => console.log('Fallback sw.js registered'))
-                  .catch(e => console.log('Service Worker error:', e));
-              });
-          } catch(e) {
-            console.log('SW registration error:', e);
+      const pickupDateInput = document.getElementById('pickup-date');
+      if (pickupDateInput) {
+        const todayStr = new Date().toISOString().split('T')[0];
+        pickupDateInput.min = todayStr;
+
+        pickupDateInput.addEventListener('change', function() {
+          if (!this.value) return;
+          const selectedDate = new Date(this.value + 'T00:00:00');
+          const day = selectedDate.getDay();
+          if (day !== 0 && day !== 6) {
+            showToast("Self-pickup is only available on weekends (Saturday & Sunday)", "warning");
+            this.value = '';
           }
         });
       }
-    };
+    });
   </script>
 </body>
 </html>
