@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   
-  <!-- PWA Mobile Web App Capabilities & Manifest -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -14,13 +13,10 @@
 
   <title>KinQoon Cosmetics | Elevate Your Everyday Glow</title>
   
-  <!-- Fonts: Playfair Display for chic headings, Poppins for clean UI text -->
+  <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-  
-  <!-- FontAwesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -62,8 +58,10 @@
 </head>
 <body class="text-charcoal antialiased flex justify-center selection:bg-blushDark selection:text-charcoal">
 
+  <!-- Toast Notification Container -->
   <div id="toast-container" class="fixed top-4 left-1/2 -translate-x-1/2 z-[9999] w-11/12 max-w-sm space-y-2 pointer-events-none"></div>
 
+  <!-- Main App Frame -->
   <div id="app-container" class="w-full max-w-md bg-white min-h-screen relative overflow-x-hidden flex flex-col">
     
     <!-- Announcement Banner -->
@@ -74,7 +72,6 @@
       </button>
     </div>
 
-    <!-- HEADER -->
     <header class="pt-6 pb-4 px-6 text-center sticky top-0 bg-white/90 backdrop-blur-md z-30 border-b border-blush/30">
       <div id="brand-header-content" class="flex flex-col items-center justify-center relative">
         <div id="header-logo-container" class="mb-1 cursor-pointer" onclick="navTo('home')">
@@ -82,7 +79,7 @@
         </div>
         <p class="text-[10px] text-rosegold tracking-widest uppercase font-semibold">Cosmetics</p>
         
-        <!-- Telegram Group Link Button (Admin-Managed) -->
+        <!-- Telegram Group Link Button -->
         <a id="header-telegram-group-btn" href="#" target="_blank" class="hidden absolute right-0 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-[#229ED9]/10 text-[#229ED9] flex items-center justify-center hover:bg-[#229ED9] hover:text-white transition-all text-sm" title="Join Telegram Group">
           <i class="fa-brands fa-telegram"></i>
         </a>
@@ -100,17 +97,14 @@
           </div>
         </div>
 
-        <!-- Store Status Badge -->
         <div id="home-status-badge" class="mb-3 px-4 py-2 rounded-full text-xs font-semibold transition-colors flex items-center justify-center text-center">
         </div>
 
-        <!-- Off-Hours Warning Banner (Home View) -->
         <div id="home-off-hours-warning" class="hidden w-full mb-5 p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs flex items-start space-x-2">
           <i class="fa-solid fa-moon text-amber-600 mt-0.5 text-sm flex-shrink-0"></i>
           <p class="leading-relaxed">🌙 We are currently outside operational hours. You can still place your order now, but our agent will process and reply to you as soon as we are online!</p>
         </div>
 
-        <!-- Primary Actions -->
         <div class="w-full space-y-3">
           <button onclick="navTo('shop')" class="w-full py-4 bg-charcoal text-white rounded-2xl font-medium shadow-md hover:bg-black transition-all flex items-center justify-center">
             <i class="fa-solid fa-bag-shopping mr-2 text-rosegold"></i> Shop Cosmetics
@@ -151,19 +145,16 @@
           <span class="text-xs text-rosegold font-semibold tracking-wider uppercase">Catalog</span>
         </div>
 
-        <!-- Off-Hours Warning Banner (Shop View) -->
         <div id="shop-off-hours-warning" class="hidden my-3 mx-4 p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs flex items-start space-x-2">
           <i class="fa-solid fa-moon text-amber-600 mt-0.5 text-sm flex-shrink-0"></i>
           <p class="leading-relaxed">🌙 We are currently outside operational hours. You can still place your order now, but our agent will process and reply to you as soon as we are online!</p>
         </div>
 
-        <!-- Dynamic Category Filter Tabs -->
         <div class="px-3 mb-2 mt-2">
           <div id="category-tabs" class="flex space-x-2 overflow-x-auto no-scrollbar py-1">
           </div>
         </div>
 
-        <!-- Product Grid -->
         <div id="product-grid" class="px-4 grid grid-cols-2 gap-3">
         </div>
 
@@ -180,7 +171,7 @@
           </button>
         </div>
 
-        <!-- Store Operations & Hours -->
+        <!-- Store Operations & Settings -->
         <div class="bg-white p-4 rounded-2xl shadow-sm mb-4 border border-gray-100">
           <h3 class="font-medium text-xs text-rosegold font-bold uppercase tracking-wider mb-3">Store Operations</h3>
           
@@ -195,7 +186,6 @@
             </label>
           </div>
 
-          <!-- Operational Hours Pickers -->
           <div class="grid grid-cols-2 gap-2 mb-3">
             <div>
               <label class="text-[10px] text-gray-500 block mb-1">Opening Time</label>
@@ -208,22 +198,56 @@
           </div>
           <button onclick="saveOperatingHours()" class="w-full py-2 bg-charcoal text-white rounded-lg text-xs font-medium mb-3">Save Store Hours</button>
 
-          <!-- Delivery Fee & Telegram Handles -->
-          <div class="grid grid-cols-2 gap-2">
+          <div class="grid grid-cols-2 gap-2 mb-2">
             <div>
               <label class="text-[10px] text-gray-500 block mb-1">Standard Delivery Fee ($)</label>
               <input type="number" step="0.50" id="admin-delivery-fee" class="w-full p-2 border rounded-lg text-xs">
             </div>
             <div>
               <label class="text-[10px] text-gray-500 block mb-1">Telegram Admin Username</label>
-              <input type="text" id="admin-telegram-input" class="w-full p-2 border rounded-lg text-xs">
+              <input type="text" id="admin-telegram-input" placeholder="KinQoonAdmin" class="w-full p-2 border rounded-lg text-xs">
             </div>
           </div>
-          <div class="mt-2">
-            <label class="text-[10px] text-gray-500 block mb-1">Telegram Community Group Link</label>
-            <input type="url" id="admin-telegram-group-link" placeholder="https://t.me/..." class="w-full p-2 border rounded-lg text-xs">
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-[10px] text-gray-500 block mb-1">WhatsApp Contact Number</label>
+              <input type="text" id="admin-whatsapp-input" placeholder="e.g. 60123456789" class="w-full p-2 border rounded-lg text-xs">
+            </div>
+            <div>
+              <label class="text-[10px] text-gray-500 block mb-1">Telegram Community Link</label>
+              <input type="url" id="admin-telegram-group-link" placeholder="https://t.me/..." class="w-full p-2 border rounded-lg text-xs">
+            </div>
           </div>
-          <button onclick="saveStoreSettings()" class="w-full py-2 border border-charcoal text-charcoal rounded-lg text-xs font-medium mt-2">Save Settings</button>
+          <button onclick="saveStoreSettings()" class="w-full py-2 border border-charcoal text-charcoal rounded-lg text-xs font-medium mt-3">Save Settings</button>
+        </div>
+
+        <!-- Security / Admin Password Change Section -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm mb-4 border border-gray-100">
+          <h3 class="font-medium text-xs text-rosegold font-bold uppercase tracking-wider mb-3">Security / Admin Passcode</h3>
+          <div class="grid grid-cols-2 gap-2 mb-2">
+            <div>
+              <label class="text-[10px] text-gray-500 block mb-1">New Password</label>
+              <input type="password" id="admin-new-password" placeholder="Min 6 characters" class="w-full p-2 border rounded-lg text-xs">
+            </div>
+            <div>
+              <label class="text-[10px] text-gray-500 block mb-1">Confirm New Password</label>
+              <input type="password" id="admin-confirm-password" placeholder="Confirm password" class="w-full p-2 border rounded-lg text-xs">
+            </div>
+          </div>
+          <button onclick="changeAdminPassword()" class="w-full py-2 bg-charcoal text-white rounded-lg text-xs font-medium">Update Password</button>
+        </div>
+
+        <!-- Pickup Location Management Section -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm mb-4 border border-gray-100">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="font-medium text-xs text-rosegold font-bold uppercase tracking-wider">Pickup Locations</h3>
+          </div>
+          <div class="flex space-x-2 mb-3">
+            <input type="text" id="new-pickup-location-input" placeholder="e.g. Central Studio - Bugis" class="flex-1 p-2 border rounded-lg text-xs">
+            <button onclick="addPickupLocation()" class="px-4 bg-charcoal text-white rounded-lg text-xs font-medium">Add</button>
+          </div>
+          <div id="admin-pickup-locations-list" class="space-y-2">
+          </div>
         </div>
 
         <!-- Announcement Banner Settings -->
@@ -243,7 +267,6 @@
         <div class="bg-white p-4 rounded-2xl shadow-sm mb-4 border border-gray-100 space-y-3">
           <h3 class="font-medium text-xs text-rosegold font-bold uppercase tracking-wider">Branding & Content</h3>
 
-          <!-- Hero Section Editor -->
           <div class="border-b border-gray-100 pb-3 mb-3 space-y-2">
             <h4 class="font-semibold text-xs text-charcoal">Hero Banner Section</h4>
             <div>
@@ -266,7 +289,6 @@
             </div>
           </div>
 
-          <!-- Logo Upload -->
           <div>
             <label class="text-[10px] text-gray-500 block mb-1">Brand Logo URL or Upload</label>
             <div class="flex space-x-2 mb-2">
@@ -282,13 +304,11 @@
             </div>
           </div>
 
-          <!-- Our Story -->
           <div>
             <label class="text-[10px] text-gray-500 block mb-1">Our Story Text</label>
             <textarea id="admin-about-story" class="w-full p-2 border rounded-lg text-xs h-20 resize-none"></textarea>
           </div>
 
-          <!-- Delivery Info -->
           <div>
             <label class="text-[10px] text-gray-500 block mb-1">Delivery Information Text</label>
             <textarea id="admin-delivery-info" class="w-full p-2 border rounded-lg text-xs h-20 resize-none"></textarea>
@@ -364,6 +384,7 @@
           <div id="cart-items-list" class="space-y-3 mb-4">
           </div>
 
+          <!-- Fulfillment & Customer Details Form -->
           <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 my-4 space-y-3">
             <h4 class="font-serif text-xs font-bold text-charcoal uppercase tracking-wider">Fulfillment & Customer Details</h4>
             
@@ -389,6 +410,11 @@
 
               <div id="pickup-fields-group" class="hidden space-y-2.5">
                 <div>
+                  <label class="block text-[10px] text-gray-500 font-medium mb-1">Preferred Pickup Location *</label>
+                  <select id="pickup-location" class="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:outline-none focus:border-rosegold">
+                  </select>
+                </div>
+                <div>
                   <label class="block text-[10px] text-gray-500 font-medium mb-1">Preferred Pickup Date *</label>
                   <input type="date" id="pickup-date" class="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:outline-none focus:border-rosegold">
                 </div>
@@ -404,6 +430,7 @@
             </form>
           </div>
 
+          <!-- Promo Code Section -->
           <div class="bg-gray-50 p-3 rounded-xl mb-4 border border-gray-100">
             <label class="block text-[10px] font-medium text-gray-500 mb-1">Voucher / Promo Code</label>
             <div class="flex space-x-2">
@@ -416,9 +443,24 @@
             </div>
           </div>
 
+          <!-- Messaging Platform Selector (Telegram vs WhatsApp) -->
+          <div class="bg-gray-50 p-3.5 rounded-2xl mb-4 border border-gray-100">
+            <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2">Send Order Via *</label>
+            <div class="grid grid-cols-2 gap-2">
+              <button type="button" id="btn-platform-telegram" onclick="setOrderPlatform('telegram')" class="flex items-center justify-center space-x-2 p-2.5 rounded-xl border border-[#229ED9] bg-[#229ED9] text-white text-xs font-medium transition-all shadow-sm">
+                <i class="fa-brands fa-telegram text-sm"></i>
+                <span>Telegram</span>
+              </button>
+              <button type="button" id="btn-platform-whatsapp" onclick="setOrderPlatform('whatsapp')" class="flex items-center justify-center space-x-2 p-2.5 rounded-xl border border-gray-200 bg-white text-gray-700 text-xs font-medium transition-all hover:bg-gray-50">
+                <i class="fa-brands fa-whatsapp text-sm text-[#25D366]"></i>
+                <span>WhatsApp</span>
+              </button>
+            </div>
+          </div>
+
           <div class="bg-blush/30 p-3 rounded-xl mb-4 border border-blush text-xs">
             <h4 class="font-medium mb-1"><i class="fa-solid fa-circle-info text-rosegold mr-1.5"></i>Order Confirmation</h4>
-            <p class="text-gray-600 leading-relaxed text-[11px]">Orders are submitted directly to our Telegram support line. PayNow SG details will be provided upon confirmation.</p>
+            <p class="text-gray-600 leading-relaxed text-[11px]">Orders are submitted directly via your selected messaging channel. PayNow SG details will be provided upon confirmation.</p>
           </div>
         </div>
 
@@ -440,8 +482,8 @@
             <span class="font-serif text-xl font-bold text-charcoal">SGD $<span id="cart-total-modal">0.00</span></span>
           </div>
           
-          <button onclick="processTelegramCheckout()" class="w-full py-3.5 bg-[#229ED9] text-white rounded-xl font-medium shadow-md hover:bg-[#1C88BA] transition-all flex items-center justify-center text-sm mt-2">
-            <i class="fa-brands fa-telegram mr-2 text-base"></i> Send Order via Telegram
+          <button id="btn-submit-order" onclick="processOrderCheckout()" class="w-full py-3.5 bg-[#229ED9] text-white rounded-xl font-medium shadow-md hover:bg-[#1C88BA] transition-all flex items-center justify-center text-sm mt-2">
+            <i id="btn-order-icon" class="fa-brands fa-telegram mr-2 text-base"></i> <span id="btn-order-text">Send Order via Telegram</span>
           </button>
         </div>
       </div>
@@ -585,6 +627,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, doc, getDoc, setDoc, onSnapshot, updateDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
     import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+    import { getAuth, updatePassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDXm1ZM-N9mWr49fJd9DJK3mJPxJ9i-bBs",
@@ -598,6 +641,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const storage = getStorage(app);
+    const auth = getAuth(app);
     const storeDocRef = doc(db, "kinqoon", "storeData");
 
     window.appState = {
@@ -617,13 +661,17 @@
       faqs: [],
       categories: ["Lips", "Eyes", "Face", "Skincare"],
       telegramUsername: 'KinQoonAdmin',
+      whatsappNumber: '6590000000',
       telegramGroupLink: '',
+      adminPasscode: 'kinqoon123',
+      pickupLocations: ["Central Studio - Bugis", "East Hub - Tampines"],
       inventory: [],
       cart: {},
       fulfillment: 'Delivery',
       pickupDate: '',
       pickupTime: '',
-      activeCategory: 'All'
+      activeCategory: 'All',
+      selectedPlatform: 'telegram'
     };
 
     window.tempUploadedImages = [];
@@ -735,14 +783,17 @@
             promoCodes: [{ code: "GLOW10", type: "percent", value: 10 }],
             logoUrl: "",
             aboutStory: "At KinQoon Cosmetics, we believe in high-quality, skin-friendly beauty that empowers your natural radiance. From silky lip tints to luminous glow bases, our collections are carefully curated to bring chic, everyday luxury to your routine.",
-            deliveryInfo: "Local SG Delivery:\nFlat SGD $5.00 islandwide fee. Orders are processed and dispatched within 1-2 business days.\n\nSelf-Pickup:\nAvailable at our central studio. You can schedule your preferred pickup date and time window during checkout.",
+            deliveryInfo: "Local SG Delivery:\nFlat SGD $5.00 islandwide fee. Orders are processed and dispatched within 1-2 business days.\n\nSelf-Pickup:\nAvailable at our designated studio locations. Select your preferred pickup location and weekend time window during checkout.",
             faqs: [
-              { q: "How do I pay for my order?", a: "Orders are processed directly via Telegram. Once submitted, our staff will verify availability and provide PayNow SG QR details." },
+              { q: "How do I pay for my order?", a: "Orders are processed directly via Telegram or WhatsApp. Once submitted, our staff will verify availability and provide PayNow SG QR details." },
               { q: "Are KinQoon products suitable for sensitive skin?", a: "Yes, all our formulas are dermatologist-tested and formulated with skin-loving ingredients." }
             ],
             categories: ["Lips", "Eyes", "Face", "Skincare"],
             telegramUsername: 'KinQoonAdmin',
+            whatsappNumber: '6590000000',
             telegramGroupLink: '',
+            adminPasscode: 'kinqoon123',
+            pickupLocations: ["Central Studio - Bugis", "East Hub - Tampines"],
             inventory: [
               { id: 'item_1', name: 'Velvet Matte Lip Tint', category: 'Lips', shade: '04 Rosewood', price: 18.00, stock: 10, restockNote: '', image: 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=400&q=80', images: ['https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=400&q=80'], description: 'Long-lasting, weightless velvet matte finish.' },
               { id: 'item_2', name: 'Glow Highlighter Palette', category: 'Face', shade: 'Champagne Pop', price: 25.00, stock: 3, restockNote: '', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&q=80', images: ['https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&q=80'], description: 'Build your custom luminous glow.' },
@@ -770,7 +821,10 @@
             window.appState.faqs = data.faqs || [];
             window.appState.categories = data.categories || ["Lips", "Eyes", "Face", "Skincare"];
             window.appState.telegramUsername = data.telegramUsername || 'KinQoonAdmin';
+            window.appState.whatsappNumber = data.whatsappNumber || '6590000000';
             window.appState.telegramGroupLink = data.telegramGroupLink || '';
+            window.appState.adminPasscode = data.adminPasscode || 'kinqoon123';
+            window.appState.pickupLocations = data.pickupLocations || ["Central Studio - Bugis", "East Hub - Tampines"];
             window.appState.inventory = data.inventory || [];
 
             updateAllUIComponents();
@@ -890,6 +944,9 @@
       document.getElementById('admin-close-time').value = window.appState.closeTime;
       document.getElementById('admin-delivery-fee').value = window.appState.deliveryFee;
       document.getElementById('admin-telegram-input').value = window.appState.telegramUsername;
+      if (document.getElementById('admin-whatsapp-input')) {
+        document.getElementById('admin-whatsapp-input').value = window.appState.whatsappNumber || '';
+      }
       document.getElementById('admin-telegram-group-link').value = window.appState.telegramGroupLink || '';
       document.getElementById('admin-announcement-toggle').checked = window.appState.announcementEnabled;
       document.getElementById('admin-announcement-text').value = window.appState.announcementText;
@@ -899,6 +956,8 @@
       document.getElementById('admin-about-story').value = window.appState.aboutStory;
       document.getElementById('admin-delivery-info').value = window.appState.deliveryInfo;
 
+      renderAdminPickupLocations();
+      renderCheckoutPickupLocations();
       renderAdminFaqs();
       renderAdminCategories();
       renderCategoryTabs();
@@ -944,9 +1003,81 @@
         btnDel.className = "flex-1 py-2 text-xs font-medium rounded-lg text-gray-500 hover:text-charcoal transition-all bg-transparent";
         delGroup.classList.add('hidden');
         picGroup.classList.remove('hidden');
+        renderCheckoutPickupLocations();
       }
       updateCartUI();
     };
+
+    window.setOrderPlatform = function(platform) {
+      window.appState.selectedPlatform = platform;
+      const btnTg = document.getElementById('btn-platform-telegram');
+      const btnWa = document.getElementById('btn-platform-whatsapp');
+      const btnSubmit = document.getElementById('btn-submit-order');
+      const btnIcon = document.getElementById('btn-order-icon');
+      const btnText = document.getElementById('btn-order-text');
+
+      if (platform === 'whatsapp') {
+        if (btnWa) btnWa.className = "flex items-center justify-center space-x-2 p-2.5 rounded-xl border border-[#25D366] bg-[#25D366] text-white text-xs font-medium transition-all shadow-sm";
+        if (btnTg) btnTg.className = "flex items-center justify-center space-x-2 p-2.5 rounded-xl border border-gray-200 bg-white text-gray-700 text-xs font-medium transition-all hover:bg-gray-50";
+        if (btnSubmit) btnSubmit.className = "w-full py-3.5 bg-[#25D366] text-white rounded-xl font-medium shadow-md hover:bg-[#20bd5a] transition-all flex items-center justify-center text-sm mt-2";
+        if (btnIcon) btnIcon.className = "fa-brands fa-whatsapp mr-2 text-base";
+        if (btnText) btnText.innerText = "Send Order via WhatsApp";
+      } else {
+        if (btnTg) btnTg.className = "flex items-center justify-center space-x-2 p-2.5 rounded-xl border border-[#229ED9] bg-[#229ED9] text-white text-xs font-medium transition-all shadow-sm";
+        if (btnWa) btnWa.className = "flex items-center justify-center space-x-2 p-2.5 rounded-xl border border-gray-200 bg-white text-gray-700 text-xs font-medium transition-all hover:bg-gray-50";
+        if (btnSubmit) btnSubmit.className = "w-full py-3.5 bg-[#229ED9] text-white rounded-xl font-medium shadow-md hover:bg-[#1C88BA] transition-all flex items-center justify-center text-sm mt-2";
+        if (btnIcon) btnIcon.className = "fa-brands fa-telegram mr-2 text-base";
+        if (btnText) btnText.innerText = "Send Order via Telegram";
+      }
+    };
+
+    function renderAdminPickupLocations() {
+      const container = document.getElementById('admin-pickup-locations-list');
+      if (!container) return;
+      const locations = window.appState.pickupLocations || [];
+      if (locations.length === 0) {
+        container.innerHTML = `<p class="text-[10px] text-gray-400 italic">No pickup locations added yet.</p>`;
+        return;
+      }
+      container.innerHTML = locations.map((loc, idx) => `
+        <div class="flex justify-between items-center p-2 bg-gray-50 border rounded-xl text-xs">
+          <span class="font-medium text-charcoal">${loc}</span>
+          <button onclick="deletePickupLocation(${idx})" class="p-1 text-red-600 hover:text-red-700"><i class="fa-solid fa-trash"></i></button>
+        </div>
+      `).join('');
+    }
+
+    window.addPickupLocation = function() {
+      const input = document.getElementById('new-pickup-location-input');
+      const val = input.value.trim();
+      if (!val) return showToast("Pickup location name required", "warning");
+
+      const current = window.appState.pickupLocations || [];
+      if (current.includes(val)) return showToast("Location already exists", "warning");
+
+      const updated = [...current, val];
+      syncToFirebase({ pickupLocations: updated }).then(() => {
+        input.value = '';
+      });
+    };
+
+    window.deletePickupLocation = function(idx) {
+      const current = window.appState.pickupLocations || [];
+      const updated = current.filter((_, i) => i !== idx);
+      syncToFirebase({ pickupLocations: updated });
+    };
+
+    function renderCheckoutPickupLocations() {
+      const select = document.getElementById('pickup-location');
+      if (!select) return;
+      const locations = window.appState.pickupLocations || [];
+      if (locations.length === 0) {
+        select.innerHTML = `<option value="">No pickup locations available</option>`;
+      } else {
+        select.innerHTML = `<option value="">Select Pickup Location *</option>` +
+          locations.map(loc => `<option value="${loc}">${loc}</option>`).join('');
+      }
+    }
 
     function renderCategoryTabs() {
       const container = document.getElementById('category-tabs');
@@ -1370,6 +1501,8 @@
     window.openCartModal = function() {
       window.toggleBodyScroll(true);
       document.getElementById('cart-modal').classList.remove('hidden');
+      setOrderPlatform(window.appState.selectedPlatform || 'telegram');
+      renderCheckoutPickupLocations();
       renderCartModalContent();
     };
 
@@ -1438,7 +1571,7 @@
       showToast("Promo code removed", "info");
     };
 
-    window.processTelegramCheckout = async function() {
+    window.processOrderCheckout = async function() {
       const cartKeys = Object.keys(window.appState.cart);
       if (cartKeys.length === 0) {
         showToast("Your bag is currently empty.", "warning");
@@ -1449,6 +1582,7 @@
       const phone = document.getElementById('cust-phone').value.trim();
       const type = window.appState.fulfillment;
       const address = document.getElementById('cust-address').value.trim();
+      const pickupLocation = document.getElementById('pickup-location') ? document.getElementById('pickup-location').value.trim() : '';
       const pickupDate = document.getElementById('pickup-date').value;
       const pickupTime = document.getElementById('pickup-time').value;
 
@@ -1461,6 +1595,10 @@
         return;
       }
       if (type === 'Self-Pickup') {
+        if (!pickupLocation) {
+          showToast("Please select your preferred pickup location.", "warning");
+          return;
+        }
         if (!pickupDate) {
           showToast("Please select your preferred pickup date.", "warning");
           return;
@@ -1511,6 +1649,7 @@
           customerPhone: phone,
           fulfillmentType: type,
           address: type === 'Delivery' ? address : '',
+          pickupLocation: type === 'Self-Pickup' ? pickupLocation : '',
           pickupDate: type === 'Self-Pickup' ? pickupDate : '',
           pickupTime: type === 'Self-Pickup' ? pickupTime : '',
           items: orderItemsArray,
@@ -1518,6 +1657,7 @@
           deliveryFee: deliveryFee,
           discount: discount,
           grandTotal: grandTotal,
+          messagingChannel: window.appState.selectedPlatform || 'telegram',
           status: 'Pending',
           createdAt: new Date().toISOString()
         });
@@ -1551,6 +1691,7 @@
       if (type === 'Delivery') {
         msg += `*Delivery Address:* ${address}\n`;
       } else {
+        msg += `*Pickup Location:* ${pickupLocation}\n`;
         msg += `*Pickup Schedule:* ${pickupDate} @ ${pickupTime}\n`;
       }
 
@@ -1566,10 +1707,22 @@
 
       msg += `Please confirm availability and send PayNow SG details!`;
 
-      const targetUser = window.appState.telegramUsername.replace('@', '');
-      const telegramUrl = `https://t.me/${targetUser}?text=${encodeURIComponent(msg)}`;
-      window.open(telegramUrl, '_blank');
+      const platform = window.appState.selectedPlatform || 'telegram';
+
+      if (platform === 'whatsapp') {
+        let rawWa = window.appState.whatsappNumber || '6590000000';
+        let cleanWa = rawWa.replace(/[^0-9]/g, '');
+        if (!cleanWa) cleanWa = '6590000000';
+        const waUrl = `https://wa.me/${cleanWa}?text=${encodeURIComponent(msg)}`;
+        window.open(waUrl, '_blank');
+      } else {
+        const targetUser = (window.appState.telegramUsername || 'KinQoonAdmin').replace('@', '');
+        const telegramUrl = `https://t.me/${targetUser}?text=${encodeURIComponent(msg)}`;
+        window.open(telegramUrl, '_blank');
+      }
     };
+
+    window.processTelegramCheckout = window.processOrderCheckout;
 
     window.openAdminLogin = function() {
       window.toggleBodyScroll(true);
@@ -1584,12 +1737,50 @@
 
     window.verifyAdmin = function() {
       const pass = document.getElementById('admin-passcode').value;
-      if (pass === "kinqoon123") {
+      const currentPass = window.appState.adminPasscode || "kinqoon123";
+      if (pass === currentPass) {
         closeAdminLogin();
         navTo('admin');
         showToast("Authenticated as Admin", "success");
       } else {
         showToast("Incorrect Passcode", "error");
+      }
+    };
+
+    window.changeAdminPassword = async function() {
+      const newPass = document.getElementById('admin-new-password').value.trim();
+      const confirmPass = document.getElementById('admin-confirm-password').value.trim();
+
+      if (!newPass || !confirmPass) {
+        return showToast("Please fill in both password fields.", "warning");
+      }
+      if (newPass.length < 6) {
+        return showToast("Password must be at least 6 characters long.", "warning");
+      }
+      if (newPass !== confirmPass) {
+        return showToast("Passwords do not match.", "error");
+      }
+
+      try {
+        if (auth.currentUser) {
+          await updatePassword(auth.currentUser, newPass);
+        }
+      } catch (err) {
+        console.warn("Firebase Auth updatePassword warning:", err);
+        if (err.code === 'auth/requires-recent-login') {
+          showToast("Re-authentication required by Firebase Auth.", "warning");
+        }
+      }
+
+      try {
+        await updateDoc(storeDocRef, { adminPasscode: newPass });
+        window.appState.adminPasscode = newPass;
+        document.getElementById('admin-new-password').value = '';
+        document.getElementById('admin-confirm-password').value = '';
+        showToast("Admin password updated successfully!", "success");
+      } catch (e) {
+        console.error("Error saving new passcode:", e);
+        showToast("Failed to update password in database.", "error");
       }
     };
 
@@ -1614,8 +1805,9 @@
     window.saveStoreSettings = function() {
       const deliveryFee = parseFloat(document.getElementById('admin-delivery-fee').value) || 5.00;
       const telegramUsername = document.getElementById('admin-telegram-input').value.trim();
+      const whatsappNumber = document.getElementById('admin-whatsapp-input').value.trim();
       const telegramGroupLink = document.getElementById('admin-telegram-group-link').value.trim();
-      syncToFirebase({ deliveryFee, telegramUsername, telegramGroupLink });
+      syncToFirebase({ deliveryFee, telegramUsername, whatsappNumber, telegramGroupLink });
     };
 
     window.saveAnnouncementSettings = function() {
