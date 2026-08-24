@@ -3,6 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  
+  <!-- PWA Mobile Web App Capabilities & Manifest -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="KM Admin">
+  <meta name="theme-color" content="#000000">
+  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22KinQoon%20%26%20Miko%20Admin%22%2C%22short_name%22%3A%22KM%20Admin%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23ffffff%22%2C%22theme_color%22%3A%22%23000000%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fplacehold.co%2F192x192%2FFADADD%2F333333%3Ftext%3DKM%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fpng%22%7D%2C%7B%22src%22%3A%22https%3A%2F%2Fplacehold.co%2F512x512%2FFADADD%2F333333%3Ftext%3DKM%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D">
+
   <title>KinQoon Cosmetics | Elevate Your Everyday Glow</title>
   
   <!-- Fonts: Playfair Display for chic headings, Poppins for clean UI text -->
@@ -1819,6 +1828,43 @@
       initApp();
       navTo('home');
       setFulfillment('Delivery');
+
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          const swCode = `
+            const CACHE_NAME = 'km-admin-v1';
+            self.addEventListener('install', (e) => self.skipWaiting());
+            self.addEventListener('activate', (e) => self.clients.claim());
+            self.addEventListener('fetch', (event) => {
+              if (event.request.method !== 'GET') return;
+              event.respondWith(
+                fetch(event.request)
+                  .then((response) => {
+                    if (response && response.status === 200 && response.type === 'basic') {
+                      const responseClone = response.clone();
+                      caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone));
+                    }
+                    return response;
+                  })
+                  .catch(() => caches.match(event.request))
+              );
+            });
+          `;
+          try {
+            const blob = new Blob([swCode], { type: 'application/javascript' });
+            const swUrl = URL.createObjectURL(blob);
+            navigator.serviceWorker.register(swUrl)
+              .then(reg => console.log('Admin PWA Service Worker registered'))
+              .catch(err => {
+                navigator.serviceWorker.register('/sw.js')
+                  .then(reg => console.log('Fallback sw.js registered'))
+                  .catch(e => console.log('Service Worker error:', e));
+              });
+          } catch(e) {
+            console.log('SW registration error:', e);
+          }
+        });
+      }
     };
   </script>
 </body>
