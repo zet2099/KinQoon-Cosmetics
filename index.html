@@ -396,31 +396,31 @@
             <form onsubmit="event.preventDefault();" class="space-y-2.5">
               <div>
                 <label class="block text-[10px] text-gray-500 font-medium mb-1">Full Name *</label>
-                <input type="text" id="cust-name" name="name" autocomplete="name" placeholder="Full Name *" class="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:outline-none focus:border-rosegold transition-all">
+                <input type="text" id="cust-name" name="name" autocomplete="name" placeholder="Full Name *" oninput="updateSafariFallbackLink()" class="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:outline-none focus:border-rosegold transition-all">
               </div>
               <div>
                 <label class="block text-[10px] text-gray-500 font-medium mb-1">Contact Number (WhatsApp/Telegram) *</label>
-                <input type="tel" id="cust-phone" name="phone" autocomplete="tel" placeholder="Contact Number *" class="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:outline-none focus:border-rosegold transition-all">
+                <input type="tel" id="cust-phone" name="phone" autocomplete="tel" placeholder="Contact Number *" oninput="updateSafariFallbackLink()" class="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:outline-none focus:border-rosegold transition-all">
               </div>
 
               <div id="delivery-fields-group">
                 <label class="block text-[10px] text-gray-500 font-medium mb-1">Delivery Address & Postal Code *</label>
-                <textarea id="cust-address" name="address" autocomplete="shipping street-address" placeholder="Delivery Address & Postal Code *" class="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs h-16 resize-none focus:outline-none focus:border-rosegold transition-all"></textarea>
+                <textarea id="cust-address" name="address" autocomplete="shipping street-address" placeholder="Delivery Address & Postal Code *" oninput="updateSafariFallbackLink()" class="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs h-16 resize-none focus:outline-none focus:border-rosegold transition-all"></textarea>
               </div>
 
               <div id="pickup-fields-group" class="hidden space-y-2.5">
                 <div>
                   <label class="block text-[10px] text-gray-500 font-medium mb-1">Preferred Pickup Location *</label>
-                  <select id="pickup-location" class="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:outline-none focus:border-rosegold">
+                  <select id="pickup-location" onchange="updateSafariFallbackLink()" class="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:outline-none focus:border-rosegold">
                   </select>
                 </div>
                 <div>
                   <label class="block text-[10px] text-gray-500 font-medium mb-1">Preferred Pickup Date *</label>
-                  <input type="date" id="pickup-date" class="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:outline-none focus:border-rosegold">
+                  <input type="date" id="pickup-date" onchange="updateSafariFallbackLink()" class="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:outline-none focus:border-rosegold">
                 </div>
                 <div>
                   <label class="block text-[10px] text-gray-500 font-medium mb-1">Preferred Time Slot *</label>
-                  <select id="pickup-time" class="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:outline-none focus:border-rosegold">
+                  <select id="pickup-time" onchange="updateSafariFallbackLink()" class="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs focus:outline-none focus:border-rosegold">
                     <option value="02:00 PM - 04:00 PM">02:00 PM - 04:00 PM</option>
                     <option value="04:00 PM - 06:00 PM">04:00 PM - 06:00 PM</option>
                     <option value="06:00 PM - 08:00 PM">06:00 PM - 08:00 PM</option>
@@ -485,6 +485,13 @@
           <button id="btn-submit-order" onclick="processOrderCheckout()" class="w-full py-3.5 bg-[#229ED9] text-white rounded-xl font-medium shadow-md hover:bg-[#1C88BA] transition-all flex items-center justify-center text-sm mt-2">
             <i id="btn-order-icon" class="fa-brands fa-telegram mr-2 text-base"></i> <span id="btn-order-text">Send Order via Telegram</span>
           </button>
+
+          <!-- Safari Specific Fallback Button Container -->
+          <div id="safari-fallback-container" class="hidden mt-2">
+            <a id="safari-fallback-anchor" href="#" target="_blank" class="w-full py-3 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 rounded-xl font-medium text-xs flex items-center justify-center transition-all shadow-sm text-center px-3">
+              📱 Using Safari? Tap here if the main button doesn't open the app
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -515,6 +522,15 @@
           </div>
           <div><label class="text-gray-500 block mb-1">Shade / Variant</label><input type="text" id="item-shade" class="w-full p-2 border rounded-lg"></div>
           
+          <!-- Product NEW! Flag Toggle -->
+          <div class="pt-1 border-y border-gray-100 py-2.5 my-1 bg-blush/20 px-3 rounded-xl flex items-center justify-between">
+            <label class="inline-flex items-center cursor-pointer text-xs font-semibold text-charcoal">
+              <input type="checkbox" id="item-is-new" class="rounded border-gray-300 text-rosegold focus:ring-rosegold mr-2 w-4 h-4">
+              <span>Mark as <strong class="text-rosegold">NEW!</strong> Product</span>
+            </label>
+            <span class="text-[10px] text-gray-400">Shows NEW! badge & top priority</span>
+          </div>
+
           <div class="pt-1">
             <label class="inline-flex items-center cursor-pointer text-xs font-medium text-gray-700">
               <input type="checkbox" id="item-has-variants" class="rounded border-gray-300 text-rosegold focus:ring-rosegold mr-2" onchange="toggleVariantsInput(this.checked)">
@@ -573,7 +589,7 @@
       </div>
     </div>
 
-    <!-- SHOPEE-STYLE PRODUCT DETAILS & GALLERY MODAL -->
+    <!-- PRODUCT DETAILS & GALLERY MODAL -->
     <div id="product-detail-modal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
       <div class="bg-white w-full max-w-sm rounded-3xl p-5 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar relative flex flex-col">
         
@@ -589,7 +605,7 @@
 
         <div class="flex items-center justify-between mb-1">
           <span id="detail-category-shade" class="text-[10px] font-bold text-rosegold uppercase tracking-wider"></span>
-          <div id="detail-stock-badge"></div>
+          <div id="detail-stock-badge" class="flex items-center gap-1"></div>
         </div>
 
         <h3 id="detail-title" class="font-serif text-lg font-bold text-charcoal mb-0.5 leading-snug"></h3>
@@ -795,9 +811,9 @@
             adminPasscode: 'kinqoon123',
             pickupLocations: ["Central Studio - Bugis", "East Hub - Tampines"],
             inventory: [
-              { id: 'item_1', name: 'Velvet Matte Lip Tint', category: 'Lips', shade: '04 Rosewood', price: 18.00, stock: 10, restockNote: '', image: 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=400&q=80', images: ['https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=400&q=80'], description: 'Long-lasting, weightless velvet matte finish.' },
-              { id: 'item_2', name: 'Glow Highlighter Palette', category: 'Face', shade: 'Champagne Pop', price: 25.00, stock: 3, restockNote: '', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&q=80', images: ['https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&q=80'], description: 'Build your custom luminous glow.' },
-              { id: 'item_3', name: 'Lash Elevate Mascara', category: 'Eyes', shade: 'Midnight Black', price: 20.00, stock: 0, restockNote: 'Restocking next Friday!', image: 'https://images.unsplash.com/photo-1631214500515-e4acece95ea5?w=400&q=80', images: ['https://images.unsplash.com/photo-1631214500515-e4acece95ea5?w=400&q=80'], description: 'Waterproof volume and extreme length.' }
+              { id: 'item_1', name: 'Velvet Matte Lip Tint', category: 'Lips', shade: '04 Rosewood', isNew: true, price: 18.00, stock: 10, restockNote: '', image: 'https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=400&q=80', images: ['https://images.unsplash.com/photo-1586495777744-4413f21062fa?w=400&q=80'], description: 'Long-lasting, weightless velvet matte finish.' },
+              { id: 'item_2', name: 'Glow Highlighter Palette', category: 'Face', shade: 'Champagne Pop', isNew: false, price: 25.00, stock: 3, restockNote: '', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&q=80', images: ['https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=400&q=80'], description: 'Build your custom luminous glow.' },
+              { id: 'item_3', name: 'Lash Elevate Mascara', category: 'Eyes', shade: 'Midnight Black', isNew: false, price: 20.00, stock: 0, restockNote: 'Restocking next Friday!', image: 'https://images.unsplash.com/photo-1631214500515-e4acece95ea5?w=400&q=80', images: ['https://images.unsplash.com/photo-1631214500515-e4acece95ea5?w=400&q=80'], description: 'Waterproof volume and extreme length.' }
             ]
           };
           await setDoc(storeDocRef, defaultData);
@@ -1006,6 +1022,7 @@
         renderCheckoutPickupLocations();
       }
       updateCartUI();
+      updateSafariFallbackLink();
     };
 
     window.setOrderPlatform = function(platform) {
@@ -1029,6 +1046,7 @@
         if (btnIcon) btnIcon.className = "fa-brands fa-telegram mr-2 text-base";
         if (btnText) btnText.innerText = "Send Order via Telegram";
       }
+      updateSafariFallbackLink();
     };
 
     function renderAdminPickupLocations() {
@@ -1081,15 +1099,21 @@
 
     function renderCategoryTabs() {
       const container = document.getElementById('category-tabs');
-      const cats = ['All', ...window.appState.categories];
+      const cats = ['All', 'NEW!', ...window.appState.categories];
 
-      container.innerHTML = cats.map(cat => `
+      container.innerHTML = cats.map(cat => {
+        const isNewTab = (cat === 'NEW!');
+        const labelText = isNewTab ? '<i class="fa-solid fa-wand-magic-sparkles mr-1 text-rosegold"></i>NEW!' : cat;
+        const isActive = (window.appState.activeCategory === cat);
+
+        return `
         <button onclick="setCategory('${cat}')" 
-          class="px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all 
-          ${window.appState.activeCategory === cat ? 'bg-blush text-charcoal shadow-sm' : 'bg-white text-gray-500 border border-gray-200'}">
-          ${cat}
+          class="px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all flex items-center justify-center
+          ${isActive ? 'bg-blush text-charcoal shadow-sm font-semibold' : 'bg-white text-gray-500 border border-gray-200'}">
+          ${labelText}
         </button>
-      `).join('');
+        `;
+      }).join('');
     }
 
     window.setCategory = function(cat) {
@@ -1100,11 +1124,19 @@
 
     function renderShopItems() {
       const container = document.getElementById('product-grid');
-      let items = window.appState.inventory;
+      let items = [...window.appState.inventory];
 
-      if (window.appState.activeCategory !== 'All') {
+      if (window.appState.activeCategory === 'NEW!') {
+        items = items.filter(i => !!i.isNew);
+      } else if (window.appState.activeCategory !== 'All') {
         items = items.filter(i => i.category === window.appState.activeCategory);
       }
+
+      items.sort((a, b) => {
+        const aNew = a.isNew ? 1 : 0;
+        const bNew = b.isNew ? 1 : 0;
+        return bNew - aNew;
+      });
 
       if (items.length === 0) {
         container.innerHTML = `<p class="col-span-2 text-center text-gray-400 py-10 text-xs">No products found in this category.</p>`;
@@ -1128,6 +1160,10 @@
           stockBadgeHTML = `<span class="bg-emerald-100 text-emerald-800 text-[9px] font-medium px-2 py-0.5 rounded-full">${item.stock} in stock</span>`;
         }
 
+        let newBadgeHTML = item.isNew 
+          ? `<span class="bg-rosegold text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase flex items-center gap-1 shadow-sm"><i class="fa-solid fa-wand-magic-sparkles text-[8px]"></i> NEW!</span>` 
+          : '';
+
         const hasVariants = item.hasVariants && Array.isArray(item.variants) && item.variants.length > 0;
         const shadeLabel = hasVariants ? `${item.variants.length} Shades Available` : (item.shade || item.category);
 
@@ -1136,7 +1172,8 @@
           <div onclick="openProductDetailModal('${item.id}')" class="cursor-pointer">
             <div class="aspect-square rounded-xl bg-gray-100 mb-2 overflow-hidden relative">
               <img src="${thumbUrl}" alt="${item.name}" class="w-full h-full object-cover ${isSoldOut ? 'opacity-60 grayscale' : ''}">
-              <div class="absolute top-2 left-2">
+              <div class="absolute top-2 left-2 flex flex-col gap-1 items-start z-10">
+                ${newBadgeHTML}
                 ${stockBadgeHTML}
               </div>
             </div>
@@ -1228,8 +1265,13 @@
       const restockNoteBox = document.getElementById('detail-restock-note');
       const isSoldOut = (item.stock <= 0);
 
+      let badgesContent = '';
+      if (item.isNew) {
+        badgesContent += `<span class="bg-rosegold text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase flex items-center gap-1 shadow-sm"><i class="fa-solid fa-wand-magic-sparkles text-[8px]"></i> NEW!</span>`;
+      }
+
       if (isSoldOut) {
-        badgeBox.innerHTML = `<span class="bg-red-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">Sold Out</span>`;
+        badgesContent += `<span class="bg-red-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase">Sold Out</span>`;
         if (item.restockNote) {
           restockNoteBox.innerText = item.restockNote;
           restockNoteBox.classList.remove('hidden');
@@ -1237,12 +1279,14 @@
           restockNoteBox.classList.add('hidden');
         }
       } else if (item.stock <= 5) {
-        badgeBox.innerHTML = `<span class="bg-amber-100 text-amber-800 text-[9px] font-bold px-2 py-0.5 rounded-full">Only ${item.stock} Left</span>`;
+        badgesContent += `<span class="bg-amber-100 text-amber-800 text-[9px] font-bold px-2 py-0.5 rounded-full">Only ${item.stock} Left</span>`;
         restockNoteBox.classList.add('hidden');
       } else {
-        badgeBox.innerHTML = `<span class="bg-emerald-100 text-emerald-800 text-[9px] font-medium px-2 py-0.5 rounded-full">${item.stock} in stock</span>`;
+        badgesContent += `<span class="bg-emerald-100 text-emerald-800 text-[9px] font-medium px-2 py-0.5 rounded-full">${item.stock} in stock</span>`;
         restockNoteBox.classList.add('hidden');
       }
+
+      badgeBox.innerHTML = badgesContent;
 
       renderDetailActionContainer(item);
 
@@ -1410,6 +1454,7 @@
       closeProductDetailModal();
       const variantLabel = window.selectedDetailVariant ? ` (${window.selectedDetailVariant})` : '';
       showToast(`Added ${targetQty}x ${item.name}${variantLabel} to bag!`, "success");
+      updateSafariFallbackLink();
     };
 
     window.updateCart = function(cartKey, change) {
@@ -1444,6 +1489,7 @@
       if (!document.getElementById('cart-modal').classList.contains('hidden')) {
         renderCartModalContent();
       }
+      updateSafariFallbackLink();
     };
 
     function updateCartUI() {
@@ -1504,11 +1550,102 @@
       setOrderPlatform(window.appState.selectedPlatform || 'telegram');
       renderCheckoutPickupLocations();
       renderCartModalContent();
+
+      // Check Safari and show/hide fallback button
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const isSafari = /safari/i.test(userAgent) && !/chrome/i.test(userAgent) && !/android/i.test(userAgent);
+      const fallbackContainer = document.getElementById('safari-fallback-container');
+      if (fallbackContainer) {
+        if (isSafari) {
+          fallbackContainer.classList.remove('hidden');
+        } else {
+          fallbackContainer.classList.add('hidden');
+        }
+      }
+      updateSafariFallbackLink();
     };
 
     window.closeCartModal = function() {
       document.getElementById('cart-modal').classList.add('hidden');
       window.toggleBodyScroll(false);
+    };
+
+    function generateOrderMessageText() {
+      const name = (document.getElementById('cust-name')?.value || '').trim();
+      const phone = (document.getElementById('cust-phone')?.value || '').trim();
+      const type = window.appState.fulfillment;
+      const address = (document.getElementById('cust-address')?.value || '').trim();
+      const pickupLocation = document.getElementById('pickup-location') ? document.getElementById('pickup-location').value.trim() : '';
+      const pickupDate = document.getElementById('pickup-date')?.value || '';
+      const pickupTime = document.getElementById('pickup-time')?.value || '';
+
+      let subtotal = 0;
+      let orderLines = "";
+
+      Object.keys(window.appState.cart).forEach(cartKey => {
+        const { itemId, variant } = parseCartKey(cartKey);
+        const item = window.appState.inventory.find(i => i.id === itemId);
+        if (item) {
+          const qty = window.appState.cart[cartKey];
+          const itemTotal = item.price * qty;
+          subtotal += itemTotal;
+          const shadeText = variant || item.shade || 'Default';
+          orderLines += `• ${qty}x ${item.name} (${shadeText}) - SGD $${itemTotal.toFixed(2)}\n`;
+        }
+      });
+
+      const deliveryFee = (type === 'Delivery') ? (parseFloat(window.appState.deliveryFee) || 5.00) : 0;
+      let discount = 0;
+      if (window.appState.appliedPromo) {
+        const p = window.appState.appliedPromo;
+        discount = (p.type === 'percent') ? (subtotal * p.value) / 100 : p.value;
+      }
+      const grandTotal = Math.max(0, subtotal + deliveryFee - discount);
+
+      let msg = `✨ *New Order - KinQoon Cosmetics* ✨\n\n`;
+      msg += `*Fulfillment:* ${type}\n`;
+      msg += `*Name:* ${name || '(Not provided)'}\n`;
+      msg += `*Contact:* ${phone || '(Not provided)'}\n`;
+
+      if (type === 'Delivery') {
+        msg += `*Delivery Address:* ${address || '(Not provided)'}\n`;
+      } else {
+        msg += `*Pickup Location:* ${pickupLocation || '(Not provided)'}\n`;
+        msg += `*Pickup Schedule:* ${pickupDate || '-'} @ ${pickupTime || '-'}\n`;
+      }
+
+      msg += `\n*Order Details:*\n${orderLines || '• (Empty)\n'}\n`;
+      msg += `*Subtotal:* SGD $${subtotal.toFixed(2)}\n`;
+      if (type === 'Delivery') msg += `*Delivery Fee:* SGD $${deliveryFee.toFixed(2)}\n`;
+      if (discount > 0) msg += `*Discount:* -SGD $${discount.toFixed(2)}\n`;
+      msg += `*Grand Total:* SGD $${grandTotal.toFixed(2)}\n\n`;
+
+      if (!isStoreOpenNow()) {
+        msg += `*(Submitted outside operational hours - awaiting agent processing)*\n\n`;
+      }
+
+      msg += `Please confirm availability and send PayNow SG details!`;
+      return msg;
+    }
+
+    window.updateSafariFallbackLink = function() {
+      const anchor = document.getElementById('safari-fallback-anchor');
+      if (!anchor) return;
+
+      const msg = generateOrderMessageText();
+      const platform = window.appState.selectedPlatform || 'telegram';
+
+      if (platform === 'whatsapp') {
+        let rawWa = window.appState.whatsappNumber || '6590000000';
+        let cleanWa = rawWa.replace(/[^0-9]/g, '');
+        if (!cleanWa) cleanWa = '6590000000';
+        anchor.href = `https://wa.me/${cleanWa}?text=${encodeURIComponent(msg)}`;
+        anchor.innerHTML = `📱 Using Safari? Tap here for WhatsApp fallback`;
+      } else {
+        const targetUser = (window.appState.telegramUsername || 'KinQoonAdmin').replace('@', '');
+        anchor.href = `https://t.me/${targetUser}?text=${encodeURIComponent(msg)}`;
+        anchor.innerHTML = `📱 Using Safari? Tap here for Telegram fallback`;
+      }
     };
 
     function renderCartModalContent() {
@@ -1544,6 +1681,7 @@
         </div>
         `;
       }).join('');
+      updateSafariFallbackLink();
     }
 
     window.applyPromoCode = function() {
@@ -1562,6 +1700,7 @@
       document.getElementById('promo-code-input').value = '';
       showToast("Promo code applied successfully!", "success");
       updateCartUI();
+      updateSafariFallbackLink();
     };
 
     window.removePromoCode = function() {
@@ -1569,6 +1708,7 @@
       document.getElementById('promo-applied-tag').classList.add('hidden');
       updateCartUI();
       showToast("Promo code removed", "info");
+      updateSafariFallbackLink();
     };
 
     window.processOrderCheckout = async function() {
@@ -1683,30 +1823,7 @@
         console.error("Error saving order or updating stock in Firestore:", err);
       }
 
-      let msg = `✨ *New Order - KinQoon Cosmetics* ✨\n\n`;
-      msg += `*Fulfillment:* ${type}\n`;
-      msg += `*Name:* ${name}\n`;
-      msg += `*Contact:* ${phone}\n`;
-
-      if (type === 'Delivery') {
-        msg += `*Delivery Address:* ${address}\n`;
-      } else {
-        msg += `*Pickup Location:* ${pickupLocation}\n`;
-        msg += `*Pickup Schedule:* ${pickupDate} @ ${pickupTime}\n`;
-      }
-
-      msg += `\n*Order Details:*\n${orderLines}\n`;
-      msg += `*Subtotal:* SGD $${subtotal.toFixed(2)}\n`;
-      if (type === 'Delivery') msg += `*Delivery Fee:* SGD $${deliveryFee.toFixed(2)}\n`;
-      if (discount > 0) msg += `*Discount:* -SGD $${discount.toFixed(2)}\n`;
-      msg += `*Grand Total:* SGD $${grandTotal.toFixed(2)}\n\n`;
-
-      if (!isStoreOpenNow()) {
-        msg += `*(Submitted outside operational hours - awaiting agent processing)*\n\n`;
-      }
-
-      msg += `Please confirm availability and send PayNow SG details!`;
-
+      let msg = generateOrderMessageText();
       const platform = window.appState.selectedPlatform || 'telegram';
 
       if (platform === 'whatsapp') {
@@ -2050,7 +2167,10 @@
           <div class="flex items-center space-x-2.5">
             <img src="${getProductThumbnail(item)}" class="w-10 h-10 rounded-lg bg-gray-200 object-cover flex-shrink-0">
             <div>
-              <p class="font-bold text-charcoal line-clamp-1">${item.name}</p>
+              <p class="font-bold text-charcoal line-clamp-1 flex items-center gap-1">
+                ${item.name}
+                ${item.isNew ? '<span class="bg-rosegold text-white text-[8px] font-bold px-1.5 py-0.2 rounded-full uppercase">NEW!</span>' : ''}
+              </p>
               <p class="text-[10px] text-gray-500">${item.category} • ${item.shade || 'No Shade'} • Stock: <span class="${item.stock <= 0 ? 'text-red-600 font-bold' : ''}">${item.stock}</span></p>
             </div>
           </div>
@@ -2074,6 +2194,7 @@
       document.getElementById('item-id').value = '';
       document.getElementById('item-name').value = '';
       document.getElementById('item-shade').value = '';
+      document.getElementById('item-is-new').checked = false;
       document.getElementById('item-has-variants').checked = false;
       window.toggleVariantsInput(false);
       window.renderAdminVariantsList();
@@ -2102,6 +2223,7 @@
         document.getElementById('item-name').value = item.name;
         document.getElementById('item-category').value = item.category;
         document.getElementById('item-shade').value = item.shade || '';
+        document.getElementById('item-is-new').checked = !!item.isNew;
         
         const hasVar = !!item.hasVariants;
         document.getElementById('item-has-variants').checked = hasVar;
@@ -2214,6 +2336,7 @@
         ? window.tempUploadedImages
         : (imageInputVal ? [imageInputVal] : []);
 
+      const isNew = document.getElementById('item-is-new').checked;
       const hasVariants = document.getElementById('item-has-variants').checked;
       const variants = hasVariants
         ? (window.adminVariantsList || []).filter(v => v.name && v.name.trim() !== '')
@@ -2229,6 +2352,7 @@
         name: document.getElementById('item-name').value.trim(),
         category: document.getElementById('item-category').value,
         shade: document.getElementById('item-shade').value.trim(),
+        isNew: isNew,
         hasVariants: hasVariants,
         variants: variants,
         price: parseFloat(document.getElementById('item-price').value) || 0,
