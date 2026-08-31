@@ -1643,6 +1643,43 @@
       }
       const grandTotal = Math.max(0, subtotal + deliveryFee - discount);
 
+      let msg = `✨ *New Order - KinQoon Cosmetics* ✨\n\n`;
+      msg += `*Fulfillment:* ${type}\n`;
+      msg += `*Name:* ${name}\n`;
+      msg += `*Contact:* ${phone}\n`;
+
+      if (type === 'Delivery') {
+        msg += `*Delivery Address:* ${address}\n`;
+      } else {
+        msg += `*Pickup Location:* ${pickupLocation}\n`;
+        msg += `*Pickup Schedule:* ${pickupDate} @ ${pickupTime}\n`;
+      }
+
+      msg += `\n*Order Details:*\n${orderLines}\n`;
+      msg += `*Subtotal:* SGD $${subtotal.toFixed(2)}\n`;
+      if (type === 'Delivery') msg += `*Delivery Fee:* SGD $${deliveryFee.toFixed(2)}\n`;
+      if (discount > 0) msg += `*Discount:* -SGD $${discount.toFixed(2)}\n`;
+      msg += `*Grand Total:* SGD $${grandTotal.toFixed(2)}\n\n`;
+
+      if (!isStoreOpenNow()) {
+        msg += `*(Submitted outside operational hours - awaiting agent processing)*\n\n`;
+      }
+
+      msg += `Please confirm availability and send PayNow SG details!`;
+
+      const platform = window.appState.selectedPlatform || 'telegram';
+      let messageUrl = '';
+
+      if (platform === 'whatsapp') {
+        let rawWa = window.appState.whatsappNumber || '6590000000';
+        let cleanWa = rawWa.replace(/[^0-9]/g, '');
+        if (!cleanWa) cleanWa = '6590000000';
+        messageUrl = `https://wa.me/${cleanWa}?text=${encodeURIComponent(msg)}`;
+      } else {
+        const targetUser = (window.appState.telegramUsername || 'KinQoonAdmin').replace('@', '');
+        messageUrl = `https://t.me/${targetUser}?text=${encodeURIComponent(msg)}`;
+      }
+
       try {
         await addDoc(collection(db, "orders"), {
           customerName: name,
@@ -1681,44 +1718,8 @@
         await updateDoc(storeDocRef, { inventory: updatedInventory });
       } catch (err) {
         console.error("Error saving order or updating stock in Firestore:", err);
-      }
-
-      let msg = `✨ *New Order - KinQoon Cosmetics* ✨\n\n`;
-      msg += `*Fulfillment:* ${type}\n`;
-      msg += `*Name:* ${name}\n`;
-      msg += `*Contact:* ${phone}\n`;
-
-      if (type === 'Delivery') {
-        msg += `*Delivery Address:* ${address}\n`;
-      } else {
-        msg += `*Pickup Location:* ${pickupLocation}\n`;
-        msg += `*Pickup Schedule:* ${pickupDate} @ ${pickupTime}\n`;
-      }
-
-      msg += `\n*Order Details:*\n${orderLines}\n`;
-      msg += `*Subtotal:* SGD $${subtotal.toFixed(2)}\n`;
-      if (type === 'Delivery') msg += `*Delivery Fee:* SGD $${deliveryFee.toFixed(2)}\n`;
-      if (discount > 0) msg += `*Discount:* -SGD $${discount.toFixed(2)}\n`;
-      msg += `*Grand Total:* SGD $${grandTotal.toFixed(2)}\n\n`;
-
-      if (!isStoreOpenNow()) {
-        msg += `*(Submitted outside operational hours - awaiting agent processing)*\n\n`;
-      }
-
-      msg += `Please confirm availability and send PayNow SG details!`;
-
-      const platform = window.appState.selectedPlatform || 'telegram';
-
-      if (platform === 'whatsapp') {
-        let rawWa = window.appState.whatsappNumber || '6590000000';
-        let cleanWa = rawWa.replace(/[^0-9]/g, '');
-        if (!cleanWa) cleanWa = '6590000000';
-        const waUrl = `https://wa.me/${cleanWa}?text=${encodeURIComponent(msg)}`;
-        window.open(waUrl, '_blank');
-      } else {
-        const targetUser = (window.appState.telegramUsername || 'KinQoonAdmin').replace('@', '');
-        const telegramUrl = `https://t.me/${targetUser}?text=${encodeURIComponent(msg)}`;
-        window.open(telegramUrl, '_blank');
+      } finally {
+        window.location.href = messageUrl;
       }
     };
 
