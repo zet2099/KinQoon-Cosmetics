@@ -171,6 +171,16 @@
           </button>
         </div>
 
+        <!-- Customer Orders Management -->
+        <div class="bg-white p-4 rounded-2xl shadow-sm mb-4 border border-gray-100">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="font-medium text-xs text-rosegold font-bold uppercase tracking-wider">Customer Orders</h3>
+          </div>
+          <div id="admin-orders-list" class="space-y-3 max-h-[500px] overflow-y-auto no-scrollbar pr-1">
+            <p class="text-[10px] text-gray-400 italic">Loading orders...</p>
+          </div>
+        </div>
+
         <!-- Store Operations & Settings -->
         <div class="bg-white p-4 rounded-2xl shadow-sm mb-4 border border-gray-100">
           <h3 class="font-medium text-xs text-rosegold font-bold uppercase tracking-wider mb-3">Store Operations</h3>
@@ -641,7 +651,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, doc, getDoc, setDoc, onSnapshot, updateDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, setDoc, onSnapshot, updateDoc, collection, addDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
     import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
     import { getAuth, updatePassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
@@ -687,7 +697,8 @@
       pickupDate: '',
       pickupTime: '',
       activeCategory: 'All',
-      selectedPlatform: 'telegram'
+      selectedPlatform: 'telegram',
+      orders: []
     };
 
     window.tempUploadedImages = [];
@@ -846,6 +857,16 @@
             updateAllUIComponents();
           }
         });
+
+        onSnapshot(collection(db, "orders"), (snapshot) => {
+          const orders = [];
+          snapshot.forEach(doc => {
+            orders.push({ id: doc.id, ...doc.data() });
+          });
+          window.appState.orders = orders;
+          renderAdminOrders();
+        });
+
       } catch (err) {
         console.error("Firebase Initialization Error:", err);
         showToast("Error connecting to Firebase storage", "error");
@@ -979,6 +1000,7 @@
       renderCategoryTabs();
       renderShopItems();
       renderAdminItems();
+      renderAdminOrders();
       updateCartUI();
     }
 
@@ -1019,7 +1041,7 @@
         btnDel.className = "flex-1 py-2 text-xs font-medium rounded-lg text-gray-500 hover:text-charcoal transition-all bg-transparent";
         delGroup.classList.add('hidden');
         picGroup.classList.remove('hidden');
-        renderCheckoutPickupLocations();
+        renderCheckoutPickupLocations(); // Requirement 1: Render dynamically on switch
       }
       updateCartUI();
       updateSafariFallbackLink();
@@ -1092,6 +1114,7 @@
       if (locations.length === 0) {
         select.innerHTML = `<option value="">No pickup locations available</option>`;
       } else {
+        // Requirement 1: Match exact string values stored in window.appState.pickupLocations
         select.innerHTML = `<option value="">Select Pickup Location *</option>` +
           locations.map(loc => `<option value="${loc}">${loc}</option>`).join('');
       }
@@ -1548,10 +1571,9 @@
       window.toggleBodyScroll(true);
       document.getElementById('cart-modal').classList.remove('hidden');
       setOrderPlatform(window.appState.selectedPlatform || 'telegram');
-      renderCheckoutPickupLocations();
+      renderCheckoutPickupLocations(); // Requirement 1: Render dynamically when opening cart modal
       renderCartModalContent();
 
-      // Check Safari and show/hide fallback button
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
       const isSafari = /safari/i.test(userAgent) && !/chrome/i.test(userAgent) && !/android/i.test(userAgent);
       const fallbackContainer = document.getElementById('safari-fallback-container');
@@ -1570,12 +1592,12 @@
       window.toggleBodyScroll(false);
     };
 
-    function generateOrderMessageText() {
+    function generateOrderMessageText(pickupLocationOverride = '') {
       const name = (document.getElementById('cust-name')?.value || '').trim();
       const phone = (document.getElementById('cust-phone')?.value || '').trim();
       const type = window.appState.fulfillment;
       const address = (document.getElementById('cust-address')?.value || '').trim();
-      const pickupLocation = document.getElementById('pickup-location') ? document.getElementById('pickup-location').value.trim() : '';
+      const pickupLocation = pickupLocationOverride || ((type === 'Self-Pickup' && document.getElementById('pickup-location')) ? document.getElementById('pickup-location').value.trim() : '');
       const pickupDate = document.getElementById('pickup-date')?.value || '';
       const pickupTime = document.getElementById('pickup-time')?.value || '';
 
@@ -1632,7 +1654,10 @@
       const anchor = document.getElementById('safari-fallback-anchor');
       if (!anchor) return;
 
-      const msg = generateOrderMessageText();
+      const pickupLocationEl = document.getElementById('pickup-location');
+      const currentPickupLoc = (pickupLocationEl ? pickupLocationEl.value.trim() : '');
+
+      const msg = generateOrderMessageText(currentPickupLoc);
       const platform = window.appState.selectedPlatform || 'telegram';
 
       if (platform === 'whatsapp') {
@@ -1722,7 +1747,11 @@
       const phone = document.getElementById('cust-phone').value.trim();
       const type = window.appState.fulfillment;
       const address = document.getElementById('cust-address').value.trim();
-      const pickupLocation = document.getElementById('pickup-location') ? document.getElementById('pickup-location').value.trim() : '';
+      
+      // Requirement 2: Robust Variable Extraction for pickupLocation
+      const pickupLocationEl = document.getElementById('pickup-location');
+      const pickupLocation = (type === 'Self-Pickup' && pickupLocationEl) ? pickupLocationEl.value.trim() : '';
+
       const pickupDate = document.getElementById('pickup-date').value;
       const pickupTime = document.getElementById('pickup-time').value;
 
@@ -1735,7 +1764,8 @@
         return;
       }
       if (type === 'Self-Pickup') {
-        if (!pickupLocation) {
+        // Requirement 3: Strict Form Validation
+        if (!pickupLocation || pickupLocation === "") {
           showToast("Please select your preferred pickup location.", "warning");
           return;
         }
@@ -1784,6 +1814,7 @@
       const grandTotal = Math.max(0, subtotal + deliveryFee - discount);
 
       try {
+        // Requirement 4: Consistent Payload Formatting using the extracted pickupLocation constant
         await addDoc(collection(db, "orders"), {
           customerName: name,
           customerPhone: phone,
@@ -1798,32 +1829,15 @@
           discount: discount,
           grandTotal: grandTotal,
           messagingChannel: window.appState.selectedPlatform || 'telegram',
-          status: 'Pending',
+          status: 'Pending Payment',
           createdAt: new Date().toISOString()
         });
-
-        let updatedInventory = [...window.appState.inventory];
-        orderItemsArray.forEach(orderedItem => {
-          const invItem = updatedInventory.find(i => i.id === orderedItem.id);
-          if (invItem) {
-            if (invItem.hasVariants && Array.isArray(invItem.variants)) {
-              const variantObj = invItem.variants.find(v => (typeof v === 'string' ? v === orderedItem.shade : v.name === orderedItem.shade));
-              if (variantObj && typeof variantObj !== 'string') {
-                variantObj.stock = Math.max(0, (variantObj.stock || 0) - orderedItem.quantity);
-              }
-              invItem.stock = invItem.variants.reduce((sum, v) => sum + (typeof v === 'string' ? invItem.stock : (v.stock || 0)), 0);
-            } else {
-              invItem.stock = Math.max(0, (invItem.stock || 0) - orderedItem.quantity);
-            }
-          }
-        });
-
-        await updateDoc(storeDocRef, { inventory: updatedInventory });
       } catch (err) {
-        console.error("Error saving order or updating stock in Firestore:", err);
+        console.error("Error saving order:", err);
       }
 
-      let msg = generateOrderMessageText();
+      // Requirement 4: Consistent Message Formatting with override
+      let msg = generateOrderMessageText(pickupLocation);
       const platform = window.appState.selectedPlatform || 'telegram';
 
       if (platform === 'whatsapp') {
@@ -1840,6 +1854,116 @@
     };
 
     window.processTelegramCheckout = window.processOrderCheckout;
+
+    function renderAdminOrders() {
+      const container = document.getElementById('admin-orders-list');
+      if (!container) return;
+
+      const sortedOrders = [...window.appState.orders].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+      if (sortedOrders.length === 0) {
+        container.innerHTML = `<p class="text-[10px] text-gray-400 italic">No customer orders found.</p>`;
+        return;
+      }
+
+      container.innerHTML = sortedOrders.map(order => {
+        const isPaid = order.status === 'Paid / Completed';
+        const statusColor = isPaid ? 'text-green-600 bg-green-50 border-green-200' : 'text-amber-600 bg-amber-50 border-amber-200';
+        
+        let itemsHtml = (order.items || []).map(item => 
+            `<p class="text-[10px] text-gray-500">• ${item.quantity}x ${item.name} (${item.shade})</p>`
+        ).join('');
+
+        return `
+            <div class="border border-gray-200 rounded-xl p-3 bg-gray-50 mb-3 shadow-sm">
+                <div class="flex justify-between items-start mb-2">
+                    <div>
+                        <h4 class="font-bold text-xs text-charcoal">${order.customerName}</h4>
+                        <p class="text-[10px] text-gray-500"><i class="fa-solid fa-phone mr-1"></i> ${order.customerPhone}</p>
+                    </div>
+                    <span class="text-[9px] font-bold px-2 py-1 rounded-full border ${statusColor}">${order.status}</span>
+                </div>
+                
+                <div class="mb-2">
+                    <p class="text-[10px] font-semibold text-charcoal">Fulfillment: ${order.fulfillmentType}</p>
+                    ${order.fulfillmentType === 'Delivery' 
+                        ? `<p class="text-[10px] text-gray-500 line-clamp-2">${order.address}</p>`
+                        : `<p class="text-[10px] text-gray-500">${order.pickupLocation} | ${order.pickupDate} @ ${order.pickupTime}</p>`
+                    }
+                </div>
+
+                <div class="mb-2 bg-white p-2 rounded-lg border border-gray-100">
+                    <p class="text-[10px] font-semibold mb-1 border-b border-gray-100 pb-1">Order Items:</p>
+                    ${itemsHtml}
+                </div>
+
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Grand Total</span>
+                    <span class="font-serif text-sm font-bold text-charcoal">SGD $${parseFloat(order.grandTotal).toFixed(2)}</span>
+                </div>
+
+                <div class="flex space-x-2 pt-2 border-t border-gray-200">
+                    ${!isPaid ? `
+                    <button onclick="markOrderPaid('${order.id}')" class="flex-1 bg-charcoal text-white py-2 rounded-lg text-[10px] font-medium shadow-sm hover:bg-black transition-all flex items-center justify-center">
+                        <i class="fa-solid fa-check-double mr-1 text-rosegold"></i> Mark Paid & Deduct Stock
+                    </button>
+                    ` : `
+                    <button disabled class="flex-1 bg-gray-200 text-gray-400 py-2 rounded-lg text-[10px] font-medium cursor-not-allowed">
+                        <i class="fa-solid fa-check mr-1 text-green-500"></i> Stock Deducted & Completed
+                    </button>
+                    `}
+                    <button onclick="deleteOrder('${order.id}')" class="px-3 bg-red-50 text-red-600 hover:bg-red-100 py-2 rounded-lg text-[11px] font-medium transition-all" title="Delete Order Record">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+      }).join('');
+    }
+
+    window.markOrderPaid = async function(orderId) {
+      const order = window.appState.orders.find(o => o.id === orderId);
+      if (!order || order.status === 'Paid / Completed') return;
+
+      if (!confirm("Are you sure you want to mark this order as Paid? This will permanently deduct the ordered stock from your inventory.")) return;
+
+      let updatedInventory = [...window.appState.inventory];
+
+      order.items.forEach(orderedItem => {
+        const invItem = updatedInventory.find(i => i.id === orderedItem.id);
+        if (invItem) {
+          if (invItem.hasVariants && Array.isArray(invItem.variants)) {
+            const variantObj = invItem.variants.find(v => (typeof v === 'string' ? v === orderedItem.shade : v.name === orderedItem.shade));
+            if (variantObj && typeof variantObj !== 'string') {
+              variantObj.stock = Math.max(0, (variantObj.stock || 0) - orderedItem.quantity);
+            }
+            invItem.stock = invItem.variants.reduce((sum, v) => sum + (typeof v === 'string' ? invItem.stock : (v.stock || 0)), 0);
+          } else {
+            invItem.stock = Math.max(0, (invItem.stock || 0) - orderedItem.quantity);
+          }
+        }
+      });
+
+      try {
+        await updateDoc(storeDocRef, { inventory: updatedInventory });
+        await updateDoc(doc(db, "orders", orderId), { status: 'Paid / Completed' });
+        showToast("Order marked as Paid & stock deducted successfully!", "success");
+      } catch (err) {
+        console.error("Error updating order/stock:", err);
+        showToast("Failed to process order update.", "error");
+      }
+    };
+
+    window.deleteOrder = async function(orderId) {
+      if (!confirm("Are you sure you want to permanently delete this order record? This cannot be undone.")) return;
+      try {
+        await deleteDoc(doc(db, "orders", orderId));
+        showToast("Order deleted successfully", "success");
+      } catch (err) {
+        console.error("Error deleting order:", err);
+        showToast("Failed to delete order.", "error");
+      }
+    };
 
     window.openAdminLogin = function() {
       window.toggleBodyScroll(true);
